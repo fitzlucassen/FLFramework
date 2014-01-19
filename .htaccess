@@ -1,0 +1,12 @@
+Options -Indexes
+Options -Multiviews
+Options +FollowSymLinks
+SetEnv REGISTER_GLOBALS 0
+SetEnv PHP_VER 5
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*)$ /index.php [L,QSA]
+

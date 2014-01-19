@@ -1,0 +1,39 @@
+#global{
+    background: #ffffff;
+}
+
+#ErrorPage p {
+    text-align: center;
+    color: white;
+    background: #FF4040;
+    padding: 40px;
+    margin: 20px auto;
+    width: 80%;
+    font-size: 26px;
+    font-family: helvetica;
+    
+    border: 1px solid #A60000;
+    
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    -ms-border-radius: 3px;
+}
+
+#ErrorPage ul li{
+    text-align: center;
+    color: white;
+    background: #FF4040;
+    padding: 10px;
+    margin: 20px auto;
+    width: 80%;
+    list-style: disc;
+    border: 1px solid #A60000;
+    
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    -ms-border-radius: 3px;
+}
