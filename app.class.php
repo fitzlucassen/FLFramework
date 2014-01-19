@@ -152,7 +152,7 @@
 		$c = $this->_routeUrl->getController() . 'Controller';
 		$c2 = __controller_directory__ . '/' . $c . '.php';
 	    }
-	    
+
 	    // On vérifie qu'on a une URL valide (rewritté ou non rewritté)
 	    if($this->_isDebugMode)
 		$this->_isValidUrl = file_exists($c2) && class_exists($c);
@@ -169,8 +169,9 @@
 		
 		// Si on a pas le module rewriting alors on redirige vers l'url 404 brute
 		// Sinon on redirige vers l'url 404 rewrité
+		
 		if($this->_routeUrl->getId() == 0){
-		    header('location: /Home/error404');
+		    header('location: ' . __site_url__ . '/Home/error404');
 		    die();
 		}
 		else{
@@ -190,10 +191,11 @@
 		$this->_routeUrlRepository = $this->_repositoryManager->get('RouteUrl');
 		if(!isset($this->_url['controller']) || empty($this->_url['controller']) || ($this->_url["debug"] == "default" && $this->_page == '/')){
 		    // On récupère la route de la homepage et on en déduit l'objet rewritting
-		    $this->_routeUrl = $this->_routeUrlRepository->getByRouteName('Home');
+		    $this->_routeUrl = $this->_routeUrlRepository->getByRouteName('home');
 		    $this->_rewrittingUrl = $this->_rewrittingUrlRepository->getByIdRouteUrl($this->_routeUrl->getId());
-
-		    return false;
+		    
+		    header('location: ' . $this->_rewrittingUrl->getUrlMatched());
+		    die();
 		}
 		// Sinon on récupère la route grâce à l'url rewritté
 		else {
@@ -202,6 +204,9 @@
 
 		    return true;
 		}
+	    }
+	    else{
+		return true;
 	    }
 	}
 	

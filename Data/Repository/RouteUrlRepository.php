@@ -99,8 +99,8 @@ class RouteUrlRepository {
      * @return type
      */
     public static function getAll($Connexion) {
-	$request = $this->_queryBuilder->select()
-					->from(array("routeurl"))->getQuery();
+	$qb = new QueryBuilder(true);
+	$request = $qb->select()->from(array("routeurl"))->getQuery();
 	try {
 	    return $Connexion->SelectTable($request);
 	} catch (PDOException $e) {

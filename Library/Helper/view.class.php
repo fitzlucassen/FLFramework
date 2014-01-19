@@ -35,6 +35,7 @@
 	    $Model->_controller = $controller;
 	    $Model->_action = $action;
 	    
+	    
 	    // Mise en cache de la vue
 	    ob_start();
 	    include __view_directory__ . "/" . $Model->_controller . "/" . $Model->_action . ".php";

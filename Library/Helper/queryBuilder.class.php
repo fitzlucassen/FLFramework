@@ -27,9 +27,11 @@
 		if(($cpt+1) < count($values)){
 		    $string .= ', ';
 		}
+		else
+		    $string .= ' ';
 	    }
 	    
-	    $this->_query .= $string;
+	    $this->_query = $string;
 	    return $this->_returnObject ? $this : $string;
 	}
 	
@@ -47,6 +49,8 @@
 		if(($cpt+1) < count($tables)){
 		    $string .= ', ';
 		}
+		else
+		    $string .= ' ';
 	    }
 	    $this->_query .= $string;
 	    return $this->_returnObject ? $this : $string;
@@ -61,7 +65,7 @@
 	    $string = self::WHERE;
 	    
 	    foreach($conditions as $val){
-		$string .= ' ' . $val['link'] . ' ' . $val['left'] . ' ' . $val['operator'] . ' ' . $val['right'];
+		$string .= ' ' . ((isset($val['link']) && !empty($val['link'])) ? $val['link'] . ' ' : '') . $val['left'] . ' ' . $val['operator'] . ' ' . $val['right'];
 	    }
 	    $this->_query .= $string;
 	    return $this->_returnObject ? $this : $string;

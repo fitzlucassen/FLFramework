@@ -1,6 +1,8 @@
 <?php
     session_start();
     
+    // facultative var. Mandatory if you have something like 'localhost/mywebsite'
+    define('__site_url__', "");
     // Includes
     require_once 'routes.config.php';
     require_once 'app.class.php';
@@ -9,7 +11,7 @@
     spl_autoload_register("App::ManageAutoload");
     
     // Put your SQL config here
-    Sql::SetDb("FLFramework");
+    Sql::SetDb("flframework");
     Sql::SetHost("localhost");
     Sql::SetUser("root");
     Sql::SetPwd("");

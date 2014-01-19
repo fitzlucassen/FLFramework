@@ -4,8 +4,8 @@
 	Déscription : Permet de gérer les actions en relation avec le groupe de page Error
      */
     class ErrorController extends Controller {
-	public function __construct($manager, $action) {
-	    parent::__construct($manager, "error", $action);
+	public function __construct($action, $manager) {
+	    parent::__construct("error", $action, $manager);
 	}
 	
 	/*************
