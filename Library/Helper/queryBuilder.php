@@ -1,4 +1,11 @@
 <?php
+     
+    namespace fitzlucassen\FLFramework\Library\Helper;
+
+    /*
+      Class : QueryBuilder
+      Déscription : Permet de gérer la couche de construction de requête
+     */
     class QueryBuilder{
 	const SELECT = "SELECT";
 	const FROM = "FROM";
@@ -14,7 +21,7 @@
 	}
 	
 	/**
-	 * select
+	 * select --> create a new query with a select
 	 * @param array $values
 	 * @return string or object. Depends of returnObject var
 	 */
@@ -36,7 +43,7 @@
 	}
 	
 	/**
-	 * from
+	 * from --> fill the current query with a from clause
 	 * @param array $tables
 	 * @return string or object. Depends of returnObject var
 	 */
@@ -57,7 +64,7 @@
 	}
 	
 	/**
-	 * where
+	 * where --> fill the current query with a where clause
 	 * @param array $conditions -> array which has to contain "link" (link between each condition), "left" (left operand), "operator" (operator), "right" (right operand)
 	 * @return string or object. Depends of returnObject var
 	 */
@@ -72,7 +79,7 @@
 	}
 	
 	/**
-	 * orderBy
+	 * orderBy --> fill the current query with an order by clause
 	 * @param array $vars -> the vars to order the query
 	 * @return string or object. Depends of returnObject var
 	 */

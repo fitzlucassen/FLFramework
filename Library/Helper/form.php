@@ -1,4 +1,11 @@
 <?php
+     
+    namespace fitzlucassen\FLFramework\Library\Helper;
+
+    /**
+      Class : Form
+      Déscription : Permet de gérer les formulaires de façon automatique
+     */
     class Form extends Helper{
 	
 	public function __construct($controller, $params = null) {

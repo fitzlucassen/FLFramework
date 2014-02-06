@@ -1,4 +1,7 @@
 <?php
+     
+    namespace fitzlucassen\FLFramework\Library\Helper;
+
     /*
       Class : View
       Déscription : Permet de gérer les vues
@@ -34,7 +37,6 @@
 	    $Model = $compact['Model'];
 	    $Model->_controller = $controller;
 	    $Model->_action = $action;
-	    
 	    
 	    // Mise en cache de la vue
 	    ob_start();

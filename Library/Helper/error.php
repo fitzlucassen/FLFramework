@@ -1,5 +1,7 @@
 <?php
 
+    namespace fitzlucassen\FLFramework\Library\Helper;
+    
     /*
       Class : Error
       Déscription : Permet de gérer les erreurs
@@ -39,7 +41,7 @@
 	 * VIEW
 	 */
 	public function noModelProvided($params){
-	    header('location: ' . __site_url__ . '/Error/noModelProvided/' . $params['controller'] . '/' . $params['action']);
+	    header('location: ' . __site_url__ . '/Error/noModelProvided/' . str_replace('\\', '-', $params['controller']) . '/' . $params['action']);
 	    die();
 	}
 	
@@ -47,17 +49,17 @@
 	 * CONTROLLER
 	 */
 	public function controllerClassDoesntExist($params){
-	    header('location: ' . __site_url__ . '/Error/controllerClassDoesntExist/' . $params['file']);
+	    header('location: ' . __site_url__ . '/Error/controllerClassDoesntExist/' . str_replace('\\', '-', $params['file']));
 	    die();
 	}
 	
 	public function controllerInstanceFailed($params){
-	    header('location: ' . __site_url__ . '/Error/controllerInstanceFailed/' . $params['controller']);
+	    header('location: ' . __site_url__ . '/Error/controllerInstanceFailed/' . str_replace('\\', '-', $params['controller']));
 	    die();
 	}
 	
 	public function actionDoesntExist($params){
-	    header('location: ' . __site_url__ . '/Error/actionDoesntExist/' . $params['controller'] . '/' . $params['action']);
+	    header('location: ' . __site_url__ . '/Error/actionDoesntExist/' . str_replace('\\', '-', $params['controller']) . '/' . $params['action']);
 	    die();
 	}
     }

@@ -1,4 +1,6 @@
 <?php
+    use fitzlucassen\FLFramework\Library\Helper as helpers;
+
     session_start();
     
     // facultative var. Mandatory if you have something like 'localhost/mywebsite'
@@ -11,27 +13,27 @@
     spl_autoload_register("App::ManageAutoload");
     
     // Put your SQL config here
-    Sql::SetDb("flframework");
-    Sql::SetHost("localhost");
-    Sql::SetUser("root");
-    Sql::SetPwd("");
+    helpers\Sql::SetDb("flframework");
+    helpers\Sql::SetHost("localhost");
+    helpers\Sql::SetUser("root");
+    helpers\Sql::SetPwd("");
     // End SQL config
     
     /* FOR DEVELOPER ONLY */
     // Put your router config here
-    Router::SetDefaultAction("index");
-    Router::SetDefaultController("home");
-    Router::SetDefaultLanguage("fr");
+    helpers\Router::SetDefaultAction("index");
+    helpers\Router::SetDefaultController("home");
+    helpers\Router::SetDefaultLanguage("fr");
     // End router config
 
     // Put your logger config here
-    Logger::setLogFile(__log_directory__ . '/log.txt');
-    Logger::setExpireTime(3600);
+    helpers\Logger::setLogFile(__log_directory__ . '/log.txt');
+    helpers\Logger::setExpireTime(3600);
     // End logger config
     
     // Put your Cache config here
-    Cache::setCacheFolder(__cache_directory__ . '/');
-    Cache::setExpireTime(3600);
+    helpers\Cache::setCacheFolder(__cache_directory__ . '/');
+    helpers\Cache::setExpireTime(3600);
     // End logger config
     
     $App = new App();

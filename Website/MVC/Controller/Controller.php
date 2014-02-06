@@ -1,4 +1,9 @@
 <?php
+
+    namespace fitzlucassen\FLFramework\Website\MVC\Controller;
+    
+    use fitzlucassen\FLFramework\Library\Helper as helpers;
+    
      /*
 	Class : Controller
 	Déscription : Permet de gérer la classe mère de tous les controllers
@@ -12,7 +17,7 @@
 	public function __construct($controller, $action, $manager) {	
 	    $this->_controller = $controller;
 	    $this->_action = $action;
-	    $this->_view = new View("");
+	    $this->_view = new helpers\View("");
 	    $this->_repositoryManager = $manager;
 	}
     }

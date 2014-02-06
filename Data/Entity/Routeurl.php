@@ -4,6 +4,9 @@
 	 * All right reserved to fitzlucassen repository on github*
 	 ************* https://github.com/fitzlucassen ************
 	 **********************************************************/
+
+	namespace fitzlucassen\FLFramework\Data\Entity;
+
 	class Routeurl {
 		private $_id;
 		private $_name;
@@ -39,7 +42,7 @@
 			try {
 				return $this->_pdo->SelectTable($query);
 			}
-			catch(PDOException $e){
+			catch(\PDOException $e){
 				print $e->getMessage();
 			}
 			return array();

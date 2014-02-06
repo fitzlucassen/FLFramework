@@ -1,4 +1,11 @@
 <?php
+     
+    namespace fitzlucassen\FLFramework\Library\Helper;
+    
+    /*
+      Class : Mail
+      Déscription : Permet de gérer l'envoie d'e-mail
+     */
     class Mail extends Helper {
 	private $_from;
 	private $_fromName;
@@ -24,6 +31,9 @@
 	    return $this;
 	}
 
+	/**
+	 * SetCarriageReturn --> Définie le retour chariot selon la boite mail
+	 */
 	private function SetCarriageReturn() {
 	    if (!empty($this->_to)) {
 		if (!preg_match("#^[a-z0-9._-]+@(hotmail|live|msn).[a-z]{2,4}$#", $this->_to))

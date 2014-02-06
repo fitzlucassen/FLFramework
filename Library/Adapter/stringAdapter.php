@@ -3,8 +3,10 @@
       Class : String
       Déscription : Permet de gérer les strings
      */
+     
+    namespace fitzlucassen\FLFramework\Library\Adapter;
 
-    class StringHelper {
+    class StringAdapter {
 	
 	/**
 	 * Sanitize -> Clean une string pour faire une URL

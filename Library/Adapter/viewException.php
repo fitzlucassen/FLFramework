@@ -3,8 +3,10 @@
       Class : ViewException
       Déscription : Permet de gérer les exceptions
      */
+     
+    namespace fitzlucassen\FLFramework\Library\Adapter;
 
-    class ViewException extends Exception{
+    class ViewException extends \Exception{
 	protected $_params = array();
 	 /*
 	  Constructeur

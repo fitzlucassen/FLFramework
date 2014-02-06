@@ -3,8 +3,10 @@
       Class : ConnexionException
       Déscription : Permet de gérer les exceptions
      */
+     
+    namespace fitzlucassen\FLFramework\Library\Adapter;
 
-    class ConnexionException extends Exception{
+    class ConnexionException extends \Exception{
 	private $_typeError = "";
 	protected $_params = array();
 		

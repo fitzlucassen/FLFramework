@@ -1,4 +1,12 @@
 <?php
+    namespace fitzlucassen\FLFramework\Library\Helper;
+
+    use fitzlucassen\FLFramework\Data\Repository as repositories;
+    
+    /*
+      Class : Router
+      Déscription : Permet de gérer la couche du routing
+     */
     class Router {
 	private static $_routes = array();
 	private static $_defaultController = "home";
@@ -9,10 +17,10 @@
 
 	/**
 	 * Add -> Ajoute une route à la collection
-	 * @param type $lang
-	 * @param type $controller
-	 * @param type $action
-	 * @param type $pattern
+	 * @param string $lang
+	 * @param string $controller
+	 * @param string $action
+	 * @param string $pattern
 	 */
 	public static function Add($lang, $controller, $action, $pattern) {
 	    if (!isset(self::$_routes[$lang]))
@@ -22,26 +30,26 @@
 	
 	/**
 	 * AddRange -> ajoute une collection de route à la collection
-	 * @param type $routes
-	 * @param type $lang
-	 * @param type $pdo
+	 * @param array $routes
+	 * @param string $lang
+	 * @param object $pdo
 	 */
 	public static function AddRange($routes, $lang, $pdo) {
 	    if(!in_array($lang, self::$_langs)){
 		self::$_langs[] = $lang;
 	    }
 	    foreach ($routes as $thisRoute){
-		$url = RewrittingUrlRepository::getByIdRouteStatic($thisRoute['id'], $lang,$pdo);
+		$url = repositories\RewrittingUrlRepository::getByIdRouteStatic($thisRoute['id'], $lang,$pdo);
 		self::Add($lang, $thisRoute['controller'], $thisRoute['action'], $url->getUrlMatched());
 	    }
 	}
 	
 	/**
 	 * FindRoute -> Retrouve une route dans la collection actuelle
-	 * @param type $controller
-	 * @param type $action
-	 * @param type $lang
-	 * @return boolean
+	 * @param string $controller
+	 * @param string $action
+	 * @param string $lang
+	 * @return type
 	 */
 	public static function FindRoute($controller, $action, $lang) {
 	    foreach (self::GetRoutes(null, $lang) as $key => $value) {
@@ -53,9 +61,9 @@
 	
 	/**
 	 * FindPattern -> Retrouve un pattern d'url selon une url réelle données
-	 * @param type $pattern
-	 * @param type $method
-	 * @return boolean
+	 * @param string $pattern
+	 * @param string $method
+	 * @return type
 	 */
 	public static function FindPattern($pattern, $method = false) { // method is for anonymous params
 	    if (!$method) {
@@ -113,9 +121,9 @@
 	
 	/**
 	 * ReplacePattern -> remplace dans l'url fournit tous les pattern d'argument par le paramètre replace
-	 * @param type $url
-	 * @param type $replace
-	 * @return type
+	 * @param string $url
+	 * @param string $replace
+	 * @return string
 	 */
 	public static function ReplacePattern($url, $replace){
 	    $regex = '/\{[' . self::$_regex . ']+\}/';
@@ -130,9 +138,9 @@
 	
 	/**
 	 * ReplaceParamsInUrl --> remplace tous les pattern d'argument d'une url par les vrai paramètres.
-	 * @param type $url
-	 * @param type $params
-	 * @return type
+	 * @param string $url
+	 * @param array $params
+	 * @return string
 	 */
 	private static function ReplaceParamsInUrl($url, $params){
 	    $newUrl = $url;
@@ -147,10 +155,10 @@
 	
 	/**
 	 * GetUrlByLang -> retourne un array contenant pour la langue française et anglaise l'url rewwritté.
-	 * @param type $controller
-	 * @param type $action
-	 * @param type $params
-	 * @return type
+	 * @param string $controller
+	 * @param string $action
+	 * @param array $params
+	 * @return array
 	 */
 	public static function GetUrlByLang($controller, $action, $params){
 	    $array = array();
@@ -166,8 +174,8 @@
 	 ***********/
 	/**
 	 * SetDefaultsRoutes
-	 * @param type $defaultController
-	 * @param type $defaultAction
+	 * @param string $defaultController
+	 * @param string $defaultAction
 	 */
 	public static function SetDefaultsRoutes($defaultController, $defaultAction) {
 	    self::$_defaultController = $defaultController;
@@ -176,7 +184,7 @@
 	
 	/**
 	 * SetRegex
-	 * @param type $regex
+	 * @param string $regex
 	 */
 	public static function SetRegex($regex) {
 	    self::$_regex = $regex;
@@ -211,7 +219,7 @@
 	 ***********/
 	/**
 	 * GetDefaultLanguage -> retourne la langue par défaut
-	 * @return type
+	 * @return string
 	 */
 	public static function GetDefaultLanguage(){
 	    return self::$_defaultLang;
@@ -219,7 +227,7 @@
 	
 	/**
 	 * GetRoutes -> retourne la collecion de route actuelle
-	 * @param type $key
+	 * @param string $key
 	 * @param string $lang
 	 * @return type
 	 */
@@ -234,9 +242,9 @@
 	
 	/**
 	 * GetUrl -> récupère une url rewrité grâce à un controller et une action
-	 * @param type $controller
-	 * @param type $action
-	 * @param type $params
+	 * @param string $controller
+	 * @param string $action
+	 * @param array $params
 	 * @param string $lang
 	 * @return type
 	 */
@@ -262,7 +270,7 @@
 
 	/**
 	 * GetRoute -> Récupère une route grâce à une URL rewrité
-	 * @param type $pattern
+	 * @param string $pattern
 	 * @return type
 	 */
 	public static function GetRoute($pattern) {

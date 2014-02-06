@@ -1,4 +1,7 @@
 <?php
+
+    namespace fitzlucassen\FLFramework\Website\MVC\Model;
+    
      /*
       Class : ErrorModel
       Déscription : Model de donnée pour les pages du controller error

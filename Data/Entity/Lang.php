@@ -4,6 +4,8 @@
      * All right reserved to fitzlucassen repository on github*
      ************* https://github.com/fitzlucassen ************
      **********************************************************/
+     namespace fitzlucassen\FLFramework\Data\Entity;
+     
     class Lang {
 	private $_id;
 	private $_code;

@@ -1,9 +1,11 @@
 <?php
+     
+    namespace fitzlucassen\FLFramework\Library\Helper;
+
     /*
       Class : Rss
       Déscription : Permet de générer un flux RSS.
      */
-
     class Rss extends Helper {
 
 	private $_title;	    // String				Titre du flux RSS.

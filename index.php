@@ -4,7 +4,6 @@
     
     // On initialise le routing de base
     $result = $App->ManageRouting();
-    
     // On redirige si page par défaut
     if(!$result && $App->getIsInErrorPage()){
 	header('location:' . $App->getRewrittingUrl()->getUrlMatched());

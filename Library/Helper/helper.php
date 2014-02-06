@@ -1,4 +1,7 @@
 <?php
+     
+    namespace fitzlucassen\FLFramework\Library\Helper;
+
     class Helper {
 	protected $_controller;
 

@@ -3,8 +3,10 @@
       Class : ControllerException
       Déscription : Permet de gérer les exceptions
      */
+     
+    namespace fitzlucassen\FLFramework\Library\Adapter;
 
-    class ControllerException extends Exception{
+    class ControllerException extends \Exception{
 	private $_typeError = "";
 	protected $_params = array();
 		

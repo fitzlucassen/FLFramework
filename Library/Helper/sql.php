@@ -1,13 +1,18 @@
 <?php
+
+    namespace fitzlucassen\FLFramework\Library\Helper;
+    
+    use fitzlucassen\FLFramework\Library\Adapter as adapters;
+
     /*
       Class : SQL
       Déscription : Permet de gérer les données en base
      */
-    class Sql extends Helper {
+    class Sql extends Helper{
 	private static $_db = '';			// base de données 
 	private static $_host = '';			// adresse de la base 
 	private static $_user = '';			// nom 
-	private static $_pwd = '';				// mot de passe 
+	private static $_pwd = '';			// mot de passe 
 	private $_con = '';				// connexion PDO
 	private $_email = 'contact@passanger.fr';	// email de l'admin du site 
 	
@@ -18,22 +23,22 @@
 	    try  
 	    {
 		$this->SetController($controller);
-		$this->_con = new PDO($this->GetDns(), self::$_user, self::$_pwd, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+		$this->_con = new \PDO($this->GetDns(), self::$_user, self::$_pwd, array(\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 
 		// pour mysql on active le cache de requête 
-		if($this->_con->getAttribute(PDO::ATTR_DRIVER_NAME) == 'mysql') 
-		    $this->_con->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true); 
+		if($this->_con->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'mysql') 
+		    $this->_con->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true); 
 	    } 
-	    catch(PDOException $e) { 
+	    catch(\PDOException $e) { 
 		//On indique par email qu'on n'a plus de connection disponible 
-		throw new ConnexionException(ConnexionException::getNO_DB_FOUND(), null);
+		throw new adapters\ConnexionException(adapters\ConnexionException::getNO_DB_FOUND(), null);
 	    } 
 	}
 	
 	/**
 	 * Select -> Pour un select simple (un seul résultat)
-	 * @param type $reqSelect
-	 * @return type
+	 * @param string $reqSelect
+	 * @return array
 	 */
 	public function Select($reqSelect) { 
 	    try 
@@ -43,9 +48,9 @@
 		$result->execute(); 
 		$this->_con->commit();
 		
-		return $result->fetch(PDO::FETCH_ASSOC); 
+		return $result->fetch(\PDO::FETCH_ASSOC); 
 	    } 
-	    catch (Exception $e)  
+	    catch (\Exception $e)  
 	    { 
 		//On indique par email que la requête n'a pas fonctionné. 
 		error_log(date('D/m/y').' à '.date("H:i:s").' : '.$e->getMessage(), 1, $this->_email); 
@@ -57,8 +62,8 @@
 	
 	/**
 	 * SelectTable -> Pour un select multiple (plusieurs résultat)
-	 * @param type $reqSelect
-	 * @return type
+	 * @param string $reqSelect
+	 * @return array
 	 */
 	public function SelectTable($reqSelect) {
 	    $this->_con->beginTransaction();
@@ -79,6 +84,11 @@
             die('Uncaught exception: ' . $exception->getMessage());
         }
 	
+	/**
+	 * TableExist --> Retourne vrai si la table existe en bdd, faux sinon
+	 * @param string $table
+	 * @return boolean
+	 */
 	public function TableExist($table){
 	    $all_tables = $this->SelectTable("SHOW TABLES FROM " . self::$_db);
 	    $found = false;

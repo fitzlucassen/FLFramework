@@ -1,4 +1,7 @@
 <?php
+
+    namespace fitzlucassen\FLFramework\Website\MVC\Model;
+    
     /*
 	Class : Model
 	Déscription : Model de donnée pour les pages du site

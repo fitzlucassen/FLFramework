@@ -4,6 +4,9 @@
 	 * All right reserved to fitzlucassen repository on github*
 	 ************* https://github.com/fitzlucassen ************
 	 **********************************************************/
+
+	namespace fitzlucassen\FLFramework\Data\Entity;
+	
 	class Rewrittingurl {
 		private $_id;
 		private $_routeurl;
@@ -26,7 +29,7 @@
 			try {
 				return $this->_pdo->Select($query);
 			}
-			catch(PDOException $e){
+			catch(\PDOException $e){
 				print $e->getMessage();
 			}
 			return array();

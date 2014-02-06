@@ -1,4 +1,7 @@
 <?php
+     
+    namespace fitzlucassen\FLFramework\Library\Helper;
+
     /*
       Class : Session
       Déscription : Permet de gérer les données de session
