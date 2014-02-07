@@ -7,6 +7,7 @@
 	private $_CONTROLLER_NAMESPACE = '\fitzlucassen\FLFramework\Website\MVC\Controller\\';
 	private $_FLF_NAMESPACE = '\fitzlucassen\FLFramework\\';
 	
+	// Url routing vars
 	private $_routeUrl = null;
 	private $_rewrittingUrl = null;
 	private $_routeUrlRepository = null;
@@ -14,22 +15,27 @@
 	private $_langRepository = null;
 	private $_url = "";
 	private $_page = "";
-	private $_isInErrorPage = false;
 	
-	private $_pdo = null;
+	// Boolean vars
+	private $_isInErrorPage = false;
+	private $_isOnMobile = false;
+	private $_isValidUrl = false;
+	private $_isDebugMode = false;
+	
+	// String vars
 	private $_lang = "";
 	private $_controllerName = "";
 	private $_actionName = "";
 	private $_controller = null;
-	
+	private $_userAgent = "";
+
+	// Helpers object
+	private $_pdo = null;
 	private $_session = null;
 	private $_errorManager = null;
-	private $_isOnMobile = false;
-	private $_userAgent = "";
-	private $_isValidUrl = false;
-	private $_isDebugMode = false;
 	private $_repositoryManager = null;
 	
+	// Construction des objets et récupération des variables
 	public function __construct() {
 	    // L'url cible
 	    $this->_page = $_SERVER['REQUEST_URI'];
