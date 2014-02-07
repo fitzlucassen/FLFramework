@@ -10,5 +10,7 @@ TODO
 - Databases prefix
 - Payment API for helper implementation
 - Cache for views
+- Binding repository function -> return entities
+- Refactoring data section --> isolate query building
 - Module manager
 - Dispatcher refactoring
