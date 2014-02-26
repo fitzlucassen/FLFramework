@@ -10,8 +10,7 @@
 	/*
 	  Constructeur
 	 */
-	public function __construct($controller) {
-	    parent::__construct($controller);
+	public function __construct() {
 	}
 
 	/*

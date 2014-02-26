@@ -2,11 +2,18 @@
      
     namespace fitzlucassen\FLFramework\Library\Core;
 
+    use fitzlucassen\FLFramework\Library\Adapter as adapters;
     /*
       Class : View
       Déscription : Permet de gérer les vues
      */
     class View {
+	protected $Model;
+	protected $Head;
+	protected $Body;
+	
+	private $_layout = "default";
+		
 	/*
 	  Constructeur
 	 */
@@ -19,8 +26,8 @@
 	 * @param type $model
 	 */
 	public function View($view, $model = array()){
-	    $Model = $model;
-	    include $view;
+	    $this->Model = $model;
+	    include __view_directory__ . '/' . $view;
 	}
 	
 	/**
@@ -29,25 +36,28 @@
 	 * @param type $action
 	 * @param type $compact
 	 */
-	public function ViewCompact($controller, $action, $compact){
-	    if(!isset($compact['Model']))
-		throw new ViewException(array("controller" => $controller, "action" => $action));
+	public function ViewCompact($controller, $action, $model){
+	    if(!isset($model))
+		throw new adapters\ViewException(adapters\ViewException::getNO_MODEL(), array("controller" => $controller, "action" => $action));
 	    
-	    $Model = $compact['Model'];
-	    $Model->_controller = $controller;
-	    $Model->_action = $action;
+	    $this->Model = $model;
+	    $this->Model->_controller = $controller;
+	    $this->Model->_action = $action;
 	    
 	    // Mise en cache de la vue
 	    ob_start();
-	    include __view_directory__ . "/" . $Model->_controller . "/" . $Model->_action . ".php";
+	    include __view_directory__ . "/" . $this->Model->_controller . "/" . $this->Model->_action . ".php";
 	    $content = ob_get_clean();
 	    
 	    // On récupère le contenue en cache
-	    $Model->_head = $head;
-	    $Model->_content = $content;	    
+	    $this->Head = $head;
+	    $this->Body = $content;	    
 	    
 	    // Et on inclue le layout/vue
-	    include(__layout_directory__ . "/default.php");
+	    if(file_exists(__layout_directory__ . "/" . $this->_layout .".php"))
+		include(__layout_directory__ . "/" . $this->_layout .".php");
+	    else
+		throw new adapters\ViewException(adapters\ViewException::getBAD_LAYOUT(), array('layout' => $this->_layout));
 	}
 	
 	/**
@@ -76,5 +86,13 @@
 	    ob_start();
 	    
 	    return $head;
+	}
+	
+	public function SetLayout($layout){
+	    $this->_layout = $layout;
+	}
+	
+	public function GetLayout(){
+	    return $this->_layout;
 	}
     }

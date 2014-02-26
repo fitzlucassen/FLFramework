@@ -15,16 +15,17 @@
 	
 	public function Index(){
 	    // Une action commencera toujours par l'initilisation de son modèle
-	    // Cette initialisation doit obligatoirement contenir la connexion PDO et la langue.
+	    // Cette initialisation doit obligatoirement contenir le repository manager
 	    $Model = new models\HomeModel($this->_repositoryManager);
 	    
+	    $this->setLayout("bimbim");
 	    // Une action finira toujours par un $this->_view->ViewCompact contenant : 
-	    // - La clef "Model" contenant le modèle de données à fournir à la vue
-	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
+	    // cette fonction prend en paramètre le controller, l'action et le modèle
+	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
 	}
 	
 	public function Error404(){
 	    $Model = new Models\HomeModel($this->_repositoryManager);
-	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
+	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
 	}
     }

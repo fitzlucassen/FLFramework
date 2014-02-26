@@ -43,6 +43,10 @@
 	    header('location: ' . __site_url__ . '/Error/noModelProvided/' . str_replace('\\', '-', $params['controller']) . '/' . $params['action']);
 	    die();
 	}
+	public function layoutDoesntExist($params){
+	    header('location: ' . __site_url__ . '/Error/layoutDoesntExist/' . str_replace('\\', '-', $params['layout']));
+	    die();
+	}
 	
 	/**
 	 * CONTROLLER

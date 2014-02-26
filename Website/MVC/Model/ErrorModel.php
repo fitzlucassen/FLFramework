@@ -9,8 +9,9 @@
     class ErrorModel extends Model{
 	public $_controllerTarget = "";
 	public $_modelTarget = "";
+	public $_layoutTarget = "";
 	
 	public function __construct($manager, $params = array()) {
-	    /*parent::__construct($pdo, $lang, $params);*/
+	    parent::__construct($manager, $params);
 	}
     }

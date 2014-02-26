@@ -300,9 +300,16 @@
 		die();
 	    }
 	    catch(adapters\ViewException $ex){
-		cores\Logger::write("ViewException : noModelProvided " . implode(' ', $e->getParams()));
-		$this->_errorManager->noModelProvided($ex->getParams());
-		die();
+		if($ex->getType() == adapters\ViewException::NO_MODEL){
+		    cores\Logger::write(adapters\ViewException::NO_MODEL . " : noModelProvided " . implode(' ', $ex->getParams()));
+		    $this->_errorManager->noModelProvided($ex->getParams());
+		    die();
+		}
+		else {
+		    cores\Logger::write(adapters\ViewException::BAD_LAYOUT . " : layoutDoesntExist " . implode(' ', $ex->getParams()));
+		    $this->_errorManager->layoutDoesntExist($ex->getParams());
+		    die();
+		}
 	    }
 	}
 	

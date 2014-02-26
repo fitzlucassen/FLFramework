@@ -9,8 +9,8 @@
 ?>
 
 <div id="ErrorPage">
-    <p>Le fichier <b><?php echo $Model->_controllerTarget; ?></b> a bien été inclue. Cependant, la classe qui y réside n'existe pas</p>
+    <p>Le fichier <b><?php echo $this->Model->_controllerTarget; ?></b> a bien été inclue. Cependant, la classe qui y réside n'existe pas</p>
     <ul>
-	<li>Vérifier que dans le fichier <b><?php echo $Model->_controllerTarget; ?></b> il existe bien une classe du même nom.</li>
+	<li>Vérifier que dans le fichier <b><?php echo $this->Model->_controllerTarget; ?></b> il existe bien une classe du même nom.</li>
     </ul>
 </div>

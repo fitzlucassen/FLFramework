@@ -6,7 +6,7 @@
       Class : Auth
       Déscription : Permet de gérer la couche autentification. (Connexion / Deconnexion d'un utilisateur)
      */
-    class Auth {
+    class Auth extends Helper{
 	private static $_user = null;
 	private static $_repositoryManager = null;
 	

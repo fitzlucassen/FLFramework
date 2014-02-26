@@ -8,8 +8,7 @@
      */
     class Form extends Helper{
 	
-	public function __construct($controller, $params = null) {
-	    parent::__construct($controller, $params);
+	public function __construct() {
 	}
 	
 	/**

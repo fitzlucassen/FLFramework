@@ -7,7 +7,6 @@ I don't want to be as stronger and complex than Zend or Symphony but I just want
 TODO
 ===========
 
-- View refactoring
 - Payment API for helper implementation
 - Binding repository function -> return entities
 - Helper refactoring

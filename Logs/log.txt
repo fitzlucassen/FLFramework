@@ -20,3 +20,19 @@
 26-02-14 23:03:17 --> Redirection vers la page 404 sur l'url : /rzs
 26-02-14 23:03:18 --> Redirection vers la page 404 sur l'url : /favicon.ico
 26-02-14 23:03:21 --> Redirection vers la page 404 sur l'url : /favicon.ico
+26-02-14 23:37:16 --> Redirection vers la page 404 sur l'url : /favicon.ico
+26-02-14 23:37:36 --> Redirection vers la page 404 sur l'url : /favicon.ico
+26-02-14 23:38:18 --> Redirection vers la page 404 sur l'url : /favicon.ico
+26-02-14 23:38:52 --> Redirection vers la page 404 sur l'url : /favicon.ico
+26-02-14 23:52:35 --> Redirection vers la page 404 sur l'url : /favicon.ico
+27-02-14 00:00:50 --> Redirection vers la page 404 sur l'url : /favicon.ico
+27-02-14 00:01:40 --> Redirection vers la page 404 sur l'url : /adfd
+27-02-14 00:01:41 --> Redirection vers la page 404 sur l'url : /favicon.ico
+27-02-14 00:14:37 --> Redirection vers la page 404 sur l'url : /favicon.ico
+27-02-14 00:15:18 --> Redirection vers la page 404 sur l'url : /favicon.ico
+27-02-14 00:15:36 --> bad layout : layoutDoesntExist bimbim
+27-02-14 00:15:36 --> no action : actionDoesntExist Error layoutDoesntExist
+27-02-14 00:15:51 --> bad layout : layoutDoesntExist bimbim
+27-02-14 00:15:51 --> no action : actionDoesntExist Error layoutDoesntExist
+27-02-14 00:16:23 --> bad layout : layoutDoesntExist bimbim
+27-02-14 00:16:23 --> no action : actionDoesntExist Error favicon.ico

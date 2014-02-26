@@ -7,12 +7,12 @@
 	    
 	    // L'inclusion des CSS, JS et HTML personnalisés pour chaque page
 	    // C'est à remplir dans les vues.
-	    $this->Render($Model->_head);
+	    $this->Render($this->Head);
 	    
 	    // S'il n'y a pas de title de précisé, on inclue le title par défaut présent en base de données
-	    if(!$this->ContainsTitle($Model->_head)) {
+	    if(!$this->ContainsTitle($this->Head)) {
 	?>
-		<title><?php $this->Render($Model->_headerInformations->getTitle()); ?></title>
+		<title><?php $this->Render($this->Model->_headerInformations->getTitle()); ?></title>
 	<?php
 	    }
 	?>
@@ -25,7 +25,7 @@
 	    ?>
 	    <?php
 		// Inclusion de la vue cible
-		$this->Render($Model->_content);
+		$this->Render($this->Body);
 	    ?>
 	    <?php
 		include(__partial_directory__ . "/footer.php");

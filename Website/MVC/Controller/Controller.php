@@ -17,7 +17,14 @@
 	public function __construct($controller, $action, $manager) {	
 	    $this->_controller = $controller;
 	    $this->_action = $action;
-	    $this->_view = new cores\View("");
 	    $this->_repositoryManager = $manager;
+	    $this->_view = new cores\View();
+	}
+	
+	public function setLayout($layout){
+	    $this->_view->SetLayout($layout);
+	}
+	public function getLayout(){
+	    return $this->_view->GetLayout();
 	}
     }

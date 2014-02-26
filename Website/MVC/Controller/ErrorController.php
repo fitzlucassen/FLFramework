@@ -17,30 +17,30 @@
 	 *************/
 	public function noConnexionAvailable(){
 	    // Une action commencera toujours par l'initilisation de son modèle
-	    // Cette initialisation doit obligatoirement contenir la connexion PDO et la langue.
+	    // Cette initialisation doit obligatoirement contenir le repository manager
 	    $Model = new models\ErrorModel($this->_repositoryManager);
 	    
-	    // Une action finira toujours par un $this->_view->ViewCompact contenant : 
-	    // - La clef "Model" contenant le modèle de données à fournir à la vue
-	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
+	    // Une action finira toujours par un $this->_view->ViewCompact
+	    // cette fonction prend en paramètre le controller, l'action et le modèle
+	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
 	}
 	
 	public function noHeaderTableFound(){
 	    $Model = new models\ErrorModel($this->_repositoryManager);
 	    
-	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
+	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
 	}
 	
 	public function noRewritingFound(){
 	    $Model = new models\ErrorModel($this->_repositoryManager);
 	    
-	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
+	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
 	}
 	
 	public function noMultilingueFound(){
 	    $Model = new models\ErrorModel($this->_repositoryManager);
 	    
-	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
+	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
 	}
 	
 	/********
@@ -52,7 +52,15 @@
 	    $Model->_controllerTarget = $params[0];
 	    $Model->_modelTarget = $params[1];
 
-	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
+	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
+	}
+	
+	public function layoutDoesntExist($params){
+	    $Model = new models\ErrorModel($this->_repositoryManager, $params);
+	    
+	    $Model->_layoutTarget = $params[0];
+
+	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
 	}
 	
 	/**************
@@ -63,7 +71,7 @@
 	    
 	    $Model->_controllerTarget = $params[0];
 	    
-	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
+	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
 	}
 	
 	public function controllerInstanceFailed($params){
@@ -71,7 +79,7 @@
 	    
 	    $Model->_controllerTarget = $params[0];
 	    
-	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
+	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
 	}
 	
 	public function actionDoesntExist($params){
@@ -80,6 +88,6 @@
 	    $Model->_controllerTarget = $params[0];
 	    $Model->_modelTarget = $params[1];
 
-	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
+	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
 	}
     }

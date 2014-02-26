@@ -85,7 +85,7 @@
 	    $this->headers .= 'Content-type: text/html; charset=UTF-8' . $this->_carriage_return;
 
 	    $this->headers .= 'To: ' . $this->_to . $this->_carriage_return;
-	    $this->headers .= 'From: PASSANGER, Personne : ' . $this->_fromName . ' <contact@passanger.fr>' . $this->_carriage_return;
+	    $this->headers .= 'From: FLFramework, Personne : ' . $this->_fromName . ' <' . $this->_from . '>' . $this->_carriage_return;
 
 	    return $this;
 	}
@@ -104,6 +104,6 @@
 	 * Send --> Send ane-mail previously constructed
 	 */
 	public function Send() {
-	    mail($this->_to, $this->_subject + "[" + $this->_fromName + "]", $this->_text, $this->_header);
+	    mail($this->_to, $this->_subject, $this->_text, $this->_header);
 	}
     }
