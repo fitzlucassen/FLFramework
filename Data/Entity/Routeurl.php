@@ -4,8 +4,9 @@
 	 * All right reserved to fitzlucassen repository on github*
 	 ************* https://github.com/fitzlucassen ************
 	 **********************************************************/
-
 	namespace fitzlucassen\FLFramework\Data\Entity;
+
+	use fitzlucassen\FLFramework\Library\Core as cores;
 
 	class Routeurl {
 		private $_id;
@@ -14,8 +15,10 @@
 		private $_action;
 		private $_order;
 		private $_rewrittingurls;
+		private $_queryBuilder;
 
 		public function __construct($id = "", $name = "", $controller = "", $action = "", $order = ""){
+			$this->_queryBuilder = new cores\QueryBuilder(true);
 			$this->fillObject(array("id" => $id, "name" => $name, "controller" => $controller, "action" => $action, "order" => $order));
 		}
 
@@ -38,11 +41,12 @@
 			return $this->_order;
 		}
 		public function getRewrittingurls() {
-			$query = "SELECT * FROM rewrittingurl WHERE idRouteurl=" . $this->_id;
+			$query = $this->_queryBuilder->select()->from("rewrittingurl")
+								->where(array(array("link" => "", "left" => "idRouteurl", "operator" => "=", "right" => $this->_id)))->getQuery();
 			try {
 				return $this->_pdo->SelectTable($query);
 			}
-			catch(\PDOException $e){
+			catch(PDOException $e){
 				print $e->getMessage();
 			}
 			return array();
@@ -65,4 +69,3 @@
 				$this->_order = $properties["order"];
 		}
 	}
-?>

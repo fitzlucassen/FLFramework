@@ -21,3 +21,5 @@
     define("__view_directory__", __website_directory__ . "/" . "MVC/View");
     define("__controller_directory__", __website_directory__ . "/" . "MVC/Controller");
     define("__model_directory__", __website_directory__ . "/" . "MVC/Model");
+    
+    define("__layout_directory__", __view_directory__ . "/" . "Layout");

@@ -8,9 +8,14 @@
      */
     class QueryBuilder{
 	const SELECT = "SELECT";
+	const INSERT = "INSERT INTO";
+	const DELETE = "DELETE";
+	const UPADTE = "UPDATE";
 	const FROM = "FROM";
 	const WHERE = "WHERE";
 	const ORDER_BY = "ORDER BY";
+	const SET = "SET";
+	const VALUES = "VALUES";
 	
 	private $_query = "";
 	private $_returnObject = false;
@@ -94,6 +99,84 @@
 		}
 	    }
 	    $this->_query .= $string;
+	    return $this->_returnObject ? $this : $string;
+	}
+	
+	/**
+	 * delete --> create a new query with a delete
+	 * @param string $table
+	 * @return string or object. Depends of returnObject var
+	 */
+	public function delete($table){
+	    $string = self::DELETE;
+	    $string .= " " . $table . " ";
+	    
+	    $this->_query = $string;
+	    return $this->_returnObject ? $this : $string;
+	}
+	
+	/**
+	 * insert --> create a new query with an insert
+	 * @param string $table
+	 * @param array $values
+	 * @return string or object. Depends of returnObject var
+	 */
+	public function insert($table, $values){
+	    $string = self::INSERT;
+	    $string .= " " . $table . " (";
+	    
+	    $cpt = 0;
+	    foreach(array_keys($values) as $key){
+		$string .= $key;
+		
+		if($cpt < (count($values) - 1))
+		    $string .=  ", ";
+		$cpt++;
+	    }
+	    $string .= ") ";
+	    $string .= self::VALUES . ' (';
+	    $cpt = 0;
+	    foreach($values as $value){
+		$type = gettype($value);
+		if($type == "string")
+		    $string .= "'" . $value . "'";
+		else
+		    $string .= $value;
+		
+		if($cpt < (count($values) - 1))
+		    $string .=  ", ";
+		$cpt++;
+	    }
+	    $string .= ')';
+	    
+	    $this->_query = $string;
+	    return $this->_returnObject ? $this : $string;
+	}
+	
+	/**
+	 * update --> create a new query with an update
+	 * @param string $table
+	 * @param array $values
+	 * @return string or object. Depends of returnObject var
+	 */
+	public function update($table, $values){
+	    $string = self::UPADTE;
+	    $string .= " " . $table . " ";
+	    $string .= self::SET . " ";
+	    
+	    $cpt = 0;
+	    foreach($values as $key => $value){
+		$type = gettype($value);
+		if($type == "string")
+		    $string .= $key . "='" . $value . "'";
+		else
+		    $string .= $key . "=" . $value;
+		
+		if($cpt < (count($values) - 1))
+		    $string .=  ", ";
+		$cpt++;
+	    }
+	    $this->_query = $string . " ";
 	    return $this->_returnObject ? $this : $string;
 	}
 	

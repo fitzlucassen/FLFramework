@@ -108,14 +108,13 @@
 		
 		// Si les langues ne sont pas encore en cache on requête en BDD
 		if(!$langs = cores\Cache::read("lang")){
-		    $langs = $this->_langRepository->getAll();
+		    $langs = data\Repository\LangRepository::getAll($this->_pdo);
 		    // On ecrit le résultat en cache
 		    cores\Cache::write("lang", $langs);
 		    // Si on a pas de module multilingue on insère la langue par défaut
 		    if(count($langs) == 0)
 			$langs = array(array('id' => 1, 'code' => cores\Router::GetDefaultLanguage()));
 		}
-		
 		// On ajoute toutes les routes présentes en base de données au router
 		foreach($langs as $thisLang){
 		    // Si les routes ne sont pas encore en cache on requête en BDD
@@ -374,7 +373,7 @@
 	    return $this->_rewrittingUrl;
 	}
 	public function getRouteUrlRepository(){
-	    return $this->_rewrittingUrl;
+	    return $this->_routeUrlRepository;
 	}
 	public function getControllerName(){
 	    return $this->_controllerName;

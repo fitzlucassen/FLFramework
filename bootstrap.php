@@ -40,3 +40,4 @@
     $App = new App();
     $App->setIsDebugMode(true);
     $App->run();
+    

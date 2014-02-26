@@ -7,10 +7,13 @@ I don't want to be as stronger and complex than Zend or Symphony but I just want
 TODO
 ===========
 
-- Databases prefix
+- View refactoring
 - Payment API for helper implementation
-- Cache for views
 - Binding repository function -> return entities
-- Refactoring data section --> isolate query building
+- Helper refactoring
+- Layout manager
+- Email manager
+- Cache for views
 - Module manager
 - Dispatcher refactoring
+- Databases prefix

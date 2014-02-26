@@ -47,7 +47,7 @@
 	    $Model->_content = $content;	    
 	    
 	    // Et on inclue le layout/vue
-	    include(__view_directory__ . "/layout.php");
+	    include(__layout_directory__ . "/default.php");
 	}
 	
 	/**
