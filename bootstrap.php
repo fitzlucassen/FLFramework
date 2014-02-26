@@ -1,5 +1,6 @@
 <?php
     use fitzlucassen\FLFramework\Library\Helper as helpers;
+    use fitzlucassen\FLFramework\Library\Core as cores;
 
     session_start();
     
@@ -13,27 +14,27 @@
     spl_autoload_register("App::ManageAutoload");
     
     // Put your SQL config here
-    helpers\Sql::SetDb("flframework");
-    helpers\Sql::SetHost("localhost");
-    helpers\Sql::SetUser("root");
-    helpers\Sql::SetPwd("");
+    cores\Sql::SetDb("flframework");
+    cores\Sql::SetHost("localhost");
+    cores\Sql::SetUser("root");
+    cores\Sql::SetPwd("");
     // End SQL config
     
     /* FOR DEVELOPER ONLY */
     // Put your router config here
-    helpers\Router::SetDefaultAction("index");
-    helpers\Router::SetDefaultController("home");
-    helpers\Router::SetDefaultLanguage("fr");
+    cores\Router::SetDefaultAction("index");
+    cores\Router::SetDefaultController("home");
+    cores\Router::SetDefaultLanguage("fr");
     // End router config
 
     // Put your logger config here
-    helpers\Logger::setLogFile(__log_directory__ . '/log.txt');
-    helpers\Logger::setExpireTime(3600);
+    cores\Logger::setLogFile(__log_directory__ . '/log.txt');
+    cores\Logger::setExpireTime(3600);
     // End logger config
     
     // Put your Cache config here
-    helpers\Cache::setCacheFolder(__cache_directory__ . '/');
-    helpers\Cache::setExpireTime(3600);
+    cores\Cache::setCacheFolder(__cache_directory__ . '/');
+    cores\Cache::setExpireTime(3600);
     // End logger config
     
     $App = new App();

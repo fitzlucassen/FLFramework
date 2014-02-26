@@ -1,17 +1,16 @@
 <?php
      
-    namespace fitzlucassen\FLFramework\Library\Helper;
+    namespace fitzlucassen\FLFramework\Library\Core;
 
     /*
       Class : View
       Déscription : Permet de gérer les vues
      */
-    class View extends Helper {
+    class View {
 	/*
 	  Constructeur
 	 */
-	public function __construct($controller) {
-	    parent::__construct($controller);
+	public function __construct() {
 	}
 	
 	/**

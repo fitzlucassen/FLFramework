@@ -7,7 +7,7 @@
 
     namespace fitzlucassen\FLFramework\Data\Repository;
     
-    use fitzlucassen\FLFramework\Library\Helper as helpers;
+    use fitzlucassen\FLFramework\Library\Core as cores;
     use fitzlucassen\FLFramework\Data\Entity as entities;
 
     class RouteUrlRepository {
@@ -27,7 +27,7 @@
 	    $this->_pdo = $pdo->GetConnection();
 	    $this->_pdoHelper = $pdo;
 	    $this->_lang = $lang;
-	    $this->_queryBuilder = new helpers\QueryBuilder(true);
+	    $this->_queryBuilder = new cores\QueryBuilder(true);
 	}
 
 	/**
@@ -104,7 +104,7 @@
 	 * @return type
 	 */
 	public static function getAll($Connexion) {
-	    $qb = new helpers\QueryBuilder(true);
+	    $qb = new cores\QueryBuilder(true);
 	    $request = $qb->select()->from(array("routeurl"))->getQuery();
 	    try {
 		return $Connexion->SelectTable($request);

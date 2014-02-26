@@ -1,6 +1,6 @@
 <?php
 
-    namespace fitzlucassen\FLFramework\Library\Helper;
+    namespace fitzlucassen\FLFramework\Library\Core;
     
     use fitzlucassen\FLFramework\Library\Adapter as adapters;
 
@@ -8,7 +8,7 @@
       Class : SQL
       Déscription : Permet de gérer les données en base
      */
-    class Sql extends Helper{
+    class Sql{
 	private static $_db = '';			// base de données 
 	private static $_host = '';			// adresse de la base 
 	private static $_user = '';			// nom 
@@ -19,10 +19,9 @@
 	/*
 	 * Constructeur
 	 */
-	public function __construct($controller = null) {
+	public function __construct() {
 	    try  
 	    {
-		$this->SetController($controller);
 		$this->_con = new \PDO($this->GetDns(), self::$_user, self::$_pwd, array(\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 
 		// pour mysql on active le cache de requête 

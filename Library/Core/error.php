@@ -1,17 +1,16 @@
 <?php
 
-    namespace fitzlucassen\FLFramework\Library\Helper;
+    namespace fitzlucassen\FLFramework\Library\Core;
     
     /*
       Class : Error
       Déscription : Permet de gérer les erreurs
      */
-    class Error extends Helper {
+    class Error {
 	/*
 	  Constructeur
 	 */
-	public function __construct($controller) {
-	    parent::__construct($controller);
+	public function __construct() {
 	}
 	
 	/**

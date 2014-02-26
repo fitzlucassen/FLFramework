@@ -7,7 +7,7 @@
     namespace fitzlucassen\FLFramework\Data\Repository;
     
     use fitzlucassen\FLFramework\Data\Entity as entities;
-    use fitzlucassen\FLFramework\Library\Helper as helpers;
+    use fitzlucassen\FLFramework\Library\Core as cores;
 
     class RewrittingUrlRepository {
 
@@ -72,7 +72,7 @@
 	}
 
 	public function getByUrlMatched($url) {
-	    return helpers\Router::GetRoute($url);
+	    return cores\Router::GetRoute($url);
 	}
 
 	/**************************

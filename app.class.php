@@ -1,6 +1,8 @@
 <?php
     use fitzlucassen\FLFramework\Library\Adapter as adapters;
     use fitzlucassen\FLFramework\Library\Helper as helpers;
+    use fitzlucassen\FLFramework\Library\Core as cores;
+    
     use fitzlucassen\FLFramework\Data as data;
     
     class App {
@@ -35,7 +37,7 @@
 	    $this->_page = $_SERVER['REQUEST_URI'];
 	    
 	    // On instancie le manager d'erreur
-	    $this->_errorManager = new helpers\Error("");
+	    $this->_errorManager = new cores\Error("");
 	    // Initialisation de la session
 	    $this->_session = new helpers\Session("");
 	    // Booléen permettant de savoir s on est sr une page erreur
@@ -43,14 +45,14 @@
 
 	    // Si on a pas de langue on session on set celle par défaut
 	    if(!$this->_session->ContainsKey("lang"))
-		$this->_session->Write("lang", helpers\Router::GetDefaultLanguage());
+		$this->_session->Write("lang", cores\Router::GetDefaultLanguage());
 	    
 	    // Initialisation base de données sauf si on est sur une page d'erreur
 	    if(!isset($this->_pdo)){
 		try{
 		    if(!$this->_isInErrorPage){
-			$this->_pdo = new helpers\Sql();
-			$this->_repositoryManager = new helpers\RepositoryManager($this->_pdo, $this->_session->read('lang'));
+			$this->_pdo = new cores\Sql();
+			$this->_repositoryManager = new cores\RepositoryManager($this->_pdo, $this->_session->read('lang'));
 		    }
 		}
 		catch(adapters\ConnexionException $e){
@@ -77,17 +79,17 @@
 	    catch(adapters\ConnexionException $e){
 		// On gère les erreur de façon personnalisée
 		if($e->getType() == adapters\ConnexionException::NO_HEADER_TABLE_FOUND){
-		    helpers\Logger::write(adapters\ConnexionException::NO_HEADER_TABLE_FOUND . " : noHeaderTableFound ");
+		    cores\Logger::write(adapters\ConnexionException::NO_HEADER_TABLE_FOUND . " : noHeaderTableFound ");
 		    $this->_errorManager->noHeaderTableFound($e->getParams());
 		    die();
 		}
 		else if($e->getType() == adapters\ConnexionException::NO_URL_REWRITING_FOUND){
-		    helpers\Logger::write(adapters\ConnexionException::NO_URL_REWRITING_FOUND . " : noRewritingFound ");
+		    cores\Logger::write(adapters\ConnexionException::NO_URL_REWRITING_FOUND . " : noRewritingFound ");
 		    $this->_errorManager->noRewritingFound($e->getParams());
 		    die();
 		}
 		else {
-		    helpers\Logger::write(adapters\ConnexionException::NO_LANG_FOUND . " : noMultilingueFound ");
+		    cores\Logger::write(adapters\ConnexionException::NO_LANG_FOUND . " : noMultilingueFound ");
 		    $this->_errorManager->noMultilingueFound($e->getParams());
 		    die();
 		}
@@ -99,24 +101,24 @@
 		$this->_langRepository = $this->_repositoryManager->get('Lang');
 		
 		// Si les langues ne sont pas encore en cache on requête en BDD
-		if(!$langs = helpers\Cache::read("lang")){
+		if(!$langs = cores\Cache::read("lang")){
 		    $langs = $this->_langRepository->getAll();
 		    // On ecrit le résultat en cache
-		    helpers\Cache::write("lang", $langs);
+		    cores\Cache::write("lang", $langs);
 		    // Si on a pas de module multilingue on insère la langue par défaut
 		    if(count($langs) == 0)
-			$langs = array(array('id' => 1, 'code' => helpers\Router::GetDefaultLanguage()));
+			$langs = array(array('id' => 1, 'code' => cores\Router::GetDefaultLanguage()));
 		}
 		
 		// On ajoute toutes les routes présentes en base de données au router
 		foreach($langs as $thisLang){
 		    // Si les routes ne sont pas encore en cache on requête en BDD
-		    if(!$routes = helpers\Cache::read("routeurl")){
+		    if(!$routes = cores\Cache::read("routeurl")){
 			$routes = data\Repository\RouteUrlRepository::getAll($this->_pdo);
 			// On ecrit le résultat en cache
-			helpers\Cache::write("routeurl", $routes);
+			cores\Cache::write("routeurl", $routes);
 		    }
-		    helpers\Router::AddRange($routes, $thisLang['code'], $this->_pdo);
+		    cores\Router::AddRange($routes, $thisLang['code'], $this->_pdo);
 		    
 		    // Si on est sur une page de langue spécifique alors on change la langue en session
 		    if(strpos($this->_page, "/" . $thisLang['code'] . "/") === 0){
@@ -129,7 +131,7 @@
 	    
 	    // Si on est pas sur une page de langue spécifique, on set la langue par défaut en session
 	    if(!$langInUrl)
-		$this->_session->Write("lang", helpers\Router::GetDefaultLanguage());
+		$this->_session->Write("lang", cores\Router::GetDefaultLanguage());
 	    
 	    $this->_lang = $this->_session->Read("lang");
 	    
@@ -139,7 +141,7 @@
 		$this->_url = $this->_rewrittingUrlRepository->getByUrlMatched($this->_page);
 	    }
 	    else {
-		$this->_url = helpers\Router::GetRoute($this->_page);
+		$this->_url = cores\Router::GetRoute($this->_page);
 	    }
 	}
 	
@@ -168,7 +170,7 @@
 	    
 	    // Si l'url n'existe pas on redirige vers la page 404
 	    if((!$this->_isValidUrl && $this->_routeUrl->getId() == 0) || ($this->_url["debug"] == "default" && $this->_page != '/')){
-		helpers\Logger::write("Redirection vers la page 404 sur l'url : " . $this->_page);
+		cores\Logger::write("Redirection vers la page 404 sur l'url : " . $this->_page);
 		
 		// On récupère les objet routeurl et rewrittingurl de la page 404
 		$this->_routeUrl = $this->_routeUrlRepository->getByRouteName('error404');
@@ -182,7 +184,7 @@
 		    die();
 		}
 		else{
-		    header('location:' . helpers\Router::ReplacePattern($this->_rewrittingUrl->getUrlMatched(), $this->_page));
+		    header('location:' . cores\Router::ReplacePattern($this->_rewrittingUrl->getUrlMatched(), $this->_page));
 		    die();
 		}
 	    }
@@ -257,12 +259,12 @@
 	    catch(adapters\ControllerException $e){
 		// On gère les erreur de façon personnalisée
 		if($e->getType() == adapters\ControllerException::INSTANCE_FAIL){
-		    helpers\Logger::write(adapters\ControllerException::INSTANCE_FAIL . " : controllerInstanceFailed " . implode(' ', $e->getParams()));
+		    cores\Logger::write(adapters\ControllerException::INSTANCE_FAIL . " : controllerInstanceFailed " . implode(' ', $e->getParams()));
 		    $this->_errorManager->controllerInstanceFailed($e->getParams());
 		    die();
 		}
 		else{
-		    helpers\Logger::write(adapters\ControllerException::NOT_FOUND . " : controllerClassDoesntExist " . implode(' ', $e->getParams()));
+		    cores\Logger::write(adapters\ControllerException::NOT_FOUND . " : controllerClassDoesntExist " . implode(' ', $e->getParams()));
 		    $this->_errorManager->controllerClassDoesntExist($e->getParams());
 		    die();
 		}
@@ -288,12 +290,12 @@
 		$this->ExecuteAction();
 	    }
 	    catch(adapters\ControllerException $e){
-		helpers\Logger::write(adapters\ControllerException::ACTION_NOT_FOUND . " : actionDoesntExist " . implode(' ', $e->getParams()));
+		cores\Logger::write(adapters\ControllerException::ACTION_NOT_FOUND . " : actionDoesntExist " . implode(' ', $e->getParams()));
 		$this->_errorManager->actionDoesntExist($e->getParams());
 		die();
 	    }
 	    catch(adapters\ViewException $ex){
-		helpers\Logger::write("ViewException : noModelProvided " . implode(' ', $e->getParams()));
+		cores\Logger::write("ViewException : noModelProvided " . implode(' ', $e->getParams()));
 		$this->_errorManager->noModelProvided($ex->getParams());
 		die();
 	    }

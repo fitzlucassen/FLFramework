@@ -1,5 +1,5 @@
 <?php
-    namespace fitzlucassen\FLFramework\Library\Helper;
+    namespace fitzlucassen\FLFramework\Library\Core;
 
     use fitzlucassen\FLFramework\Data\Repository as repositories;
     
