@@ -10,7 +10,6 @@ TODO
 - Payment API for helper implementation
 - Binding repository function -> return entities
 - Helper refactoring
-- Layout manager
 - Email manager
 - Cache for views
 - Module manager

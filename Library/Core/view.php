@@ -12,6 +12,8 @@
 	protected $Head;
 	protected $Body;
 	
+	private $_controller;
+	private $_action;
 	private $_layout = "default";
 		
 	/*
@@ -36,17 +38,15 @@
 	 * @param type $action
 	 * @param type $compact
 	 */
-	public function ViewCompact($controller, $action, $model){
+	public function ViewCompact($model){
 	    if(!isset($model))
 		throw new adapters\ViewException(adapters\ViewException::getNO_MODEL(), array("controller" => $controller, "action" => $action));
 	    
 	    $this->Model = $model;
-	    $this->Model->_controller = $controller;
-	    $this->Model->_action = $action;
 	    
 	    // Mise en cache de la vue
 	    ob_start();
-	    include __view_directory__ . "/" . $this->Model->_controller . "/" . $this->Model->_action . ".php";
+	    include __view_directory__ . "/" . $this->_controller . "/" . $this->_action . ".php";
 	    $content = ob_get_clean();
 	    
 	    // On récupère le contenue en cache
@@ -88,11 +88,29 @@
 	    return $head;
 	}
 	
+	/***********
+	 * SETTERS *
+	 ***********/
 	public function SetLayout($layout){
 	    $this->_layout = $layout;
 	}
+	public function SetController($controller){
+	    $this->_controller = $controller;
+	}
+	public function SetAction($action){
+	    $this->_action = $action;
+	}
 	
+	/***********
+	 * GETTERS *
+	 ***********/
 	public function GetLayout(){
 	    return $this->_layout;
+	}
+	public function GetController(){
+	    return $this->_controller;
+	}
+	public function GetAction(){
+	    return $this->_action;
 	}
     }

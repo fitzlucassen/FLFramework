@@ -21,26 +21,26 @@
 	    $Model = new models\ErrorModel($this->_repositoryManager);
 	    
 	    // Une action finira toujours par un $this->_view->ViewCompact
-	    // cette fonction prend en paramètre le controller, l'action et le modèle
-	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
+	    // cette fonction prend en paramètre le modèle
+	    $this->_view->ViewCompact($Model);
 	}
 	
 	public function noHeaderTableFound(){
 	    $Model = new models\ErrorModel($this->_repositoryManager);
 	    
-	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
+	    $this->_view->ViewCompact($Model);
 	}
 	
 	public function noRewritingFound(){
 	    $Model = new models\ErrorModel($this->_repositoryManager);
 	    
-	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
+	    $this->_view->ViewCompact($Model);
 	}
 	
 	public function noMultilingueFound(){
 	    $Model = new models\ErrorModel($this->_repositoryManager);
 	    
-	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
+	    $this->_view->ViewCompact($Model);
 	}
 	
 	/********
@@ -52,7 +52,7 @@
 	    $Model->_controllerTarget = $params[0];
 	    $Model->_modelTarget = $params[1];
 
-	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
+	    $this->_view->ViewCompact($Model);
 	}
 	
 	public function layoutDoesntExist($params){
@@ -60,7 +60,7 @@
 	    
 	    $Model->_layoutTarget = $params[0];
 
-	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
+	    $this->_view->ViewCompact($Model);
 	}
 	
 	/**************
@@ -71,7 +71,7 @@
 	    
 	    $Model->_controllerTarget = $params[0];
 	    
-	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
+	    $this->_view->ViewCompact($Model);
 	}
 	
 	public function controllerInstanceFailed($params){
@@ -79,7 +79,7 @@
 	    
 	    $Model->_controllerTarget = $params[0];
 	    
-	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
+	    $this->_view->ViewCompact($Model);
 	}
 	
 	public function actionDoesntExist($params){
@@ -88,6 +88,6 @@
 	    $Model->_controllerTarget = $params[0];
 	    $Model->_modelTarget = $params[1];
 
-	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
+	    $this->_view->ViewCompact($Model);
 	}
     }

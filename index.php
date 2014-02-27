@@ -1,6 +1,6 @@
 <?php
     // On inclue le fichier d'initialisation
-    require_once 'bootstrap.php';
+    require_once 'Config/bootstrap.php';
     
     // On initialise le routing de base
     $result = $App->ManageRouting();

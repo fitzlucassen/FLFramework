@@ -18,14 +18,14 @@
 	    // Cette initialisation doit obligatoirement contenir le repository manager
 	    $Model = new models\HomeModel($this->_repositoryManager);
 	    
-	    $this->setLayout("bimbim");
 	    // Une action finira toujours par un $this->_view->ViewCompact contenant : 
-	    // cette fonction prend en paramètre le controller, l'action et le modèle
-	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
+	    // cette fonction prend en paramètre le modèle
+	    $this->_view->ViewCompact($Model);
 	}
 	
 	public function Error404(){
 	    $Model = new Models\HomeModel($this->_repositoryManager);
-	    $this->_view->ViewCompact($this->_controller, $this->_action, $Model);
+	    
+	    $this->_view->ViewCompact($Model);
 	}
     }
