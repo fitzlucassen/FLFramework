@@ -14,3 +14,4 @@ TODO
 - Module manager
 - Dispatcher refactoring
 - Databases prefix
+- Module de traduction (i18)

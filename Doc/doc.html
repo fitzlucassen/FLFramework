@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FLFramework - Accueil</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <style>
+            html, body{
+                width: 100%;
+                height: 100%;
+                background: #f2f2f2;
+                margin: 0;
+                padding: 0;
+            }
+            h1{
+                font-family: Verdana;
+                font-weight: normal;
+                color: #444;
+                text-align: center;
+            }
+            h2{
+                font-family: Verdana;
+                font-weight: normal;
+                color: #444;
+                text-align: center;
+                margin: 30px 0;
+            }
+            p{
+                font-family: verdana;
+                color: #444;
+                text-align: center;
+            }
+            ul li{
+                font-family: verdana;
+                color: #444;
+                padding: 10px;
+            }
+            p.button{
+                width: 100px;
+                padding: 10px;
+                margin: auto;
+                border: 1px solid #aaa;
+                background: #e1e1e1;
+                text-align: center;
+                
+                border-radius: 3px;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                -o-border-radius: 3px;
+                -ms-border-radius: 3px;
+                
+                transition: all 0.5s linear;
+                -webkit-transition: all 0.5s linear;
+                -moz-transition: all 0.5s linear;
+                -o-transition: all 0.5s linear;
+                -ms-transition: all 0.5s linear;
+            }
+            p.button a{
+                text-decoration: none;
+                color: #666;
+                font-family: Verdana;
+                font-size: 18px;
+                display: block;
+                width: 100%;
+                height: 100%;
+                
+                transition: all 0.5s linear;
+                -webkit-transition: all 0.5s linear;
+                -moz-transition: all 0.5s linear;
+                -o-transition: all 0.5s linear;
+                -ms-transition: all 0.5s linear;
+            }
+            p.button:hover{
+                background: #d1d1d1;
+            }
+            p.button:hover a{
+                color: #888;
+            }
+            p.pre, span.pre{
+                font-family: "Bitstream Vera Sans Mono", "Consolas", "Monaco", monospace;
+                font-size: 90%;
+                line-height: normal;
+                background: rgba(100, 100, 100, 0.10);
+                padding: 10px;
+                color: #003D4C;
+                
+            }
+            div.doc{
+                text-align: left;
+                width: 90%;
+                margin: auto;
+                position: relative;
+            }
+            div.doc p{
+                width: 90%;
+                margin: auto;
+                text-align: left;
+                line-height: normal;
+                margin: 10px 0;
+            }
+            div.doc > div.menu{
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                padding: 5px;
+                background: rgba(100, 100, 100, 0.10);
+                
+                border-radius: 4px;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                -o-border-radius: 4px;
+                -ms-border-radius: 4px;
+            }
+            div.doc > div.menu a{
+                color: #003D4C;
+                font-family: "Bitstream Vera Sans Mono", "Consolas", "Monaco", monospace;
+                font-size: 90%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <h1>FLFramework::Documentation</h1>
+            <p>Ici tout est indiqué pour configurer correctement votre application et pouvoir utilier pleinement les outils de ce framework.</p>
+            
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            
+            <div class="doc">
+                <div class="menu">
+                    <ul>
+                        <li><a href="#configuration">Configuration</a></li>
+                        <li><a href="#modules">Modules natifs</a></li>
+                        <li><a href="#exceptions">Exceptions natives</a></li>
+                        <li><a href="#helpers">Les helpers natifs</a></li>
+                        <li><a href="#app">L'application</a></li>
+                    </ul>
+                </div>
+                <h2 id="configuration">Configuration</h2>
+                <p>Tout d'abord, il faut configurer votre application. Pour cela, rendez-vous dans</p>
+                <p class="pre">FLFramework/Config/bootstrap.php</p>
+                <p>Ici vous pouvez configurer une multitude de chose.</p>
+                <ul>
+                    <li>
+                        <span class="pre">cores\Sql::</span>
+                        La connexion à la base de données
+                    </li>
+                    <li>
+                        <span class="pre">cores\Router::</span>
+                        Les options par défauts du router
+                    </li>
+                    <li>
+                        <span class="pre">cores\Cache::</span>
+                        Les options d'admin du cache
+                    </li>
+                    <li>
+                        <span class="pre">cores\Log::</span>
+                        Les options d'admin des logs
+                    </li>
+                    <li>
+                        <span class="pre">define('__site_url__', "URL");</span>
+                        L'url spécifique du site si nécessaire
+                    </li>
+                    <li>
+                        <span class="pre">$App->setIsDebugMode(boolean);</span>
+                        La gestion du mode debug ou non du site web
+                    </li>
+                </ul>
+                
+                <h2 id="modules">Modules natifs</h2>
+                <p>Quelques modules sont intégrés nativement dans le framework et permettent certaines choses importantes</p>
+                <p class="pre">FLFramework/Module/DALGenerator</p>
+                <p>Le DALGenerator va vour permettre de générer vos classes de manipulation de la base de données. 
+                    Toutes les informations techniques nécessaire sont fournies à cette url :</p>
+                <p class="pre">http://YOUR_URL/Module/DALGenerator/index.html</p>
+                <p>Cet outil vous permet une totale libertée dans la création de votre base données et dans vos pattern de nommage.
+                    En effet, l'application ira chercher toutes vos tables de votre base de données pour en créer des classes miroir
+                    implémentant toutes les fonctions de base nécessaire comme :</p>
+                <ul>
+                    <li><span class="pre">getAll()</span></li>
+                    <li><span class="pre">getById($id)</span></li>
+                    <li><span class="pre">add($object)</span></li>
+                    <li><span class="pre">update($object)</span></li>
+                    <li><span class="pre">delete($id)</span></li>
+                </ul>
+                <p>De même, ce programme va générer les modèles images de vos tables appelées "Entity"</p>
+                <p>Il est préférable de stocker ces classes ici :</p>
+                <p class="pre">FLFramework/Data</p>
+                <p>Puisqu'y résides déjà les trois classes indispensables au routing</p>
+                <p>&nbsp;</p>
+                <p class="pre">FLFramework/Module/NativeSQLModule</p>
+                <p>Ce module est quasi indispensable au bon fonctionnement du framework. 
+                    Il ajoute à celui-ci les fonctionnalités de réécriture d'url et de multilinguisme.
+                    Il vous sera d'ailleurs rappelé (en mode debug) d'importer ces scripts SQL pour votre bien !</p>
+                <p>Ce module consiste en trois fichiers SQL (un par rôle) à importer dans votre base de données.</p>
+                
+                <h2 id="exceptions">Les exceptions natives</h2>
+                <p>Les exceptions natives sont dans le dossiers ci-dessous :</p>
+                <p class="pre">FLFramework/Library/Adapter</p>
+                <p>Il en existe trois :</p>
+                <ul>
+                    <li><span class="pre">connexionException</span></li>
+                    <li><span class="pre">controllerException</span></li>
+                    <li><span class="pre">viewException</span></li>
+                </ul>
+                <p>Elle gère les exceptions basiques du site. (connexion à la BDD impossible, controller introuvable, layout introuvable...etc)</p>
+                <p>Ces exceptions sont gérées par la classe <i>error.php</i> située dans :</p>
+                <p class="pre">FLFramework/Library/Core</p>
+                <p>Elles sont désactivables en mettant le mode debug à false ou en réglant les problèmes soulevés.</p>
+                
+                <h2 id="helpers">Les helpers</h2>
+                <p>Les helpers sont des classes encapsulant certaines fonctionnalités utiles à un site web et disponibles dans les controllers ainsi que dans les vues.</p>
+                <p>Voici les helpers existant</p>
+                <ul>
+                    <li><span class="pre">FLFramework/Library/Helper/auth.php</span></li>
+                    <li><span class="pre">FLFramework/Library/Helper/form.php</span></li>
+                    <li><span class="pre">FLFramework/Library/Helper/mail.php</span></li>
+                    <li><span class="pre">FLFramework/Library/Helper/rss.php</span></li>
+                    <li><span class="pre">FLFramework/Library/Helper/session.php</span></li>
+                </ul>
+                <h2 id="app">L'application</h2>
+            </div>
+        </div>
+    </body>
+</html>
