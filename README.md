@@ -8,7 +8,6 @@ TODO
 ===========
 
 - Payment API for helper implementation
-- Binding repository function -> return entities
 - Helper refactoring
 - Email manager
 - Cache for views

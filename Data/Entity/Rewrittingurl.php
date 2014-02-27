@@ -31,7 +31,10 @@
 			$query = $this->_queryBuilder->select()->from("routeurl")
 								->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $this->_idRouteUrl)))->getQuery();
 			try {
-				return $this->_pdo->Select($query);
+			    $result = $this->_pdo->Select($query);
+			    $o = new Routeurl();
+			    $o->fillObject($result);
+			    return $o;
 			}
 			catch(PDOException $e){
 				print $e->getMessage();

@@ -44,7 +44,14 @@
 			$query = $this->_queryBuilder->select()->from("rewrittingurl")
 								->where(array(array("link" => "", "left" => "idRouteurl", "operator" => "=", "right" => $this->_id)))->getQuery();
 			try {
-				return $this->_pdo->SelectTable($query);
+				$result = $this->_pdo->SelectTable($query);
+				$array = array();
+				foreach ($result as $object){
+				    $o = new Rewrittingurl();
+				    $o->fillObject($object);
+				    $array[] = $o;
+				}
+				return $array;
 			}
 			catch(PDOException $e){
 				print $e->getMessage();

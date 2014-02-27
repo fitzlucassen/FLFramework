@@ -123,11 +123,11 @@
 			// On ecrit le résultat en cache
 			cores\Cache::write("routeurl", $routes);
 		    }
-		    cores\Router::AddRange($routes, $thisLang['code'], $this->_pdo);
+		    cores\Router::AddRange($routes, $thisLang->getCode(), $this->_pdo);
 		    
 		    // Si on est sur une page de langue spécifique alors on change la langue en session
-		    if(strpos($this->_page, "/" . $thisLang['code'] . "/") === 0){
-			$this->_session->Write("lang", $thisLang['code']);
+		    if(strpos($this->_page, "/" . $thisLang->getCode() . "/") === 0){
+			$this->_session->Write("lang", $thisLang->getCode());
 			$langInUrl = true;
 		    }
 		}

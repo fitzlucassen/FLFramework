@@ -36,6 +36,8 @@
 	    $string = str_replace("ö", "o", $string);
 	    $string = str_replace("--", "-", $string);
 	    $string = str_replace("+", "", $string);
+	    $string = str_replace("%", "", $string);
+	    $string = str_replace("*", "x", $string);
 
 	    $string = rtrim($string, "-");
 	    $string = ltrim($string, "-");

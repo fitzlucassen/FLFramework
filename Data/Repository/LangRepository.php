@@ -29,7 +29,14 @@
 			$qb = new cores\QueryBuilder(true);
 			$query = $qb->select()->from(array("lang"))->getQuery();
 			try {
-				return $Connexion->SelectTable($query);
+				$result = $Connexion->SelectTable($query);
+				$array = array();
+				foreach ($result as $object){
+				    $o = new entities\Lang();
+				    $o->fillObject($object);
+				    $array[] = $o;
+				}
+				return $array;
 			}
 			catch(PDOException $e){
 				print $e->getMessage();

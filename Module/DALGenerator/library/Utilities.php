@@ -245,7 +245,10 @@
 											  ->from("' . $attribut . '")
 											  ->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $this->_' . $thisField['label'] . ')))->getQuery();' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
-			$source .= FileManager::getTab(4) . 'return $this->_pdo->Select($query);' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(4) . '$result = $this->_pdo->Select($query);' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(4) . '$o = new ' . ucwords($attribut) . '();' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(4) . '$o->fillObject($result);' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(4) . 'return $o;' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(3) . '}' . FileManager::getBackSpace() . FileManager::getTab(3) .  "catch(PDOException " . '$e){' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(4) . 'print $e->getMessage();' . FileManager::getBackSpace() . FileManager::getTab(3) ."}" . FileManager::getBackSpace();
 			$source .= FileManager::getTab(3) . 'return array();' . FileManager::getBackSpace();
@@ -265,7 +268,14 @@
 											  ->from("' . $key . '")
 											  ->where(array(array("link" => "", "left" => "id' . ucwords($tableName) . '", "operator" => "=", "right" => $this->_id)))->getQuery();' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
-			$source .= FileManager::getTab(4) . 'return $this->_pdo->SelectTable($query);' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(4) . '$result = $this->_pdo->SelectTable($query);' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(4) . '$array = array();' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(4) . 'foreach ($result as $object){' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(5) . '$o = new ' . ucwords($key) . '();' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(5) . '$o->fillObject($object);' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(5) . '$array[] = $o;' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(4) . '}' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(4) . 'return $array;' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(3) . '}' . FileManager::getBackSpace() . FileManager::getTab(3) .  "catch(PDOException " . '$e){' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(4) . 'print $e->getMessage();' . FileManager::getBackSpace() . FileManager::getTab(3) ."}" . FileManager::getBackSpace();
 			$source .= FileManager::getTab(3) . 'return array();' . FileManager::getBackSpace();
@@ -321,16 +331,24 @@
 		}
 		$source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 	    }
+	    
 	    // GetAll
 	    $source .=	FileManager::getTab(2) . FileManager::getComment(26, true) . FileManager::getBackSpace() . 
 			FileManager::getTab(2) . ' * REPOSITORIES FUNCTIONS *' . FileManager::getBackSpace() . 
 			FileManager::getTab(2) . FileManager::getComment(26, false) . FileManager::getBackSpace();
 	    
-	    $source .= FileManager::getTab(2) . FileManager::getPrototype("getAll", true, true) . "(){" . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(2) . FileManager::getPrototype("getAll", true, true) . '($Connection){' . FileManager::getBackSpace();
 	    $source .= FileManager::getTab(3) . '$qb = new cores\QueryBuilder(true);' . FileManager::getBackSpace();
 	    $source .= FileManager::getTab(3) . '$query = $qb->select()->from(array("' . $tableName . '"))->getQuery();' . FileManager::getBackSpace();
 	    $source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
-	    $source .= FileManager::getTab(4) . 'return $this->_pdo->SelectTable($query);' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(4) . '$result = $Connection->SelectTable($query);' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(4) . '$array = array();' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(4) . 'foreach ($result as $object){' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(5) . '$o = new entities\\' . ucwords($tableName) . '();' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(5) . '$o->fillObject($object);' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(5) . '$array[] = $o;' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(4) . '}' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(4) . 'return $array;' . FileManager::getBackSpace();
 	    $source .= FileManager::getTab(3) . '}' . FileManager::getBackSpace() . FileManager::getTab(3) .  "catch(PDOException " . '$e){' . FileManager::getBackSpace();
 	    $source .= FileManager::getTab(4) . 'print $e->getMessage();' . FileManager::getBackSpace() . FileManager::getTab(3) ."}" . FileManager::getBackSpace();
 	    $source .= FileManager::getTab(3) . 'return array();' . FileManager::getBackSpace();

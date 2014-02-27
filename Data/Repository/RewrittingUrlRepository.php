@@ -21,7 +21,6 @@
 			$this->_queryBuilder = new cores\QueryBuilder(true);
 			$this->_lang = $lang;
 		}
-
 		/**
 		 * 
 		 * @param type $idRoute
@@ -54,8 +53,8 @@
 		public static function getByIdRouteStatic($idRoute, $lang, $Connexion) {
 			$qb = new cores\QueryBuilder(true);
 			$request = $qb->select()->from(array("rewrittingurl"))
-								->where(array(array("link" => "", "left" => "lang", "operator" => "=", "right" => "'" . $lang . "'"),
-									      array("link" => "AND", "left" => "idRouteUrl", "operator" => "=", "right" => $idRoute)))->getQuery();
+						->where(array(array("link" => "", "left" => "lang", "operator" => "=", "right" => "'" . $lang . "'"),
+								array("link" => "AND", "left" => "idRouteUrl", "operator" => "=", "right" => $idRoute)))->getQuery();
 			try {
 			    $resultat = $Connexion->Select($request);
 
@@ -75,11 +74,18 @@
 		/**************************
 		 * REPOSITORIES FUNCTIONS *
 		 **************************/
-		public static function getAll($Connexion){
+		public static function getAll($Connection){
 			$qb = new cores\QueryBuilder(true);
 			$query = $qb->select()->from(array("rewrittingurl"))->getQuery();
 			try {
-				return $Connexion->SelectTable($query);
+				$result = $Connection->SelectTable($query);
+				$array = array();
+				foreach ($result as $object){
+					$o = new entities\Rewrittingurl();
+					$o->fillObject($object);
+					$array[] = $o;
+				}
+				return $array;
 			}
 			catch(PDOException $e){
 				print $e->getMessage();
@@ -89,7 +95,7 @@
 
 		public function getById($id){
 			$query = $this->_queryBuilder->select()->from(array("rewrittingurl"))
-										->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id)))->getQuery();
+								->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id)))->getQuery();
 			try {
 				$properties = $this->_pdoHelper->Select($query);
 				$object = new entities\Rewrittingurl();
@@ -104,8 +110,8 @@
 
 		public function delete($id) {
 			$query = $this->_queryBuilder->delete("rewrittingurl")
-										->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))
-										->getQuery();
+							->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))
+							->getQuery();
 			try {
 				return $this->_pdo->Query($query);
 			}
