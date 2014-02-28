@@ -107,3 +107,6 @@
 28-02-14 11:59:30 --> no action : actionDoesntExist Home Website
 28-02-14 11:59:31 --> Redirection vers la page 404 sur l'url : /favicon.ico
 28-02-14 11:59:34 --> Redirection vers la page 404 sur l'url : /favicon.ico
+28-02-14 12:00:54 --> Redirection vers la page 404 sur l'url : /favicon.ico
+28-02-14 12:02:55 --> Redirection vers la page 404 sur l'url : /favicon.ico
+28-02-14 12:03:25 --> Redirection vers la page 404 sur l'url : /favicon.ico
