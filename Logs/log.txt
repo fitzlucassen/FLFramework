@@ -18,3 +18,4 @@
 28-02-14 16:24:00 --> Redirection vers la page 404 sur l'url : /favicon.ico
 28-02-14 17:05:16 --> Redirection vers la page 404 sur l'url : /favicon.ico
 28-02-14 17:05:22 --> Redirection vers la page 404 sur l'url : /favicon.ico
+28-02-14 17:06:40 --> Redirection vers la page 404 sur l'url : /favicon.ico

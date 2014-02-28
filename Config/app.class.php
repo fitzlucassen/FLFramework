@@ -103,7 +103,7 @@
 	    $langInUrl = false;
 	    
 	    // On récupère les routes en base de données seulement si a une base de données
-	    if(self::$_databaseNeeded){
+	    if(self::$_databaseNeeded && !$this->_isInErrorPage){
 		$this->_langRepository = $this->_repositoryManager->get('Lang');
 		
 		// Si les langues ne sont pas encore en cache on requête en BDD
@@ -141,7 +141,7 @@
 	    $this->_lang = $this->_session->Read("lang");
 	    
 	    // On récupère le controller et l'action de l'url
-	    if(self::$_databaseNeeded){
+	    if(self::$_databaseNeeded && !$this->_isInErrorPage){
 		$this->_rewrittingUrlRepository = $this->_repositoryManager->get('RewrittingUrl');
 		$this->_url = $this->_rewrittingUrlRepository->getByUrlMatched($this->_page);
 	    }
@@ -155,7 +155,7 @@
 	 * @return boolean
 	 */
 	public function ManageRouting(){
-	    if(self::$_databaseNeeded){
+	    if(self::$_databaseNeeded && !$this->_isInErrorPage){
 		$this->_routeUrlRepository = $this->_repositoryManager->get('RouteUrl');
 		
 		// S'il n'y a aucune route en base matchant cette url, ou que l'url est '/'

@@ -5,7 +5,7 @@
     session_start();
     
     // facultative var. Mandatory if you have something like 'localhost/mywebsite'
-    define('__site_url__', "FLFramework");
+    define('__site_url__', "");
     // Includes
     require_once 'routes.config.php';
     require_once 'app.class.php';
@@ -14,7 +14,7 @@
     spl_autoload_register("App::ManageAutoload");
     
     // Put your SQL config here
-    cores\Sql::SetDb("flframework");
+    cores\Sql::SetDb("flframeworks");
     cores\Sql::SetHost("localhost");
     cores\Sql::SetUser("root");
     cores\Sql::SetPwd("");
