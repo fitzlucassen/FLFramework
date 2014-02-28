@@ -37,7 +37,12 @@
     cores\Cache::setExpireTime(3600);
     // End logger config
     
+    // Define your webapp needs here
+    App::setIsDebugMode(true);
+    App::setDatabaseNeeded(true);
+    App::setUrlRewritingNeeded(true);
+    // End
+    
     $App = new App();
-    $App->setIsDebugMode(true);
     $App->run();
     

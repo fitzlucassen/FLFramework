@@ -212,13 +212,23 @@
                 <p>Les helpers sont des classes encapsulant certaines fonctionnalités utiles à un site web et disponibles dans les controllers ainsi que dans les vues.</p>
                 <p>Voici les helpers existant</p>
                 <ul>
-                    <li><span class="pre">FLFramework/Library/Helper/auth.php</span></li>
-                    <li><span class="pre">FLFramework/Library/Helper/form.php</span></li>
-                    <li><span class="pre">FLFramework/Library/Helper/mail.php</span></li>
-                    <li><span class="pre">FLFramework/Library/Helper/rss.php</span></li>
-                    <li><span class="pre">FLFramework/Library/Helper/session.php</span></li>
+                    <li><span class="pre">FLFramework/Library/Helper/auth.php</span> Ce helper gère la couche authentification de l'utilisateur (connexion/deconnexion/récupération...etc.)</li>
+                    <li><span class="pre">FLFramework/Library/Helper/form.php</span> Ce helper gère la couche formulaire (génération automatique, réception d'information...etc.)</li>
+                    <li><span class="pre">FLFramework/Library/Helper/mail.php</span> Ce helper gère la couche email (création d'un e-mail, envoie, template...etc.)</li>
+                    <li><span class="pre">FLFramework/Library/Helper/rss.php</span> Ce helper permet de générer des flux rss</li>
+                    <li><span class="pre">FLFramework/Library/Helper/session.php</span> ce helper gère la couche session</li>                    
                 </ul>
+                <p>Toutes ces classes sont commentées et très facile d'utilisation.</p>
+                
                 <h2 id="app">L'application</h2>
+                <p>Normalement, vous n'aurez à toucher que le dossier :</p>
+                <p class="pre">FLFramework/Website</p>
+                <p>Ce dossier contient votre application.</p>
+                <ul>
+                    <li><span class="pre">FLFramework/Website/Content</span> Contient vos assets (javascript, css, media...etc.)</li>
+                    <li><span class="pre">FLFramework/Website/MVC</span> Contient votre site web découpé en MVC (Model, Vue, Controleur)</li>
+                    <li><span class="pre">FLFramework/Website/Partial</span> Contient les vues partielles</li>
+                </ul>
             </div>
         </div>
     </body>
