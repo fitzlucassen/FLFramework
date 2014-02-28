@@ -148,6 +148,8 @@
 	    else {
 		$this->_url = cores\Router::GetRoute($this->_page);
 	    }
+	    
+	    $this->ManageRouting();
 	}
 	
 	/**
@@ -222,6 +224,8 @@
 		    die();
 		}
 	    }
+	    
+	    $this->ManageController();
 	}
 	
 	/**
@@ -274,6 +278,8 @@
 		    die();
 		}
 	    }
+	    
+	    $this->ManageAction();
 	}
 	
 	/**
