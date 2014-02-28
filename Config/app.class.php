@@ -45,9 +45,9 @@
 	    $this->_page = $_SERVER['REQUEST_URI'];
 	    
 	    // On instancie le manager d'erreur
-	    $this->_errorManager = new cores\Error("");
+	    $this->_errorManager = new cores\Error();
 	    // Initialisation de la session
-	    $this->_session = new helpers\Session("");
+	    $this->_session = new helpers\Session();
 	    // Booléen permettant de savoir s on est sr une page erreur
 	    $this->_isInErrorPage = strpos($this->_page, '/Error/') !== false;
 
@@ -56,12 +56,10 @@
 		$this->_session->Write("lang", cores\Router::GetDefaultLanguage());
 	    
 	    // Initialisation base de données sauf si on est sur une page d'erreur
-	    if(!isset($this->_pdo) && self::$_databaseNeeded){
+	    if(!isset($this->_pdo) && self::$_databaseNeeded && !$this->_isInErrorPage){
 		try{
-		    if(!$this->_isInErrorPage){
-			$this->_pdo = new cores\Sql();
-			$this->_repositoryManager = new cores\RepositoryManager($this->_pdo, $this->_session->read('lang'));
-		    }
+		    $this->_pdo = new cores\Sql();
+		    $this->_repositoryManager = new cores\RepositoryManager($this->_pdo, $this->_session->read('lang'));
 		}
 		catch(adapters\ConnexionException $e){
 		    $this->_errorManager->noConnexionAvailable();
@@ -104,13 +102,12 @@
 	    }
 	    $langInUrl = false;
 	    
-	    // On récupère les routes en base de données seulement si on est pas sur une page d'erreur
-	    if(!$this->_isInErrorPage){
-		if(self::$_databaseNeeded)
-		    $this->_langRepository = $this->_repositoryManager->get('Lang');
+	    // On récupère les routes en base de données seulement si a une base de données
+	    if(self::$_databaseNeeded){
+		$this->_langRepository = $this->_repositoryManager->get('Lang');
 		
 		// Si les langues ne sont pas encore en cache on requête en BDD
-		if((!$langs = cores\Cache::read("lang")) && self::$_databaseNeeded){
+		if(!$langs = cores\Cache::read("lang")){
 		    $langs = data\Repository\LangRepository::getAll($this->_pdo);
 		    // On ecrit le résultat en cache
 		    cores\Cache::write("lang", $langs);
@@ -118,20 +115,16 @@
 		    if(count($langs) == 0)
 			$langs = array(array('id' => 1, 'code' => cores\Router::GetDefaultLanguage()));
 		}
-		if(!isset($langs) || empty($langs) || count($langs) == 0)
-		    $langs = array();
 		
 		// On ajoute toutes les routes présentes en base de données au router
 		foreach($langs as $thisLang){
 		    // Si les routes ne sont pas encore en cache on requête en BDD
-		    if((!$routes = cores\Cache::read("routeurl")) && self::$_databaseNeeded){
+		    if(!$routes = cores\Cache::read("routeurl")){
 			$routes = data\Repository\RouteUrlRepository::getAll($this->_pdo);
 			// On ecrit le résultat en cache
 			cores\Cache::write("routeurl", $routes);
 		    }
-		    if(self::$_databaseNeeded){
-			cores\Router::AddRange($routes, $thisLang->getCode(), $this->_pdo);
-		    }
+		    cores\Router::AddRange($routes, $thisLang->getCode(), $this->_pdo);
 		    
 		    // Si on est sur une page de langue spécifique alors on change la langue en session
 		    if(strpos($this->_page, "/" . $thisLang->getCode() . "/") === 0){
@@ -139,7 +132,6 @@
 			$langInUrl = true;
 		    }
 		}
-		// Fin route
 	    }
 	    
 	    // Si on est pas sur une page de langue spécifique, on set la langue par défaut en session
@@ -149,13 +141,39 @@
 	    $this->_lang = $this->_session->Read("lang");
 	    
 	    // On récupère le controller et l'action de l'url
-	    if(!$this->_isInErrorPage && self::$_databaseNeeded){
+	    if(self::$_databaseNeeded){
 		$this->_rewrittingUrlRepository = $this->_repositoryManager->get('RewrittingUrl');
 		$this->_url = $this->_rewrittingUrlRepository->getByUrlMatched($this->_page);
 	    }
 	    else {
 		$this->_url = cores\Router::GetRoute($this->_page);
 	    }
+	}
+	
+	/**
+	 * ManageRouting -> Renvoie false si on doit renvoyer vers la page par défaut. True sinon. Gère le routing de base
+	 * @return boolean
+	 */
+	public function ManageRouting(){
+	    if(self::$_databaseNeeded){
+		$this->_routeUrlRepository = $this->_repositoryManager->get('RouteUrl');
+		
+		// S'il n'y a aucune route en base matchant cette url, ou que l'url est '/'
+		if(!isset($this->_url['controller']) || empty($this->_url['controller']) || ($this->_url["debug"] == "default" && $this->_page == '/')){
+		    // On récupère la route de la homepage et on en déduit l'objet rewritting
+		    $this->_routeUrl = $this->_routeUrlRepository->getByRouteName('home');
+		    $this->_rewrittingUrl = $this->_rewrittingUrlRepository->getByIdRouteUrl($this->_routeUrl->getId());
+		    
+		    header('location: ' . $this->_rewrittingUrl->getUrlMatched());
+		    die();
+		}
+		// Sinon on récupère la route grâce à l'url rewritté
+		else {
+		    // Via cette url on récupère l'objet route correspondant
+		    $this->_routeUrl = $this->_routeUrlRepository->getByControllerAction($this->_url['controller'], $this->_url['action']);
+		}
+	    }
+	    $this->Manage404Route();
 	}
 	
 	/**
@@ -202,35 +220,6 @@
 		    header('location:' . cores\Router::ReplacePattern($this->_rewrittingUrl->getUrlMatched(), $this->_page));
 		    die();
 		}
-	    }
-	}
-	
-	/**
-	 * ManageRouting -> Renvoie false si on doit renvoyer vers la page par défaut. True sinon. Gère le routing de base
-	 * @return boolean
-	 */
-	public function ManageRouting(){
-	    if(!$this->_isInErrorPage && self::$_databaseNeeded){
-		// S'il n'y a aucune route en base matchant cette url, ou que l'url est '/'
-		$this->_routeUrlRepository = $this->_repositoryManager->get('RouteUrl');
-		if(!isset($this->_url['controller']) || empty($this->_url['controller']) || ($this->_url["debug"] == "default" && $this->_page == '/')){
-		    // On récupère la route de la homepage et on en déduit l'objet rewritting
-		    $this->_routeUrl = $this->_routeUrlRepository->getByRouteName('home');
-		    $this->_rewrittingUrl = $this->_rewrittingUrlRepository->getByIdRouteUrl($this->_routeUrl->getId());
-		    
-		    header('location: ' . $this->_rewrittingUrl->getUrlMatched());
-		    die();
-		}
-		// Sinon on récupère la route grâce à l'url rewritté
-		else {
-		    // Via cette url on récupère l'objet route correspondant
-		    $this->_routeUrl = $this->_routeUrlRepository->getByControllerAction($this->_url['controller'], $this->_url['action']);
-
-		    return true;
-		}
-	    }
-	    else{
-		return true;
 	    }
 	}
 	

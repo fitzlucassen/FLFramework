@@ -24,8 +24,15 @@
 	}
 	
 	public function Error404(){
-	    $Model = new Models\HomeModel($this->_repositoryManager);
+	    $Model = new models\HomeModel($this->_repositoryManager);
 	    
+	    $this->_view->ViewCompact($Model);
+	}
+	
+	
+	//*************** TEMP **************//
+	public function TestPaypal(){
+	    $Model = new models\HomeModel($this->_repositoryManager);
 	    $this->_view->ViewCompact($Model);
 	}
     }
