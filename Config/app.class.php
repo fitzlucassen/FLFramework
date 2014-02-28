@@ -182,9 +182,10 @@
 	public function Manage404Route(){
 	    // On récupèrele nom du controller
 	    $controllerTemp = isset($this->_routeUrl) ? $this->_routeUrl->getController() : "";
+	    
 	    // Si on est sur une page erreur OU si on a pas de module rewriting alors on récupère le controller et l'action via l'url directement
 	    // Sinon on récupère le controller et l'action via l'objet routeurl
-	    if(empty($controllerTemp) && ((!self::$_databaseNeeded || !self::$_urlRewritingNeeded) || ($this->_isInErrorPage || (isset($this->_url['debug']) && $this->_url['debug'] == 'ok')))){
+	    if(empty($controllerTemp) && (!self::$_databaseNeeded || !self::$_urlRewritingNeeded || $this->_isInErrorPage || (isset($this->_url['debug']) && $this->_url['debug'] == 'ok'))){
 		$c =  $this->_CONTROLLER_NAMESPACE . ucwords($this->_url['controller'] . 'Controller');
 		$c2 = str_replace($this->_FLF_NAMESPACE, '', $c) . '.php';
 	    }
