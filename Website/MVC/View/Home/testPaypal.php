@@ -22,33 +22,17 @@
     );
     
     $Paypal = new \fitzlucassen\FLFramework\Library\Helper\Paypal();
+    $Paypal->setUsername("sell_api1.localhost.fr");
+    $Paypal->setPassword("1393605614");
+    $Paypal->setSignature("ATM9fpmKSuPGPsQ.TNNoHOvNfnzMAIHsSTo8Ioj7.fhhmklFDRL83E77");
     $Paypal->setReturnUrl('http://flframework:81/' . fitzlucassen\FLFramework\Library\Core\Router::GetUrl("home", "testpaypal"));
     $Paypal->setCancelUrl('http://flframework:81/' . fitzlucassen\FLFramework\Library\Core\Router::GetUrl("home", "testpaypal"));
     $Paypal->setPort(10);
     $Paypal->setTotal(73);
     $Paypal->setTotalTTC();
+    $Paypal->setCart($products);
     
-    foreach ($products as $k => $pro){
-	$params['L_PAYMENTREQUEST_0_NAME' . $k] = $pro['name'];
-	$params['L_PAYMENTREQUEST_0_DESC' . $k] = '';
-	$params['L_PAYMENTREQUEST_0_AMT' . $k] = $pro['priceTVA'];
-	$params['L_PAYMENTREQUEST_0_QTY' . $k] = $pro['quantity'];
-    }
-    
-    $params = http_build_query($params);
-    $endpoint = 'https://api-3T.sandbox.paypal.com/nvp';
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-	CURLOPT_URL => $endpoint,
-	CURLOPT_POST => 1,
-	CURLOPT_POSTFIELDS => $params,
-	CURLOPT_RETURNTRANSFER => 1,
-	CURLOPT_SSL_VERIFYPEER => false,
-	CURLOPT_SSL_VERIFYHOST => false,
-	CURLOPT_VERBOSE => 1
-    ));
-    $responseArray = array();
-    parse_str(curl_exec($curl), $responseArray);
+    $Paypal->SetExpressCheckout();
 
     if(curl_errno($curl)){
 	var_dump(curl_error($curl));
