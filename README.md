@@ -7,7 +7,6 @@ I don't want to be as stronger and complex than Zend or Symphony but I just want
 TODO
 ===========
 
-- Payment API for helper implementation
 - Helper refactoring
 - Email manager
 - Cache for views
