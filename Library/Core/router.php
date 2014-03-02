@@ -256,7 +256,10 @@
 		if ($params !== null)
 		    foreach ($params as $key => $value)
 			$url = str_replace("{" . $key . "}", $value, $url);
-		return "/" . $lang . $url;
+		if($lang === self::$_defaultLang)
+		    return $url;
+		else
+		    return "/" . $lang . $url;
 	    }
 	    else {
 
@@ -264,7 +267,10 @@
 		if ($params !== null)
 		    foreach ($params as $value)
 			$url .= "/" . $value;
-		return "/" . $lang . $url;
+		if($lang === self::$_defaultLang)
+		    return $url;
+		else
+		    return "/" . $lang . $url;
 	    }
 	}
 

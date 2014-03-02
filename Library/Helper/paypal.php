@@ -6,19 +6,43 @@
       Déscription : Permet de gérer le paiement via paypal
      */
     class Paypal extends Helper {
+	public $_errors = array();
+	public $_mainMethods = array(
+	    'SetExpressCheckout',
+	    'GetExpressCheckoutDetails',
+	    'DoExpressCheckoutPayment'
+	);
+	
 	private $_username = "";
 	private $_password = "";
 	private $_signature = "";
-	private $_endpoint = 'https://api-3T.sandbox.paypal.com/nvp';
+	private $_endpoint = 'https://api-3t.sandbox.paypal.com/nvp';
 	private $_responseArray = array();
 	private $_params = array(
-	    'METHOD' => 'SetExpressCheckout',
 	    'VERSION' => '109',
-
 	    'PAYMENTREQUEST_0_CURRENCYCODE' => 'EUR'
 	);
 	
-	public function SetExpressCheckout(){
+	
+	public function __construct($user, $pwd, $signature, $prod = false) {
+	    parent::__construct();
+	    
+	    $this->_username = $user;
+	    $this->_password = $pwd;
+	    $this->_signature = $signature;
+	    
+	    if($prod){
+		$this->_endpoint = str_replace('sandbox.', '', $this->_endpoint);
+	    }
+	    $this->_params['USER'] = $this->_username;
+	    $this->_params['PWD'] = $this->_password;
+	    $this->_params['SIGNATURE'] = $this->_signature;
+	}
+	
+	public function request($method, $params){
+	    $this->_params['METHOD'] = $method;
+	    $this->_params = array_merge($this->_params, $params);
+	    
 	    $params = http_build_query($this->_params);
 	    $curl = curl_init();
 	    curl_setopt_array($curl, array(
@@ -32,20 +56,29 @@
 	    ));
 	    
 	    parse_str(curl_exec($curl), $this->_responseArray);
+	    
+	    if(curl_errno($curl)){
+		$this->_errors = curl_error($curl);
+		curl_close($curl);
+		return false;
+	    }
+	    else {
+		if($this->_responseArray['ACK'] == 'Success'){
+		    curl_close($curl);
+		    return $this->_responseArray;
+		}
+		else {
+		    $this->_errors = $this->_responseArray;
+		    curl_close($curl);
+		    return false;
+		}
+	    }
 	}
 	
-	public function setUsername($arg){
-	    $this->_username = $arg;
-	    $this->_params['USER'] = $arg;
-	}
-	public function setPassword($arg){
-	    $this->_password = $arg;
-	    $this->_params['SIGNATURE'] = $arg;
-	}
-	public function setSignature($arg){
-	    $this->_signature = $arg;
-	    $this->_params['PWD'] = $arg;
-	}
+	/***********
+	 * SETTERS *
+	 ***********/
+	// SET EXPRESS CHECKOUT
 	public function setReturnUrl($arg){
 	    $this->_params['RETURNURL'] = $arg;
 	}
@@ -59,14 +92,40 @@
 	    $this->_params['PAYMENTREQUEST_0_ITEMAMT'] = $arg;
 	}
 	public function setTotalTTC(){
-	    $this->_params['PAYMENTREQUEST_0_ITEMAMT'] = $this->_params['PAYMENTREQUEST_0_SHIPPINGAMT'] + $this->_params['PAYMENTREQUEST_0_ITEMAMT'];
+	    $this->_params['PAYMENTREQUEST_0_AMT'] = $this->_params['PAYMENTREQUEST_0_SHIPPINGAMT'] + $this->_params['PAYMENTREQUEST_0_ITEMAMT'];
 	}
 	public function setCart($products){
 	    foreach ($products as $k => $pro){
 		$this->_params['L_PAYMENTREQUEST_0_NAME' . $k] = $pro['name'];
-		$this->_params['L_PAYMENTREQUEST_0_DESC' . $k] = '';
+		$this->_params['L_PAYMENTREQUEST_0_DESC' . $k] = $pro['description'];
 		$this->_params['L_PAYMENTREQUEST_0_AMT' . $k] = $pro['priceTVA'];
 		$this->_params['L_PAYMENTREQUEST_0_QTY' . $k] = $pro['quantity'];
 	    }
+	}
+	
+	// GET EXPRESS CHECKOUT
+	public function setToken($arg){
+	    $this->_params['TOKEN'] = $arg;
+	}
+	
+	// DO EXPRESS CHECKOUT
+	public function setPayerID($arg){
+	    $this->_params['PAYERID'] = $arg;
+	}
+	public function setPaymentAction($arg){
+	    $this->_params['PAYMENTACTION'] = $arg;
+	}
+	public function setAmount($arg){
+	    $this->_params['PAYMENTREQUEST_0_AMT'] = $arg;
+	}
+	
+	/***********
+	 * GETTERS *
+	 ***********/
+	public function getPaymentLink(){
+	    if(isset($this->_responseArray['TOKEN']))
+		return 'https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . $this->_responseArray['TOKEN'];
+	    else
+		return '#';
 	}
     }
