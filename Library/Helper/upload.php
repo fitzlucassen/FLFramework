@@ -25,18 +25,6 @@
 		protected $validation_errors = array();
 		protected $filename;
 
-		/**
-		 * Return upload object
-		 * 
-		 * $destination		= 'path/to/your/file/destination/folder';
-		 * 
-		 * @param string $destination
-		 * @return Upload 
-		 */
-		public static function factory($destination) {
-			return new Upload($destination);
-		}
-
 
 		/**
 		 *  Define ROOT constant and set & create destination path

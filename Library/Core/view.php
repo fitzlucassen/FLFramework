@@ -55,9 +55,9 @@
 	    
 	    // Et on inclue le layout/vue
 	    if(file_exists(__layout_directory__ . "/" . $this->_layout .".php"))
-		include(__layout_directory__ . "/" . $this->_layout .".php");
+			include(__layout_directory__ . "/" . $this->_layout .".php");
 	    else
-		throw new adapters\ViewException(adapters\ViewException::getBAD_LAYOUT(), array('layout' => $this->_layout));
+			throw new adapters\ViewException(adapters\ViewException::getBAD_LAYOUT(), array('layout' => $this->_layout));
 	}
 	
 	/**

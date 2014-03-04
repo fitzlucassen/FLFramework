@@ -7,8 +7,7 @@ I don't want to be as stronger and complex than Zend or Symphony but I just want
 TODO
 ===========
 
-- Helper refactoring
-- Email manager
+- JS library
 - Cache for views
 - Module manager
 - Dispatcher refactoring

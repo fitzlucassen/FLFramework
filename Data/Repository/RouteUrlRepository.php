@@ -29,16 +29,16 @@
 		public function getByRouteName($route) {
 			$request = $this->_queryBuilder->select()
 							->from(array("routeurl"))
-							->where(array(array("link" => "", "left" => "name", "operator" => "=", "right" => "'" . $route . "'")))
+							->where(array(array("link" => "", "left" => "name", "operator" => "=", "right" => $route)))
 							->getQuery();
 			try {
-			$resultat = $this->_pdoHelper->Select($request);
+				$resultat = $this->_pdoHelper->Select($request);
 
-			$RouteUrl = new entities\RouteUrl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
+				$RouteUrl = new entities\RouteUrl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
 
-			return $RouteUrl;
+				return $RouteUrl;
 			} catch (\PDOException $e) {
-			print $e->getMessage();
+				print $e->getMessage();
 			}
 			return array();
 		}
@@ -52,17 +52,17 @@
 		public function getByControllerAction($controller, $action) {
 			$request = $this->_queryBuilder->select()
 							->from(array("routeurl"))
-							->where(array(array("link" => "", "left" => "controller", "operator" => "=", "right" => "'" . $controller . "'"),
-									array("link" => "AND", "left" => "action", "operator" => "=", "right" => "'" . $action . "'")))
+							->where(array(array("link" => "", "left" => "controller", "operator" => "=", "right" => $controller),
+									array("link" => "AND", "left" => "action", "operator" => "=", "right" => $action)))
 							->getQuery();
 			try {
-			$resultat = $this->_pdoHelper->Select($request);
+				$resultat = $this->_pdoHelper->Select($request);
 
-			$RouteUrl = new entities\RouteUrl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
+				$RouteUrl = new entities\RouteUrl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
 
-			return $RouteUrl;
+				return $RouteUrl;
 			} catch (\PDOException $e) {
-			print $e->getMessage();
+				print $e->getMessage();
 			}
 			return array();
 		}

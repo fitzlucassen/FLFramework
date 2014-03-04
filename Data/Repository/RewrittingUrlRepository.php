@@ -28,7 +28,7 @@
 		 */
 		public function getByIdRouteUrl($idRoute) {
 			$request = $this->_queryBuilder->select()->from(array("rewrittingurl"))
-								->where(array(array("link" => "", "left" => "lang", "operator" => "=", "right" => "'" . $this->_lang . "'"),
+								->where(array(array("link" => "", "left" => "lang", "operator" => "=", "right" => $this->_lang),
 									      array("link" => "AND", "left" => "idRouteUrl", "operator" => "=", "right" => $idRoute)))->getQuery();
 			
 			try {
@@ -53,7 +53,7 @@
 		public static function getByIdRouteStatic($idRoute, $lang, $Connexion) {
 			$qb = new cores\QueryBuilder(true);
 			$request = $qb->select()->from(array("rewrittingurl"))
-						->where(array(array("link" => "", "left" => "lang", "operator" => "=", "right" => "'" . $lang . "'"),
+						->where(array(array("link" => "", "left" => "lang", "operator" => "=", "right" => $lang),
 								array("link" => "AND", "left" => "idRouteUrl", "operator" => "=", "right" => $idRoute)))->getQuery();
 			try {
 			    $resultat = $Connexion->Select($request);
