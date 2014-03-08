@@ -2,6 +2,8 @@
      
     namespace fitzlucassen\FLFramework\Library\Helper;
     
+    use fitzlucassen\FLFramework\Library\Core;
+
     /*
       Class : Email
       Déscription : Permet de gérer l'envoie d'e-mail
@@ -17,10 +19,14 @@
 		private $_carriage_return;
 		private $_vars;
 
+		private $_errorManager = null;
+
 		public function __construct($params = null) {
 			parent::__construct();
 			$this->_layout = "email";
 			$this->_view = "default";
+
+			$this->_errorManager = new Core\Error();
 		}
 
 		/**
@@ -93,6 +99,19 @@
 			foreach ($this->_vars as $key => $value) {
 				$$key = $value;
 			}
+
+			// On regarde si le layout et la vue de l'email existent bien
+			if(file_exists(__layout_directory__ . "/" . $this->_layout . ".php")){
+				Core\Logger::write(Adapter\EmailException::BAD_LAYOUT . " : layout email inexistant " . implode(' ', array($this->_layout)));
+				$this->_errorManager->emailLayoutDoesntExist(array($this->_layout));
+				die();
+			}
+			if(file_exists(__email_directory__ . "/" . $this->_view . ".php")){
+				Core\Logger::write(Adapter\EmailException::NO_VIEW . " : vue email inexistante " . implode(' ', array($this->_view)));
+				$this->_errorManager->emailViewDoesntExist(array($this->_view));
+				die();
+			}
+
 			// Mise en cache de la vue
 		    ob_start();
 		    include __view_directory__ . "/Email/" . $this->_view . ".php";
@@ -105,8 +124,6 @@
 		    include(__layout_directory__ . "/" . $this->_layout .".php");
 		    $email = ob_get_clean();
 
-
-		    var_dump($email);die();
 		    mail($this->_to, $this->_subject, $email, $this->_header);
 		}
 

@@ -28,6 +28,7 @@
 		private $_repositoryManager = null;
 		private $_urlRewritingObject = null;
 		private $_dispatcher = null;
+		private $_moduleManager = null;
 		
 		// Construction des objets et récupération des variables
 		public function __construct() {
@@ -65,6 +66,8 @@
 		    $this->_isInErrorPage = strpos($this->_page, '/Error/') !== false;
 		    // Initialisation du dispatcher
 		    $this->_dispatcher = new Core\Dispatcher();
+		    // Initialise le module manager
+		    $this->_moduleManager = new Core\ModuleManager();
 		    
 		    // Si on a pas de langue on session on set celle par défaut
 		    if(!$this->_session->ContainsKey("lang"))
@@ -98,24 +101,17 @@
 				$this->_url = Core\Router::GetRoute($this->_page);
 		    }
 		    
-		    $this->ManageRouting();
-		}
-		
-		/**
-		 * ManageRouting -> Renvoie false si on doit renvoyer vers la page par défaut. True sinon. Gère le routing de base
-		 * @return boolean
-		 */
-		public function ManageRouting(){
 		    if(self::$_databaseNeeded && self::$_urlRewritingNeeded && !$this->_isInErrorPage){
 				$this->_urlRewritingObject->createRouteUrl();
 		    }
-		    $this->Manage404Route();
+		    $this->Manage404();
+		    $this->ManageAction();
 		}
 		
 		/**
 		 * Manage404Route -> gère le routing vers la page 404 si la page n'existe pas
 		 */
-		public function Manage404Route(){
+		public function Manage404(){
 		    // On récupèrele nom du controller
 		    $controllerTemp = (self::$_databaseNeeded && self::$_urlRewritingNeeded && !$this->_isInErrorPage) ? $this->_urlRewritingObject->getController() : "";
 		    
@@ -155,8 +151,6 @@
 					}
 				}
 		    }
-		    
-		    $this->ManageAction();
 		}
 		
 		/**
@@ -234,36 +228,13 @@
 		public function ManageModuleException(){
 		    // On ne lance les exceptions qu'en mode debug
 		    if((self::$_isDebugMode && self::$_urlRewritingNeeded && self::$_databaseNeeded && !$this->_isInErrorPage)){
-				if(!$this->_pdo->TableExist("header")){
-				    Core\Logger::write(Adapter\ConnexionException::NO_HEADER_TABLE_FOUND . " : noHeaderTableFound ");
-				    $this->_errorManager->noHeaderTableFound(null);
-				    die();
-				}
-				if(!$this->_pdo->TableExist("routeurl") && !$this->_pdo->TableExist("rewrittingurl")){
-				    Core\Logger::write(Adapter\ConnexionException::NO_URL_REWRITING_FOUND . " : noRewritingFound ");
-				    $this->_errorManager->noRewritingFound(null);
-				    die();
-				}
-				if(!$this->_pdo->TableExist("lang")){
-				    Core\Logger::write(Adapter\ConnexionException::NO_LANG_FOUND . " : noMultilingueFound ");
-				    $this->_errorManager->noMultilingueFound(null);
-				    die();
-				}
+				$this->_moduleManager->manageNativeModuleException($this->_pdo);
 		    }
 		}
 		
 		/***********
 		 * GETTERS *
 		 ***********/
-		public function getRewrittingUrl(){
-		    return $this->_rewrittingUrl;
-		}
-		public function getRouteUrl(){
-		    return $this->_rewrittingUrl;
-		}
-		public function getRouteUrlRepository(){
-		    return $this->_routeUrlRepository;
-		}
 		public function getIsDebugMode(){
 		    return $this->_isDebugMode;
 		}

@@ -117,3 +117,7 @@
 08-03-14 18:50:43 --> not found : controllerClassDoesntExist \fitzlucassen\FLFramework\Website\MVC\Controller\Favicon.icoController.php
 08-03-14 18:50:49 --> not found : controllerClassDoesntExist \fitzlucassen\FLFramework\Website\MVC\Controller\Favicon.icoController.php
 08-03-14 18:50:50 --> not found : controllerClassDoesntExist \fitzlucassen\FLFramework\Website\MVC\Controller\Favicon.icoController.php
+08-03-14 19:03:27 --> not found : controllerClassDoesntExist \fitzlucassen\FLFramework\Website\MVC\Controller\Favicon.icoController.php
+08-03-14 19:03:29 --> not found : controllerClassDoesntExist \fitzlucassen\FLFramework\Website\MVC\Controller\AController.php
+08-03-14 19:03:30 --> no action : actionDoesntExist Error favicon.ico
+08-03-14 19:03:34 --> not found : controllerClassDoesntExist \fitzlucassen\FLFramework\Website\MVC\Controller\Favicon.icoController.php
