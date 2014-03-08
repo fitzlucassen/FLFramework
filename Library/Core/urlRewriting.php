@@ -12,23 +12,29 @@
     class UrlRewriting {
     	private $_langRepository = null;
     	private $_routeUrlRepository = null;
+    	private $_rewrittingUrlRepository = null;
     	private $_routeUrl = null;
     	private $_rewrittingUrl = null;
+
     	private $_repositoryManager = null;
-    	private $_langInUrl = false;
     	private $_pdo = null;
 
-    	private static $_rewrittingUrlRepository = null;
+    	private $_langInUrl = false;
+
     	private $_page;
+    	private $_url;
 
     	public function __construct($pdo){
     		$this->_pdo = $pdo;
     		$this->_session = new Helper\Session();
     		$this->_repositoryManager = new RepositoryManager($pdo, $this->_session->Read("lang"));
+    		$this->_langRepository = $this->_repositoryManager->get('Lang');
+    		$this->_rewrittingUrlRepository = $this->_repositoryManager->get('RewrittingUrl');
+    		$this->_routeUrlRepository = $this->_repositoryManager->get('Routeurl');
     	}
 
 		public function loadRoutes($page){
-			$this->_langRepository = $this->_repositoryManager->get('Lang');
+			
 			$this->_page = $page;
 			
 			// Si les langues ne sont pas encore en cache on requête en BDD
@@ -57,76 +63,19 @@
 					$this->_langInUrl = true;
 			    }
 			}
-		}
-
-		public function manageLang(){
-			// Si on est pas sur une page de langue spécifique, on set la langue par défaut en session
-		    if(!$this->_langInUrl)
-				$this->_session->Write("lang", Router::GetDefaultLanguage());
-		    
-		    return $this->_session->Read("lang");
-		}
-
-		public function isValidUrl($c, $c2, $debug, $urlRewritingNeeded){
-			if($debug || !$urlRewritingNeeded)
-				return file_exists($c2) && class_exists($c);
-		    else
-				return $c != 'Controller' && file_exists($c2) && class_exists($c);
+			return $this->_langInUrl;
 		}
 
 		public function isWrongRoute(){
 			return $this->_routeUrl->getId() == 0;
 		}
 
-		public function redirectTo404IfNeeded($isValidUrl, $databaseNeeded, $urlRewritingNeeded, $url){
-			// Si l'url n'existe pas on redirige vers la page 404
-		    if((!$isValidUrl && (!$databaseNeeded || !$urlRewritingNeeded)) || (!$isValidUrl && $this->_routeUrl->getId() == 0) || ($url["debug"] == "default" && $this->_page != '/')){
-				Logger::write("Redirection vers la page 404 sur l'url : " . $this->_page);
-			
-				// On récupère les objet routeurl et rewrittingurl de la page 404
-				if(isset($this->_routeUrlRepository)){
-				    $this->_routeUrl = $this->_routeUrlRepository->getByRouteName('error404');
-				    $this->_rewrittingUrl = $this->_rewrittingUrlRepository->getByIdRouteUrl($this->_routeUrl->getId());
-				}
-				
-				// Si on a pas le module rewriting alors on redirige vers l'url 404 brute
-				// Sinon on redirige vers l'url 404 rewrité
-				
-				if((!$databaseNeeded || !$urlRewritingNeeded) || $this->_routeUrl->getId() == 0){
-				    header('location: ' . __site_url__ . '/Home/error404');
-				    die();
-				}
-				else{
-				    header('location:' . Router::ReplacePattern($this->_rewrittingUrl->getUrlMatched(), $this->_page));
-				    die();
-				}
-		    }
-		}
-
-		/***********
-		 * GETTERS *
-		 ***********/
-		public static function getUrl($page, $db, $errorPage, $repositoryManager){
-			$url = "";
-			// On récupère le controller et l'action de l'url
-		    if($db && !$errorPage){
-				self::$_rewrittingUrlRepository = $repositoryManager->get('RewrittingUrl');
-				$url = self::$_rewrittingUrlRepository->getByUrlMatched($page);
-		    }
-		    else {
-				$url = Router::GetRoute($page);
-		    }
-		    return $url;
-		}
-
-		public function getRouteUrl($url){
-			$this->_routeUrlRepository = $this->_repositoryManager->get('RouteUrl');
-				
+		public function createRouteUrl(){				
 			// S'il n'y a aucune route en base matchant cette url, ou que l'url est '/'
-			if(!isset($url['controller']) || empty($url['controller']) || ($url["debug"] == "default" && $this->_page == '/')){
+			if(!isset($this->_url['controller']) || empty($this->_url['controller']) || ($this->_url["debug"] == "default" && $this->_page == '/')){
 			    // On récupère la route de la homepage et on en déduit l'objet rewritting
 			    $this->_routeUrl = $this->_routeUrlRepository->getByRouteName('home');
-			    $this->_rewrittingUrl = self::$_rewrittingUrlRepository->getByIdRouteUrl($this->_routeUrl->getId());
+			    $this->_rewrittingUrl = $this->_rewrittingUrlRepository->getByIdRouteUrl($this->_routeUrl->getId());
 			    
 			    header('location: ' . $this->_rewrittingUrl->getUrlMatched());
 			    die();
@@ -134,10 +83,30 @@
 			// Sinon on récupère la route grâce à l'url rewritté
 			else {
 			    // Via cette url on récupère l'objet route correspondant
-			    $this->_routeUrl = $this->_routeUrlRepository->getByControllerAction($url['controller'], $url['action']);
+			    $this->_routeUrl = $this->_routeUrlRepository->getByControllerAction($this->_url['controller'], $this->_url['action']);
 			}
 		}
 
+		public function redirectTo404(){
+			// On récupère les objet routeurl et rewrittingurl de la page 404
+		    $this->_routeUrl = $this->_routeUrlRepository->getByRouteName('error404');
+		    $this->_rewrittingUrl = $this->_rewrittingUrlRepository->getByIdRouteUrl($this->_routeUrl->getId());
+
+		    header('location:' . Router::ReplacePattern($this->_rewrittingUrl->getUrlMatched(), $this->_page));
+		    die();
+		}
+
+		/***********
+		 * GETTERS *
+		 ***********/
+		public function getUrl(){
+			$this->_url = $this->_rewrittingUrlRepository->getByUrlMatched($this->_page);
+
+		    return $this->_url;
+		}
+		public function getPage(){
+			return $this->_page;
+		}
 		public function getController(){
 			return isset($this->_routeUrl) ? $this->_routeUrl->getController() : "";
 		}
@@ -146,10 +115,8 @@
 			return isset($this->_routeUrl) ? $this->_routeUrl->getAction() : "";
 		}
 
-		public function getControllerName($validUrl, $db, $rewriteNeeded, $errorPage){
-			if(!$db || !$rewriteNeeded || $errorPage || ($validUrl && $this->_routeUrl->getId() == 0))
-				return $this->_CONTROLLER_NAMESPACE . $url['controller'] . "Controller";
-		    else
-				return $this->_CONTROLLER_NAMESPACE . $this->_routeUrl->getController() . 'Controller';
-		}
+		/***********
+		 * SETTERS *
+		 ***********/
+		
 	}
