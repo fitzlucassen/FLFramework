@@ -21,7 +21,7 @@
 
 		private $_errorManager = null;
 
-		public function __construct($params = null) {
+		public function __construct() {
 			parent::__construct();
 			$this->_layout = "email";
 			$this->_view = "default";
