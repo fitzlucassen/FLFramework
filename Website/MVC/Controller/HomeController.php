@@ -18,7 +18,7 @@
 		    // Une action commencera toujours par l'initilisation de son modèle
 		    // Cette initialisation doit obligatoirement contenir le repository manager
 		    $Model = new models\HomeModel($this->_repositoryManager);
-		    
+		    		    
 		    // Une action finira toujours par un $this->_view->ViewCompact contenant : 
 		    // cette fonction prend en paramètre le modèle
 		    $this->_view->ViewCompact($Model);
