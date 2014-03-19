@@ -10,102 +10,92 @@
 		private $_title;	    	// String				Titre du flux RSS.
 		private $_link;		    	// String				Lien du flux RSS.
 		private $_description;	    // String				Description du flux RSS.
+		private $_pubDate;			// String 				Date de publication
 		private $_items;	    	// String				Collection des items du flux.
-		private $_attributs = array(// String				Liste des attributs du flux. Si faux, il n'est pas affiché.
-		    "title" => "title",
-		    "link" => "link",
-		    "guid" => "guid",
-		    "ispermalink" => "True",
-		    "description" => "description",
-		    "pubDate" => "pubDate"
-		);
 
 		/*
 		  Constructeur
 		 */
-		public function __construct($params = null) {
-		    if ($params !== null && is_array($params)) {
-				if (array_key_exists("title", $params))
-				    $this->_title = $params["title"];
-				elseif (array_key_exists("link", $params))
-				    $this->_link = $params["link"];
-				elseif (array_key_exists("description", $params))
-				    $this->_description = $params["description"];
-				elseif (array_key_exists("items", $params))
-				    $this->_items = $params["items"];
-				elseif (array_key_exists("attributs", $params))
-				    $this->_attributs = $params["attributs"];
-		    }
+		public function __construct() {
+		    parent::__construct();
 		}
 
 		/**********
 		  Setters *
 		 **********/
 
-		public function SetTitle($title) {
+		public function setTitle($title) {
 		    $this->_title = $title;
+		    return $this;
 		}
-		public function SetLink($link) {
+		public function setLink($link) {
 		    $this->_link = $link;
+		    return $this;
 		}
-		public function SetDescription($description) {
+		public function setDescription($description) {
 		    $this->_description = $description;
+		    return $this;
 		}
-		public function SetItems($items) {
-		    $this->_items = $items;
+		public function setPublicationDate($date) {
+		    $this->_pubDate = $date;
+		    return $this;
 		}
-		public function SetAttribut($attribut, $value) {
-		    $this->_attributs[$attribut] = $value;
-		}
-		public function SetAllAttributs($attributs) {
-		    $this->_attributs = $attributs;
-		}
-
-		/**
-		 * __toString -> affiche le RSS
-		 */
-		public function __toString() {
-		    $this->toPrint();
+		public function setItems($items) {
+			if(is_array($items))
+		    	$this->_items = $items;
+		    else
+		    	return false;
 		}
 
 		/**
-		 * ToPrint -> affiche le RSS
+		 * display -> affiche le RSS
 		 */
-		private function ToPrint() {
-		    header('Content-type: text/xml');
-		    echo "<rss version=\"2.0\">\n<channel>\n<title>" . $this->_title . "</title>\n<link>" . $this->_link . "</link>\n<description>" . $this->_description . "</description>\n";
+		public function display($echo = false) {
+		    $html = "";
+		    $html .= "<rss version=\"2.0\">\n\t<channel>\n\t\t<title>" . $this->_title . "</title>\n\t\t<link>" . $this->_link . "</link>\n\t\t<description>" . $this->_description . "</description>\n";
 
-		    $guid = $this->_attributs["guid"];
-		    $ispermalink = $this->_attributs["ispermalink"];
-		    $pubDate = $this->_attributs["pubDate"];
+		    if(isset($this->_pubDate) && !empty($this->_pubDate))
+		    	$html .= "\t\t<pubDate>" . $this->_pubDate . "</pubDate>\n";
 
 		    foreach ($this->_items as $item) {
-				if (is_object($item)) {
-				    $title = $item->title;
-				    $link = $item->link;
-				    $guid = $item->guid;
-				    $description = $item->description;
-				    $pubDate = $item->pubDate;
-				} elseif (is_array($item)) {
-				    $title = $item["title"];
-				    $link = $item["link"];
-				    $guid = $item["guid"];
-				    $description = $item["description"];
-				    $pubDate = $item["date"];
+				if (is_array($item)) {
+					if(isset($item["title"]))
+				    	$title = $item["title"];
+				    if(isset($item["link"]))
+				   		$link = $item["link"];
+				    if(isset($item["guid"]))
+				    	$guid = $item["guid"];
+				    if(isset($item["description"]))
+				    	$description = $item["description"];
+				    if(isset($item["pubDate"]))
+				    	$pubDate = $item["pubDate"];
+				    if(isset($item["pubDate"]))
+				    	$author = $item["author"];
 				}
-				echo"\t<item>\n";
-				if ($title)
-				    echo"\t\t<title>" . $title . "</title>\n";
-				if ($link)
-				    echo"\t\t<link>" . $link . "</link>\n";
-				if ($guid)
-				    echo"\t\t<guid isPermaLink=\"" . $ispermalink . "\">" . $guid . "</guid>\n";
-				if ($description)
-				    echo"\t\t<description><![CDATA[" . strip_tags($description) . "]]></description>\n";
-				if ($pubDate)
-				    echo"\t\t<pubDate>" . $pubDate . "</pubDate>\n";
-				echo "\t</item>\n";
+				else
+					return false;
+
+				$html .= "\t<item>\n";
+				if (isset($title))
+				    $html .= "\t\t<title>" . $title . "</title>\n";
+				if (isset($link))
+				    $html .= "\t\t<link>" . $link . "</link>\n";
+				if (isset($description))
+				    $html .= "\t\t<description><![CDATA[" . strip_tags($description) . "]]></description>\n";
+				if (isset($guid))
+				    $html .= "\t\t<guid isPermaLink=\"true\">" . $guid . "</guid>\n";
+				if (isset($pubDate))
+				    $html .= "\t\t<pubDate>" . $pubDate . "</pubDate>\n";
+				if (isset($author))
+				    $html .= "\t\t<author>" . $author . "</author>\n";
+				
+				$html .=  "\t</item>\n";
 		    }
-		    echo "</channel>\n</rss>";
+		    $html .=  "</channel>\n</rss>";
+
+		    if($echo)
+		    	echo $html;
+		    else
+		    	return $html;
 		}
     }
