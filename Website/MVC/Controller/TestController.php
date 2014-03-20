@@ -71,10 +71,10 @@
 		    
 		    $Form = new Helper\Form();
 
-		    if($Form->isGet() || $Form->isPost()){
+		    if(Core\Request::isPost() || Core\Request::isPost()){
 		    	// It's a form validation
 		    	// Clean all vars
-		    	$Form->cleanRequest();
+		    	$data = Core\Request::cleanRequest();
 
 		    	// Process request...
 		    }
@@ -213,7 +213,13 @@
 		public function TestUpload(){
 		    $Model = new Model\HomeModel($this->_repositoryManager);
 		    
-		    
+		    if(Core\Request::isFile()){
+		    	// Initialize the upload helper with the upload directory path
+		    	$Upload = new Helper\Upload("upload_test");
+		    	// Give the file and then upload
+		    	$Upload->file($_FILES["file"]);
+		    	$Upload->upload();
+		    }
 		    
 		    $this->_view->ViewCompact($Model);
 		}

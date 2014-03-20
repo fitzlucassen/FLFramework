@@ -7,6 +7,3 @@
     // START CONTENT
     // Intégrer ci-dessous la vue
 ?>
-
-<div class="homePage">
-</div>

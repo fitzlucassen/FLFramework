@@ -7,46 +7,6 @@
      * Déscription : Permet de gérer les formulaires de façon automatique
      */
     class Form extends Helper{
-
-		public function __construct() {
-			parent::__construct();
-		}
-		
-		/**
-		 * IsPost
-		 * @return boolean
-		 */
-		public function isPost(){
-		    return isset($_POST) && !empty($_POST);
-		}
-		
-		/**
-		 * IsGet
-		 * @return boolean
-		 */
-		public function isGet(){
-		    return isset($_GET) && !empty($_GET);
-		}
-		
-		/**
-		 * CleanPost
-		 * @return array
-		 */
-		public function cleanRequest(){
-		    $params = array();
-		    $vars = $this->IsPost() ? $_POST : $_GET;
-		    
-		    foreach($vars as $key => $value){
-				if(gettype($value) == "string"){
-				    $params[$key] = htmlspecialchars($value);
-				}
-				else if(in_array(gettype($value), array('integer', 'double'))){
-				    $params[$key] = intval($value);
-				}
-		    }
-		    
-		    return $params;
-		}
 		
 		/**
 		 * Open -> open a new html form
