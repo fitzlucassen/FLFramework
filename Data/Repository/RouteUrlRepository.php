@@ -138,6 +138,28 @@
 			}
 			return array();
 		}
+
+		public function getBy($key, $value){
+			$query = $this->_queryBuilder->select()->from(array("routeurl"))->where(array(
+				array(
+					"link" => "", "left" => $key, "operator" => "=", "right" => $value
+				)))->getQuery();
+			
+			try {
+				$result = $this->_pdo->SelectTable($query);
+				$array = array();
+				foreach ($result as $object){
+				    $o = new entities\Routeurl();
+				    $o->fillObject($object);
+				    $array[] = $o;
+				}
+				return $array;
+			}
+			catch(PDOException $e){
+				print $e->getMessage();
+			}
+			return array();
+		}
 		/*******
 		 * END *
 		 *******/

@@ -12,6 +12,9 @@
 		 */
 		public function __construct() {
 			parent::__construct();
+		    if (session_status() == PHP_SESSION_NONE) {
+			    session_start();
+			}
 		}
 
 		/*
@@ -38,6 +41,14 @@
 		 */
 		public function Clear($key) {
 		    unset($_SESSION[$key]);
+		}
+
+		/*
+		  clearAll
+		  supprime toute la session
+		 */
+		public function ClearAll() {
+		    session_destroy();
 		}
 
 		/*

@@ -10,6 +10,6 @@ TODO
 - JS library
 - Cache for views
 - Module manager
-- Dispatcher refactoring
+- Router refactoring
 - Databases prefix
 - Module de traduction (i18n)

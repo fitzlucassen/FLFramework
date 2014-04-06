@@ -49,10 +49,14 @@
 	    include __view_directory__ . "/" . $this->_controller . "/" . $this->_action . ".php";
 	    $content = ob_get_clean();
 	    
-	    // On récupère le contenue en cache
-	    $this->Head = $head;
+	    // On récupère le contenue en cache (si layout rss --> on n'a pas de head)
+	    if($this->_layout !== "rss")
+	    	$this->Head = $head;
+	    else
+	    	$this->Head = "";
+
 	    $this->Body = $content;	    
-	    
+
 	    // Et on inclue le layout/vue
 	    if(file_exists(__layout_directory__ . "/" . $this->_layout .".php"))
 			include(__layout_directory__ . "/" . $this->_layout .".php");

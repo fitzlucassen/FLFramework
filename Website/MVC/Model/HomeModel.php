@@ -7,7 +7,7 @@
       Déscription : Model de donnée pour les pages du controller home
      */
     class HomeModel extends Model{
-	public function __construct($manager) {
-	    parent::__construct($manager);
-	}
+        public function __construct($manager) {
+            parent::__construct($manager);
+        }
     }

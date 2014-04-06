@@ -368,6 +368,24 @@
 	    $source .= FileManager::getTab(3) . 'return array();' . FileManager::getBackSpace();
 	    $source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 
+	    // GetBy
+	    $source .= FileManager::getTab(2) . FileManager::getPrototype("getBy") . '($key, $value){' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->select()->from(array("' . $tableName . '"))' . '
+										->where(array(array("link" => "", "left" => $key, "operator" => "=", "right" => $value)))->getQuery();' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(4) . '$properties = $this->_pdoHelper->SelectTable($query);' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(4) . '$array = array();' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(4) . 'foreach ($properties as $object){' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(5) . '$o = new entities\\' . ucwords($tableName) . '();' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(5) . '$o->fillObject($object);' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(5) . '$array[] = $o;' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(4) . '}' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(4) . 'return $array;' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(3) . '}' . FileManager::getBackSpace() . FileManager::getTab(3) .  "catch(PDOException " . '$e){' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(4) . 'print $e->getMessage();' . FileManager::getBackSpace() . FileManager::getTab(3) ."}" . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(3) . 'return array();' . FileManager::getBackSpace();
+	    $source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
+
 	    // Delete
 	    $source .= FileManager::getTab(2) . FileManager::getPrototype("delete") . '($id) {' . FileManager::getBackSpace();
 	    $source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->delete("' . $tableName . '")
