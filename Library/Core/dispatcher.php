@@ -40,7 +40,7 @@
     		// On vérifie que le fichier de la classe de ce controller existe bien
 			// Sinon on lance une exception en mode debug OU on redirige vers la page 404 en mode non debug
 			$controllerFile =  $this->_controllerName . '.php';
-			if(!file_exists(str_replace($this->_FLF_NAMESPACE, '', $controllerFile))){
+			if(!file_exists(str_replace('\\', '/', str_replace($this->_FLF_NAMESPACE, '', $controllerFile)))){
 				throw new Adapter\ControllerException(Adapter\ControllerException::NOT_FOUND, array('file' => $controllerFile));
 			}
 
