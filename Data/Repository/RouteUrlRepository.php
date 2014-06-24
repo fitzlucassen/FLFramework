@@ -34,7 +34,7 @@
 			try {
 				$resultat = $this->_pdoHelper->Select($request);
 
-				$RouteUrl = new entities\RouteUrl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
+				$RouteUrl = new entities\Routeurl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
 
 				return $RouteUrl;
 			} catch (\PDOException $e) {
@@ -58,7 +58,7 @@
 			try {
 				$resultat = $this->_pdoHelper->Select($request);
 
-				$RouteUrl = new entities\RouteUrl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
+				$RouteUrl = new entities\Routeurl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
 
 				return $RouteUrl;
 			} catch (\PDOException $e) {

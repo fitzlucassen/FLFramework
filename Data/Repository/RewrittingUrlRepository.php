@@ -34,7 +34,7 @@
 			try {
 			    $resultat = $this->_pdoHelper->Select($request);
 
-			    $RewrittingUrl = new entities\RewrittingUrl($resultat["id"], $resultat["idRouteUrl"], $resultat["urlMatched"], $resultat["lang"]);
+			    $RewrittingUrl = new entities\Rewrittingurl($resultat["id"], $resultat["idRouteUrl"], $resultat["urlMatched"], $resultat["lang"]);
 
 			    return $RewrittingUrl;
 			} catch (\PDOException $e) {
@@ -58,7 +58,7 @@
 			try {
 			    $resultat = $Connexion->Select($request);
 
-			    $RewrittingUrl = new entities\RewrittingUrl($resultat["id"], $resultat["idRouteUrl"], $resultat["urlMatched"], $resultat["lang"]);
+			    $RewrittingUrl = new entities\Rewrittingurl($resultat["id"], $resultat["idRouteUrl"], $resultat["urlMatched"], $resultat["lang"]);
 
 			    return $RewrittingUrl;
 			} catch (\PDOException $e) {
