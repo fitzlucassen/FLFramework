@@ -56,20 +56,20 @@
 		    }
 		}
 		
-	       /***********
-	        * GETTERS *
-	        ***********/
-	       public static function getCacheFolder(){
-		   return self::$_cacheFolder;
-	       }
-	       
-	       /***********
-	        * SETTERS *
-	        ***********/
-	       public static function setCacheFolder($arg){
-		   self::$_cacheFolder = $arg;
-	       }
-	       public static function setExpireTime($arg){
-		    self::$_expireTime = $arg;
+       /***********
+        * GETTERS *
+        ***********/
+       	public static function getCacheFolder(){
+	   		return self::$_cacheFolder;
+       	}
+       
+       /***********
+        * SETTERS *
+        ***********/
+       	public static function setCacheFolder($arg){
+	   		self::$_cacheFolder = $arg;
+       	}
+   		public static function setExpireTime($arg){
+	    	self::$_expireTime = $arg;
 		}
     }

@@ -34,22 +34,12 @@
 		public function __construct() {
 		    $this->initialize();
 		    
-		    // Initialisation base de données sauf si on est sur une page d'erreur
-		    if(!isset($this->_pdo) && self::$_databaseNeeded && !$this->_isInErrorPage){
-				try{
-				    $this->_pdo = new Core\Sql();
-				    $this->_repositoryManager = new Core\RepositoryManager($this->_pdo, $this->_session->read('lang'));
-		    		$this->_urlRewritingObject = new Core\UrlRewriting($this->_pdo);
-				}
-				catch(Adapter\ConnexionException $e){
-				    $this->_errorManager->noConnexionAvailable();
-				    die();	
-				}
-		    }
-		    
 		    $this->run();
 		}
 		
+		/**
+		 * initialize -> initialisation de l'app
+		 */
 		public function initialize(){
 		    // L'url cible
 		    $this->_page = $_SERVER['REQUEST_URI'];
@@ -70,12 +60,25 @@
 		    $this->_moduleManager = new Core\ModuleManager();
 		    
 		    // Si on a pas de langue on session on set celle par défaut
-		    if(!$this->_session->ContainsKey("lang"))
-				$this->_session->Write("lang", Core\Router::GetDefaultLanguage());
+		    if(!$this->_session->ContainsKey("FLFramework.lang"))
+				$this->_session->Write("FLFramework.lang", Core\Router::GetDefaultLanguage());
+
+			// Initialisation base de données sauf si on est sur une page d'erreur
+		    if(self::$_databaseNeeded && !$this->_isInErrorPage){
+				try{
+				    $this->_pdo = new Core\Sql();
+				    $this->_repositoryManager = new Core\RepositoryManager($this->_pdo, $this->_session->read("FLFramework.lang"));
+		    		$this->_urlRewritingObject = new Core\UrlRewriting($this->_pdo);
+				}
+				catch(Adapter\ConnexionException $e){
+				    $this->_errorManager->noConnexionAvailable();
+				    die();	
+				}
+		    }
 		}
 		
 		/**
-		 * run -> initialisation de l'app
+		 * run -> lancement de l'app
 		 */
 		public function run(){	
 		    // On vérifie que tous les modules quasi indispensable sont inclus.
@@ -84,26 +87,24 @@
 		    
 		    $langInUrl = false;
 		    
-		    // On récupère les routes en base de données seulement si a une base de données
+		    // On récupère les routes en base de données seulement si on a une base de données
 		    if(self::$_databaseNeeded && self::$_urlRewritingNeeded && !$this->_isInErrorPage){
 				$langInUrl = $this->_urlRewritingObject->loadRoutes($this->_page);
 		    }
 		    
 		    // Si on est pas sur une page de langue spécifique, on set la langue par défaut en session
 		    if(!$langInUrl)
-				$this->_session->Write("lang", Core\Router::GetDefaultLanguage());
+				$this->_session->Write("FLFramework.lang", Core\Router::GetDefaultLanguage());
 		    
 		    // On récupère le controller et l'action de l'url
 		    if(self::$_databaseNeeded && self::$_urlRewritingNeeded && !$this->_isInErrorPage){
 				$this->_url = $this->_urlRewritingObject->getUrl();
+				$this->_urlRewritingObject->createRouteUrl();
 		    }
 		    else {
 				$this->_url = Core\Router::GetRoute($this->_page);
 		    }
 		    
-		    if(self::$_databaseNeeded && self::$_urlRewritingNeeded && !$this->_isInErrorPage){
-				$this->_urlRewritingObject->createRouteUrl();
-		    }
 		    $this->Manage404();
 		    $this->ManageAction();
 		}
