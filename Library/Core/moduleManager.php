@@ -2,6 +2,8 @@
      
     namespace fitzlucassen\FLFramework\Library\Core;
 
+    use fitzlucassen\FLFramework\Library\Adapter;
+
     /*
       Class : ModuleManager
       Déscription : 
