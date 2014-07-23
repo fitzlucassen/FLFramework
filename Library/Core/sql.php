@@ -2,7 +2,7 @@
 
     namespace fitzlucassen\FLFramework\Library\Core;
     
-    use fitzlucassen\FLFramework\Library\Adapter as adapters;
+    use fitzlucassen\FLFramework\Library\Adapter;
 
     /*
       Class : SQL
@@ -30,7 +30,7 @@
 		    } 
 		    catch(\PDOException $e) { 
 				//On indique par email qu'on n'a plus de connection disponible 
-				throw new adapters\ConnexionException(adapters\ConnexionException::getNO_DB_FOUND(), null);
+				throw new Adapter\ConnexionException(Adapter\ConnexionException::getNO_DB_FOUND(), null);
 		    } 
 		}
 		
@@ -52,10 +52,8 @@
 		    catch (\Exception $e)  
 		    { 
 				//On indique par email que la requête n'a pas fonctionné. 
-				error_log(date('D/m/y').' à '.date("H:i:s").' : '.$e->getMessage(), 1, $this->_email); 
 				$this->_con->rollBack(); 
-				$message = new Message(); 
-				$message->outPut('Erreur dans la requêtte', 'Votre requête a été abandonné'); 
+				throw new Adapter\ConnexionException(Adapter\ConnexionException::getQUERY_FAILED(), array("message" => $e->getMessage()));
 		    } 
 		}
 		
@@ -65,23 +63,24 @@
 		 * @return array
 		 */
 		public function SelectTable($reqSelect) {
-		    $this->_con->beginTransaction();
-		    $result = $this->_con->prepare($reqSelect); 
-		    $result->execute();
-		    $this->_con->commit();
-		    
-		    /* Récupération de toutes les lignes d'un jeu de résultats "équivalent à mysql_num_row() " */ 
-		    $resultat = $result->fetchAll(); 
-		    return $resultat; 
+			try 
+		    { 
+			    $this->_con->beginTransaction();
+			    $result = $this->_con->prepare($reqSelect); 
+			    $result->execute();
+			    $this->_con->commit();
+			    
+			    /* Récupération de toutes les lignes d'un jeu de résultats "équivalent à mysql_num_row() " */ 
+			    $resultat = $result->fetchAll(); 
+			    return $resultat; 
+			}
+			catch (\Exception $e)  
+		    { 
+				//On indique par email que la requête n'a pas fonctionné. 
+				$this->_con->rollBack(); 
+				throw new Adapter\ConnexionException(Adapter\ConnexionException::getQUERY_FAILED(), array("message" => $e->getMessage()));
+		    } 
 		} 
-		
-		/*
-		 * Gestion des erreurs
-		 */
-		public static function Exception_handler($exception) {
-            // Output the exception details
-            die('Uncaught exception: ' . $exception->getMessage());
-        }
 		
 		/**
 		 * TableExist --> Retourne vrai si la table existe en bdd, faux sinon

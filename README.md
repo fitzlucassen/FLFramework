@@ -7,7 +7,6 @@ I don't want to be as stronger and complex than Zend or Symphony but I just want
 TODO
 ===========
 
-- Change error manager in Sql
 - Manage error in query builder (where clause)
 - Try catch refactoring
 - JS library
