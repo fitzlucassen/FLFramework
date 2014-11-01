@@ -37,3 +37,7 @@
 <!--[if lt IE 9]>
 	<script src="<?php echo __js_directory__  ; ?>/Base/html5shiv.js"></script>
 <![endif]-->
+
+<?php
+	include(__partial_directory__ . "/tracking.php");
+?>
