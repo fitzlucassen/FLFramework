@@ -20,12 +20,12 @@ Array.prototype.insertAt = function (o, index) {
 Array.prototype.insertBefore = function (o, toInsert) {
 	var inserted = false;
 	var index = this.indexOf(o);
-	if (index == -1) {
+	if (index === -1) {
 		return false;
 	}
 	else {
-		if (index == 0) {
-			this.unshift(toInsert)
+		if (index === 0) {
+			this.unshift(toInsert);
 			return true;
 		}
 		else {
