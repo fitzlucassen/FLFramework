@@ -23,4 +23,4 @@
     define("__model_directory__", __website_directory__ . "/" . "MVC/Model");
     
     define("__layout_directory__", __view_directory__ . "/" . "Layout");
-    define("__email_directory__", __view_directory__ . "/" . "email");
+    define("__email_directory__", __view_directory__ . "/" . "Email");

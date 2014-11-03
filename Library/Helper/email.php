@@ -83,11 +83,11 @@
 		public function buildHeaders() {
 			$this->setCarriageReturn();
 
-		    $this->headers = 'MIME-Version: 1.0' . $this->_carriage_return;
-		    $this->headers .= 'Content-type: text/html; charset=UTF-8' . $this->_carriage_return;
+		    $this->_header = 'MIME-Version: 1.0' . $this->_carriage_return;
+		    $this->_header .= 'Content-type: text/html; charset=UTF-8' . $this->_carriage_return;
 
-		    $this->headers .= 'To: ' . $this->_to . $this->_carriage_return;
-		    $this->headers .= 'From: FLFramework, Personne : ' . $this->_fromName . ' <' . $this->_from . '>' . $this->_carriage_return;
+		    $this->_header .= 'To: ' . $this->_to . $this->_carriage_return;
+		    $this->_header .= 'From: FLFramework, Personne : ' . $this->_fromName . ' <' . $this->_from . '>' . $this->_carriage_return;
 
 		    return $this;
 		}
@@ -101,12 +101,12 @@
 			}
 
 			// On regarde si le layout et la vue de l'email existent bien
-			if(file_exists(__layout_directory__ . "/" . $this->_layout . ".php")){
+			if(!file_exists(__layout_directory__ . "/" . $this->_layout . ".php")){
 				Core\Logger::write(Adapter\EmailException::BAD_LAYOUT . " : layout email inexistant " . implode(' ', array($this->_layout)));
 				$this->_errorManager->emailLayoutDoesntExist(array($this->_layout));
 				die();
 			}
-			if(file_exists(__email_directory__ . "/" . $this->_view . ".php")){
+			if(!file_exists(__email_directory__ . "/" . $this->_view . ".php")){
 				Core\Logger::write(Adapter\EmailException::NO_VIEW . " : vue email inexistante " . implode(' ', array($this->_view)));
 				$this->_errorManager->emailViewDoesntExist(array($this->_view));
 				die();
