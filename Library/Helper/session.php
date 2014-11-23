@@ -12,7 +12,7 @@
 		 */
 		public function __construct() {
 			parent::__construct();
-		    if (session_status() == PHP_SESSION_NONE) {
+		    if (!$this->session_is_active()) {
 			    session_start();
 			}
 		}
@@ -57,5 +57,22 @@
 		 */
 		public function ContainsKey($key) {
 		    return (isset($_SESSION[$key]));
+		}
+
+		private function session_is_active() {
+		    $setting = 'session.use_trans_sid';
+		    $current = ini_get($setting);
+
+		    if (FALSE === $current)
+		    {
+		        throw new UnexpectedValueException(sprintf('Setting %s does not exists.', $setting));
+		    }
+
+		    $testate = "mix$current$current";
+		    $old = @ini_set($setting, $testate);
+		    $peek = @ini_set($setting, $current);
+		    $result = $peek === $current || $peek === FALSE;
+
+		    return $result;
 		}
     }

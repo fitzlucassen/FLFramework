@@ -14,7 +14,6 @@
 		const NO_HEADER_TABLE_FOUND = "no header";
 		const NO_URL_REWRITING_FOUND = "no rewriting";
 		const NO_LANG_FOUND = "no lang";
-		const QUERY_FAILED = "query failed";
 		
 		 /*
 		  Constructeur
@@ -39,9 +38,6 @@
 		}
 		public static function getNO_LANG_FOUND() {
 		    return self::NO_LANG_FOUND;
-		}
-		public static function getQUERY_FAILED() {
-		    return self::QUERY_FAILED;
 		}
 		public function getType(){
 		    return $this->_typeError;

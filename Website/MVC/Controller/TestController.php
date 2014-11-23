@@ -14,6 +14,25 @@
 		public function __construct($action, $manager) {
 		    parent::__construct("test", $action, $manager);
 		}
+
+		public function TestCdiscount(){
+		    $Model = new Model\HomeModel($this->_repositoryManager);
+		    	
+		    $Cdiscount = new Helper\Cdiscount($this->_repositoryManager);
+
+		    $Cdiscount->request('Search', array(
+		    	"SearchRequest" => array(
+				    "Keyword" => "tablette",
+				    "SortBy" => "relevance",
+				    "Pagination" => array(
+						"ItemsPerPage" => 5,
+						"PageNumber" => 0
+					)
+				)
+			));
+		    die();
+		    $this->_view->ViewCompact($Model);
+		}
 		
 		public function TestAuth(){
 		    $Model = new Model\HomeModel($this->_repositoryManager);

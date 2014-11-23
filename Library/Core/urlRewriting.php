@@ -27,11 +27,11 @@
     	public function __construct($pdo){
     		$this->_pdo = $pdo;
     		$this->_session = new Helper\Session();
-    		$this->_repositoryManager = new RepositoryManager($pdo, $this->_session->Read("FLFramework.lang"));
+    		$this->_repositoryManager = new RepositoryManager($pdo, $this->_session->Read("lang"));
     		
     		$this->_langRepository = $this->_repositoryManager->get('Lang');
-    		$this->_rewrittingUrlRepository = $this->_repositoryManager->get('RewrittingUrl');
-    		$this->_routeUrlRepository = $this->_repositoryManager->get('RouteUrl');
+    		$this->_rewrittingUrlRepository = $this->_repositoryManager->get('Rewrittingurl');
+    		$this->_routeUrlRepository = $this->_repositoryManager->get('Routeurl');
     	}
 
 		public function loadRoutes($page){
@@ -60,7 +60,7 @@
 			    
 			    // Si on est sur une page de langue spécifique alors on change la langue en session
 			    if(strpos($this->_page, "/" . $thisLang->getCode() . "/") === 0){
-					$this->_session->Write("FLFramework.lang", $thisLang->getCode());
+					$this->_session->Write("lang", $thisLang->getCode());
 					$this->_langInUrl = true;
 			    }
 			}
@@ -102,7 +102,6 @@
 		 ***********/
 		public function getUrl(){
 			$this->_url = $this->_rewrittingUrlRepository->getByUrlMatched($this->_page);
-
 		    return $this->_url;
 		}
 		public function getPage(){

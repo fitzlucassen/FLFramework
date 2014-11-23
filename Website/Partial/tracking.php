@@ -4,7 +4,7 @@
 	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  	ga('create', '[[YOUR UID]]', 'auto');
+  	ga('create', '[[YOUR-UAID]]', 'auto');
   	ga('send', 'pageview');
 	ga('require', 'displayfeatures');
 

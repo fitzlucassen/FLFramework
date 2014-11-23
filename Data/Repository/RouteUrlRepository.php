@@ -34,7 +34,7 @@
 			try {
 				$resultat = $this->_pdoHelper->Select($request);
 
-				$RouteUrl = new entities\RouteUrl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
+				$RouteUrl = new entities\Routeurl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
 
 				return $RouteUrl;
 			} catch (\PDOException $e) {
@@ -58,7 +58,7 @@
 			try {
 				$resultat = $this->_pdoHelper->Select($request);
 
-				$RouteUrl = new entities\RouteUrl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
+				$RouteUrl = new entities\Routeurl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
 
 				return $RouteUrl;
 			} catch (\PDOException $e) {
@@ -77,7 +77,7 @@
 				$result = $Connection->SelectTable($query);
 				$array = array();
 				foreach ($result as $object){
-					$o = new entities\RouteUrl();
+					$o = new entities\Routeurl();
 					$o->fillObject($object);
 					$array[] = $o;
 				}
@@ -94,7 +94,7 @@
 										->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id)))->getQuery();
 			try {
 				$properties = $this->_pdoHelper->Select($query);
-				$object = new entities\RouteUrl();
+				$object = new entities\Routeurl();
 				$object->fillObject($properties);
 				return $object;
 			}
@@ -149,7 +149,7 @@
 				$result = $this->_pdo->SelectTable($query);
 				$array = array();
 				foreach ($result as $object){
-				    $o = new entities\RouteUrl();
+				    $o = new entities\Routeurl();
 				    $o->fillObject($object);
 				    $array[] = $o;
 				}

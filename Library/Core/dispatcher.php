@@ -61,7 +61,7 @@
     	public function executeAction($url){
     		$actionName = $this->_actionName;
 		    
-		    // Si l'action n'existe pas, alors on lance une exeption
+		    // Si l'action n'existe pas, alors soit on lance une exeption en mode debug, soit on redirige vers la page 404 en mode non debug
 		    if(!method_exists($this->_controllerName, $this->_actionName)){
 			    throw new Adapter\ControllerException(Adapter\ControllerException::ACTION_NOT_FOUND, array("controller" => $url['controller'], "action" => $url['action']));
 		    }

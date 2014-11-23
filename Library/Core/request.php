@@ -34,7 +34,7 @@
 		public static function isFile(){
 		    return isset($_FILES) && !empty($_FILES);
 		}
-		
+
 		/**
 		 * CleanPost
 		 * @return array

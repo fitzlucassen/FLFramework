@@ -11,7 +11,6 @@
 		public $_modelTarget = "";
 		public $_layoutTarget = "";
 		public $_viewTarget = "";
-		public $_message = "";
 		
 		public function __construct($manager, $params = array()) {
 		    parent::__construct($manager, $params);

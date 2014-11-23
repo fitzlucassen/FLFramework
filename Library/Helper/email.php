@@ -3,6 +3,7 @@
     namespace fitzlucassen\FLFramework\Library\Helper;
     
     use fitzlucassen\FLFramework\Library\Core;
+    use fitzlucassen\FLFramework\Library\Adapter;
 
     /*
       Class : Email
@@ -87,7 +88,7 @@
 		    $this->_header .= 'Content-type: text/html; charset=UTF-8' . $this->_carriage_return;
 
 		    $this->_header .= 'To: ' . $this->_to . $this->_carriage_return;
-		    $this->_header .= 'From: FLFramework, Personne : ' . $this->_fromName . ' <' . $this->_from . '>' . $this->_carriage_return;
+		    $this->_header .= 'From: Nouveau message ' . $this->_fromName . ' <' . $this->_from . '>' . $this->_carriage_return;
 
 		    return $this;
 		}

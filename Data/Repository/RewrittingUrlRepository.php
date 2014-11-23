@@ -34,7 +34,7 @@
 			try {
 			    $resultat = $this->_pdoHelper->Select($request);
 
-			    $RewrittingUrl = new entities\RewrittingUrl($resultat["id"], $resultat["idRouteUrl"], $resultat["urlMatched"], $resultat["lang"]);
+			    $RewrittingUrl = new entities\Rewrittingurl($resultat["id"], $resultat["idRouteUrl"], $resultat["urlMatched"], $resultat["lang"]);
 
 			    return $RewrittingUrl;
 			} catch (\PDOException $e) {
@@ -58,7 +58,7 @@
 			try {
 			    $resultat = $Connexion->Select($request);
 
-			    $RewrittingUrl = new entities\RewrittingUrl($resultat["id"], $resultat["idRouteUrl"], $resultat["urlMatched"], $resultat["lang"]);
+			    $RewrittingUrl = new entities\Rewrittingurl($resultat["id"], $resultat["idRouteUrl"], $resultat["urlMatched"], $resultat["lang"]);
 
 			    return $RewrittingUrl;
 			} catch (\PDOException $e) {
@@ -81,7 +81,7 @@
 				$result = $Connection->SelectTable($query);
 				$array = array();
 				foreach ($result as $object){
-					$o = new entities\RewrittingUrl();
+					$o = new entities\Rewrittingurl();
 					$o->fillObject($object);
 					$array[] = $o;
 				}
@@ -98,7 +98,7 @@
 								->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id)))->getQuery();
 			try {
 				$properties = $this->_pdoHelper->Select($query);
-				$object = new entities\RewrittingUrl();
+				$object = new entities\Rewrittingurl();
 				$object->fillObject($properties);
 				return $object;
 			}
@@ -153,7 +153,7 @@
 				$result = $this->_pdo->SelectTable($query);
 				$array = array();
 				foreach ($result as $object){
-				    $o = new entities\RewrittingUrl();
+				    $o = new entities\Rewrittingurl();
 				    $o->fillObject($object);
 				    $array[] = $o;
 				}

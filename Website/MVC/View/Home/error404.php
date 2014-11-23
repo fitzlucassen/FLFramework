@@ -9,4 +9,7 @@
 ?>
 
 <div class="ErrorPage">
+		<h1 class="title">Cette page n'existe pas</h1>
+
+		<p class="title">404</p>
 </div>

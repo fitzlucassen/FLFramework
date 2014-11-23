@@ -38,4 +38,8 @@
 		    
 		    return $rep;
 		}
+
+		public function getConnection(){
+			return $this->_pdo;
+		}
     }

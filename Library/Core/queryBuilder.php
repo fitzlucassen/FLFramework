@@ -35,11 +35,12 @@
 		    
 		    $cpt = 0;
 		    foreach($values as $thisValue){
-				$string .= ' ' . $thisValue;
-				if(($cpt+1) < count($values))
-				    $string .= ', ';
-				else
-				    $string .= ' ';
+			$string .= ' ' . $thisValue;
+			if(($cpt+1) < count($values)){
+			    $string .= ', ';
+			}
+			else
+			    $string .= ' ';
 		    }
 		    
 		    $this->_query = $string;
@@ -56,13 +57,13 @@
 		    
 		    $cpt = 0;
 		    foreach($tables as $thisTable){
-				$string .= ' ' . $thisTable;
-				if(($cpt+1) < count($tables))
-				    $string .= ', ';
-				else
-				    $string .= ' ';
+			$string .= ' ' . $thisTable;
+			if(($cpt+1) < count($tables)){
+			    $string .= ', ';
+			}
+			else
+			    $string .= ' ';
 		    }
-
 		    $this->_query .= $string;
 		    return $this->_returnObject ? $this : $string;
 		}
@@ -89,13 +90,11 @@
 
 		    	if(isset($val['paranthesis']) && isset($val['paranthesis']['open']))
 		    		$string .= '(';
-					$string .= $val['left'] . ' ' . $val['operator'] . ' ' . 
+				$string .= $val['left'] . ' ' . $val['operator'] . ' ' . 
 								 ($typeR == "string" ? "'" . $val['right'] . "'" : $val['right']);
-
 				if(isset($val['paranthesis']) && isset($val['paranthesis']['close']))
 		    		$string .= ')';
 		    }
-
 		    $this->_query .= $string;
 		    return $this->_returnObject ? $this : $string;
 		}
@@ -115,7 +114,6 @@
 				    $string .= ', ';
 				}
 		    }
-
 		    $this->_query .= $string;
 		    return $this->_returnObject ? $this : $string;
 		}
@@ -151,11 +149,9 @@
 				    $string .=  ", ";
 				$cpt++;
 		    }
-
 		    $string .= ") ";
 		    $string .= self::VALUES . ' (';
 		    $cpt = 0;
-		    
 		    foreach($values as $value){
 				$type = gettype($value);
 				if($type == "string")
@@ -186,15 +182,15 @@
 		    
 		    $cpt = 0;
 		    foreach($values as $key => $value){
-				$type = gettype($value);
-				if($type == "string")
-				    $string .= $key . "='" . $value . "'";
-				else
-				    $string .= $key . "=" . $value;
-				
-				if($cpt < (count($values) - 1))
-				    $string .=  ", ";
-				$cpt++;
+			$type = gettype($value);
+			if($type == "string")
+			    $string .= $key . "='" . $value . "'";
+			else
+			    $string .= $key . "=" . $value;
+			
+			if($cpt < (count($values) - 1))
+			    $string .=  ", ";
+			$cpt++;
 		    }
 		    $this->_query = $string . " ";
 		    return $this->_returnObject ? $this : $string;

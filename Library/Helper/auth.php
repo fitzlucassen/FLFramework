@@ -38,20 +38,21 @@
 		 * @param object $manager
 		 * @return boolean/User
 		 */
-		public static function connect($login, $pwd) {
+		public function connect($login, $pwd) {
 		    $UserRepository = $this->_repositoryManager->get(ucwords($this->_params['table']));
 
 		    $user = $UserRepository->getBy($this->_params['loginField'], $login);
-		    $attrPwd = 'get' . ucwords($this->_params['passwordField']) . '()';
+		    $attrPwd = 'get' . ucwords($this->_params['passwordField']);
 		    
-		    $attr = 'get' . ucwords($this->_params['primaryKeyField']) . '()';
+		    $attr = 'get' . ucwords($this->_params['primaryKeyField']);
 
-		    if(isset($user)){
+		    if(isset($user) && count($user) > 0){
 		    	if(is_array($user))
 		    		$user = $user[0];
 		    	
-			    $id = $user->$attr;
-			    if(isset($id) && !empty($id) && $id > 0 && $user->$attrPwd == $this->hashData($pwd)){
+			    $id = $user->$attr();
+
+			    if(isset($id) && !empty($id) && $id > 0 && $user->$attrPwd() == $this->hashData($pwd)){
 					$this->_session->Write("Auth", $id);
 					$this->_user = $user;
 					return $this->_user;
