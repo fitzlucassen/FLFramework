@@ -20,8 +20,6 @@
 		    $this->_host = $host;
 		}
 		
-		
-		
 		/***********
 		 * SETTERS *
 		 ***********/
@@ -32,8 +30,6 @@
 		public function setMasterArray($array){
 		    $this->_master_array = $array;
 		}
-		
-		
 		
 		/*************
 		 * FUNCTIONS *
@@ -85,22 +81,22 @@
 		private function createClass($tableName, $tableFields, $pathE, $pathR, $link){
 		    // On créée les fichiers entity et repository
 		    if($this->_two_files === 2)
-				$entityFile = fopen($pathE . ucwords($tableName) . ".php", "a+");
+				$entityFile = fopen($pathE . ucwords(strtolower($tableName)) . ".php", "a+");
 		    
-		    $repositoryFile = fopen($pathR . ucwords($tableName) . "Repository.php", "a+");
+		    $repositoryFile = fopen($pathR . ucwords(strtolower($tableName)) . "Repository.php", "a+");
 
 		    // On commence le code source
 		    $sourceEntity = $sourceRepository = "<?php " . FileManager::getBackSpace() . $this->getHeaderComment();
 		    
 		    $sourceRepository .= FileManager::getTab() . 'namespace fitzlucassen\FLFramework\Data\Repository;' . FileManager::getBackSpace(2);
-		    $sourceRepository .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Library\Core as cores;' . FileManager::getBackSpace();
-		    $sourceRepository .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Data\Entity as entities;' . FileManager::getBackSpace(2);
+		    $sourceRepository .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Library\Core;' . FileManager::getBackSpace();
+		    $sourceRepository .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Data\Entity;' . FileManager::getBackSpace(2);
 		    
 		    $sourceEntity .= FileManager::getTab() . 'namespace fitzlucassen\FLFramework\Data\Entity;' . FileManager::getBackSpace(2);
-		    $sourceEntity .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Library\Core as cores;' . FileManager::getBackSpace(2);
+		    $sourceEntity .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Library\Core;' . FileManager::getBackSpace(2);
 		    
-		    $sourceEntity .= FileManager::getTab() . "class " . ucwords($tableName) . " {" . FileManager::getBackSpace();
-		    $sourceRepository .= FileManager::getTab() . "class " . ucwords($tableName) . "Repository {" . FileManager::getBackSpace();
+		    $sourceEntity .= FileManager::getTab() . "class " . ucwords(strtolower($tableName)) . " {" . FileManager::getBackSpace();
+		    $sourceRepository .= FileManager::getTab() . "class " . ucwords(strtolower($tableName)) . "Repository {" . FileManager::getBackSpace();
 
 		    // Et on remplit la classe
 		    if($this->_two_files === 2)
@@ -192,28 +188,29 @@
 		private function fillEntityMethods($tableName, $tableFields, $link){
 		    $source = "";
 		    $replaceIdByObject = array_key_exists($tableName, $link);
-		    
+
 		    // Constructeur
-		    $source .= FileManager::getTab(2) . "public function __construct(";
+		    $paramsTmp = array();
 		    $cpt = 0;
 		    
 		    if($this->_two_files !== 2){
-				$source .= '$pdo, $lang, ';
+		    	$paramsTmp['pdo'] = null;
+		    	$paramsTmp['lang'] = null;
 		    }
 
 		    // Paramètres du constructeur
 		    foreach($tableFields as $thisField){
-				$source .= '$' . $thisField['label'] . ' = ""';
-				if($cpt < count($tableFields)-1)
-				    $source .= ', ';
+		    	$paramsTmp[$thisField['label']] = "";
 				$cpt++;
 		    }
-		    $source .= "){" . FileManager::getBackSpace();
+
+		    $source .= FileManager::getPrototype('__construct', $paramsTmp, true, false);
+		    $source .= "{" . FileManager::getBackSpace();
 		    
 		    // Construct queryBuilder
 		    foreach ($this->_other_attributs as $thisOther){
 				if($thisOther == '_queryBuilder'){
-				    $source .= FileManager::getTab(3) . '$this->' . $thisOther . ' = new cores\QueryBuilder(true);' . FileManager::getBackSpace();
+				    $source .= FileManager::getTab(3) . '$this->' . $thisOther . ' = new Core\QueryBuilder(true);' . FileManager::getBackSpace();
 				}
 		    }
 		    $source .= FileManager::getTab(3) . '$this->fillObject(array(';
@@ -240,22 +237,13 @@
 				    $linking = $link[$tableName][$attribut];
 				    
 				    if($linking == "OneToOne"){
-						$source .= FileManager::getTab(2) . FileManager::getPrototype("get" . ucwords(str_replace("id", "", $thisField['label']))) . "() {" . FileManager::getBackSpace();
-						$source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->select() 
-														  ->from("' . $attribut . '")
-														  ->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $this->_' . $thisField['label'] . ')))->getQuery();' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(4) . '$result = $this->_pdo->Select($query);' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(4) . '$o = new ' . ucwords($attribut) . '();' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(4) . '$o->fillObject($result);' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(4) . 'return $o;' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(3) . '}' . FileManager::getBackSpace() . FileManager::getTab(3) .  "catch(PDOException " . '$e){' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(4) . 'print $e->getMessage();' . FileManager::getBackSpace() . FileManager::getTab(3) ."}" . FileManager::getBackSpace();
-						$source .= FileManager::getTab(3) . 'return array();' . FileManager::getBackSpace();
+						$source .= FileManager::getTab(2) . FileManager::getPrototype("get" . ucwords(str_replace("id", "", $thisField['label'])), array('repository' => null)) . " {" . FileManager::getBackSpace();
+						$source .= FileManager::getTab(3) . '$result = $repository->getById($this->_' . $thisField['label'] . ');' . FileManager::getBackSpace();
+						$source .= FileManager::getTab(3) . 'return $result;' . FileManager::getBackSpace();
 						$source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 				    }
 				}
-				$source .=  FileManager::getTab(2) . FileManager::getPrototype("get" . ucwords($thisField['label'])) . "() {" . FileManager::getBackSpace() .
+				$source .=  FileManager::getTab(2) . FileManager::getPrototype("get" . ucwords($thisField['label'])) . " {" . FileManager::getBackSpace() .
 						    FileManager::getTab(3) . 'return $this->_' . $thisField['label'] . ';' . FileManager::getBackSpace() .
 						    FileManager::getTab(2) . '}' . FileManager::getBackSpace();
 		    }
@@ -263,22 +251,9 @@
 		    if($replaceIdByObject){
 				foreach($link[$tableName] as $key => $value){
 				    if($value == "OneToMany"){
-						$source .= FileManager::getTab(2) . FileManager::getPrototype("get" . ucwords($key)) . "s() {" . FileManager::getBackSpace();
-						$source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->select() 
-														  ->from("' . $key . '")
-														  ->where(array(array("link" => "", "left" => "id' . ucwords($tableName) . '", "operator" => "=", "right" => $this->_id)))->getQuery();' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(4) . '$result = $this->_pdo->SelectTable($query);' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(4) . '$array = array();' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(4) . 'foreach ($result as $object){' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(5) . '$o = new ' . ucwords($key) . '();' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(5) . '$o->fillObject($object);' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(5) . '$array[] = $o;' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(4) . '}' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(4) . 'return $array;' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(3) . '}' . FileManager::getBackSpace() . FileManager::getTab(3) .  "catch(PDOException " . '$e){' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(4) . 'print $e->getMessage();' . FileManager::getBackSpace() . FileManager::getTab(3) ."}" . FileManager::getBackSpace();
-						$source .= FileManager::getTab(3) . 'return array();' . FileManager::getBackSpace();
+						$source .= FileManager::getTab(2) . FileManager::getPrototype("get" . ucwords($key) . 's', array('repository' => null)) . " {" . FileManager::getBackSpace();
+						$source .= FileManager::getTab(3) . '$result = $repository->getBy(id' . ucwords($tableName) . ', $this->_id);' . FileManager::getBackSpace();
+						$source .= FileManager::getTab(3) . 'return $result;' . FileManager::getBackSpace();
 						$source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 				    }
 				}
@@ -289,7 +264,7 @@
 						FileManager::getTab(2) . FileManager::getComment(7, false) . FileManager::getBackSpace(2);
 		    
 		    // Fonction privé pour remplir un objet
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("fillObject") . '($properties) {' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("fillObject", array('properties' => null)) . ' {' . FileManager::getBackSpace();
 		    foreach($tableFields as $thisField){
 				$source .= FileManager::getTab(3) . 'if(!empty($properties["' . $thisField['label'] . '"]))' . FileManager::getBackSpace();
 				$source .= FileManager::getTab(4) . '$this->_' . $thisField['label'] . ' = $properties["' . $thisField['label'] . '"];' . FileManager::getBackSpace();
@@ -310,7 +285,7 @@
 
 		    // Constructeur
 		    if($this->_two_files === 2){
-				$source .= FileManager::getTab(2) . FileManager::getPrototype("__construct") . '($pdo, $lang){' . FileManager::getBackSpace();
+				$source .= FileManager::getTab(2) . FileManager::getPrototype("__construct", array('pdo' => null, 'lang' => null)) . ' {' . FileManager::getBackSpace();
 				
 				if(count($this->_other_attributs) > 0){
 				    foreach ($this->_other_attributs as $thisOther){
@@ -319,7 +294,7 @@
 						    $source .= FileManager::getTab(3) . '$this->_pdo = $pdo->GetConnection();' . FileManager::getBackSpace();
 						}
 						if($thisOther == '_queryBuilder'){
-						    $source .= FileManager::getTab(3) . '$this->' . $thisOther . ' = new cores\QueryBuilder(true);' . FileManager::getBackSpace();
+						    $source .= FileManager::getTab(3) . '$this->' . $thisOther . ' = new Core\QueryBuilder(true);' . FileManager::getBackSpace();
 						}
 				    }
 				    $source .= FileManager::getTab(3) . '$this->_lang = $lang;' . FileManager::getBackSpace();
@@ -336,14 +311,14 @@
 						FileManager::getTab(2) . ' * REPOSITORIES FUNCTIONS *' . FileManager::getBackSpace() . 
 						FileManager::getTab(2) . FileManager::getComment(26, false) . FileManager::getBackSpace();
 		    
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("getAll", true, true) . '($Connection){' . FileManager::getBackSpace();
-		    $source .= FileManager::getTab(3) . '$qb = new cores\QueryBuilder(true);' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("getAll", array('Connection' => null), true, true) . ' {' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(3) . '$qb = new Core\QueryBuilder(true);' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '$query = $qb->select()->from(array("' . $tableName . '"))->getQuery();' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(4) . '$result = $Connection->SelectTable($query);' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(4) . '$array = array();' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(4) . 'foreach ($result as $object){' . FileManager::getBackSpace();
-		    $source .= FileManager::getTab(5) . '$o = new entities\\' . ucwords($tableName) . '();' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(5) . '$o = new Entity\\' . ucwords($tableName) . '();' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(5) . '$o->fillObject($object);' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(5) . '$array[] = $o;' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(4) . '}' . FileManager::getBackSpace();
@@ -354,12 +329,12 @@
 		    $source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 
 		    // GetById
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("getById") . '($id){' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("getById", array('id' => null)) . ' {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->select()->from(array("' . $tableName . '"))' . '
 											->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id)))->getQuery();' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(4) . '$properties = $this->_pdoHelper->Select($query);' . FileManager::getBackSpace();
-		    $source .= FileManager::getTab(4) . '$object = new entities\\' . ucwords($tableName) . '();' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(4) . '$object = new Entity\\' . ucwords($tableName) . '();' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(4) . '$object->fillObject($properties);' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(4) . 'return $object;' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '}' . FileManager::getBackSpace() . FileManager::getTab(3) . 'catch(PDOException $e){' . FileManager::getBackSpace();
@@ -368,14 +343,14 @@
 		    $source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 
 		    // GetBy
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("getBy") . '($key, $value){' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("getBy" array('key' => null, 'value' => null)) . ' {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->select()->from(array("' . $tableName . '"))' . '
 											->where(array(array("link" => "", "left" => $key, "operator" => "=", "right" => $value)))->getQuery();' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(4) . '$properties = $this->_pdoHelper->SelectTable($query);' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(4) . '$array = array();' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(4) . 'foreach ($properties as $object){' . FileManager::getBackSpace();
-		    $source .= FileManager::getTab(5) . '$o = new entities\\' . ucwords($tableName) . '();' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(5) . '$o = new Entity\\' . ucwords($tableName) . '();' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(5) . '$o->fillObject($object);' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(5) . '$array[] = $o;' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(4) . '}' . FileManager::getBackSpace();
@@ -386,7 +361,7 @@
 		    $source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 
 		    // Delete
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("delete") . '($id) {' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("delete", array('id' => null)) . ' {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->delete("' . $tableName . '")
 											->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))
 											->getQuery();' . FileManager::getBackSpace();
@@ -398,11 +373,11 @@
 		    $source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 
 		    // Add
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("add") . '($properties) {' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("add", array('properties' => null)) . ' {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->insert("' . $tableName . '", array(';
 		    $cpt = 0;
 
-		    foreach($tableFields as $thisField){
+		    foreach($tableFields as $thisField) {
 				if($thisField['label'] == "id")
 				    continue;
 				
@@ -421,10 +396,10 @@
 		    $source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 
 		    // Update
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("update") . '($id, $properties) {' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("update", array('id' => null, 'properties' => null)) . ' {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->update("' . $tableName . '", array(';
 		    $cpt = 0;
-		    
+
 		    foreach($tableFields as $thisField){
 				if($thisField['label'] == "id")
 				    continue;
