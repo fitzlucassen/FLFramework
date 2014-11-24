@@ -26,8 +26,8 @@
        $Config->setHOST("localhost");					    // database host
        $Config->setUSER("root");					        // user name
        $Config->setPWD("");						           	// password
-       $Config->setPATHENTITIES("C:/wamp/www/flframeworkv2/Data/Entity/");			          	// The path where entities will be created
-       $Config->setPATHREPOSITORIES("C:/wamp/www/flframeworkv2/Data/Repository/");		    	// The path where repositories will be created
+       $Config->setPATHENTITIES("C:/wamp/www/[PROJECT-PATH]/Data/Entity/");			          	// The path where entities will be created
+       $Config->setPATHREPOSITORIES("C:/wamp/www/PROJECT-PATH]/Data/Repository/");		    	// The path where repositories will be created
        
        // If there is some links into your tables, you have to precise these right here.
        // 

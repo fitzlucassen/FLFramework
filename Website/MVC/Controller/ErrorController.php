@@ -42,6 +42,14 @@
 		    
 		    $this->_view->ViewCompact($Model);
 		}
+
+		public function queryFailed($params){
+		    $Model = new models\ErrorModel($this->_repositoryManager, $params);
+		    
+		    $Model->_message = $params[0];
+
+		    $this->_view->ViewCompact($Model);
+		}
 		
 		/********
 		 * VIEW *

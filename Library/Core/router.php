@@ -39,7 +39,7 @@
 			self::$_langs[] = $lang;
 		    }
 		    foreach ($routes as $thisRoute){
-			$url = repositories\RewrittingUrlRepository::getByIdRouteStatic($thisRoute->getId(), $lang, $pdo);
+			$url = repositories\RewrittingurlRepository::getByIdRouteStatic($thisRoute->getId(), $lang, $pdo);
 			self::Add($lang, $thisRoute->getController(), $thisRoute->getAction(), $url->getUrlMatched());
 		    }
 		}
