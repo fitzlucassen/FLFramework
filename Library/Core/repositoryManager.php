@@ -21,7 +21,7 @@
 		 * @return \fitzlucassen\FLFramework\Data\Repository
 		 */
 		public function get($name){
-		    $repName = $this->_REPOSITORY_NAMESPACE . $name . "Repository";
+		    $repName = $this->_REPOSITORY_NAMESPACE . ucfirst($name) . "Repository";
 		    $rep = new $repName($this->_pdo, $this->_lang);
 		    
 		    return $rep;
@@ -33,7 +33,7 @@
 		 * @return \fitzlucassen\FLFramework\Data\Repository
 		 */
 		public function getStatic($name){
-		    $repName = $this->_REPOSITORY_NAMESPACE . $name . 'Repository';
+		    $repName = $this->_REPOSITORY_NAMESPACE . ucfirst($name) . 'Repository';
 		    $rep = $repName::getInstance($this->_pdo, $this->_lang);
 		    
 		    return $rep;
