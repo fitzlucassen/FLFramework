@@ -35,6 +35,14 @@
 		    return isset($_FILES) && !empty($_FILES);
 		}
 
+
+		private static function isJson($string) {
+			$tmp = json_decode($string);
+
+		  	return 	(is_string($string) && 
+	         		(is_object($tmp) || is_array($tmp))) ? true : false;
+		}
+
 		/**
 		 * CleanPost
 		 * @return array
@@ -43,15 +51,18 @@
 		    $params = array();
 		    $vars = self::isPost() ? $_POST : $_GET;
 		    
-		    foreach($vars as $key => $value){
-				if(gettype($value) == "string"){
-				    $params[$key] = htmlspecialchars($value);
-				}
-				else if(in_array(gettype($value), array('integer', 'double'))){
-				    $params[$key] = intval($value);
-				}
-		    }
-		    
-		    return $params;
+		    if(!Request::isJson($vars)){
+			    foreach($vars as $key => $value){
+					if(gettype($value) == "string"){
+					    $params[$key] = htmlspecialchars($value);
+					}
+					else if(in_array(gettype($value), array('integer', 'double'))){
+					    $params[$key] = intval($value);
+					}
+			    }
+			    return $params;
+			}
+			else
+				return $vars;
 		}
     }
