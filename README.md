@@ -12,25 +12,29 @@ AVAILABLE
 - form helper
 - pagination helper
 - paypal payment helper
+- cdiscount helper
 - rss helper
 - session helper
 - upload helper
 - url rewriting module
 - multilinguisme module
+- webservice module
 - cache module
 - log module
 - custom error manager module
 - ORM for the DAL
-- DAL generator module with doc
+- DAL generator module with documentation
 
 TODO
 ===========
 
-- Manage error in query builder (where clause)
+- Fix error in query builder (where clause)
 - Try catch refactoring
-- JS library
+- JS library --> include some nice plugin (carousel, rating...etc.)
 - Cache for views
 - Module manager
 - Router refactoring
+- Route order in router
 - Databases prefix
 - Module de traduction (i18n)
+- Abstract repository and entity classes
