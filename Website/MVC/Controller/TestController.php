@@ -15,10 +15,16 @@
 		    parent::__construct("test", $action, $manager);
 		}
 
+		public function JSLibraries(){
+			$Model = new Model\HomeModel($this->_repositoryManager);
+
+			$this->_view->ViewCompact($Model);
+		}
+
 		public function TestCdiscount(){
 		    $Model = new Model\HomeModel($this->_repositoryManager);
 		    	
-		    $Cdiscount = new Helper\Cdiscount($this->_repositoryManager);
+		    $Cdiscount = new Helper\Cdiscount($this->_repositoryManager, 'YOUR-API-KEY');
 
 		    $Cdiscount->request('Search', array(
 		    	"SearchRequest" => array(
