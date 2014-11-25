@@ -2,7 +2,7 @@
 
     namespace fitzlucassen\FLFramework\Website\MVC\Controller;
     
-    use fitzlucassen\FLFramework\Library\Core as cores;
+    use fitzlucassen\FLFramework\Library\Core;
     
      /*
 	Class : Controller
@@ -14,7 +14,7 @@
 		
 		public function __construct($controller, $action, $manager) {	
 		    $this->_repositoryManager = $manager;
-		    $this->_view = new cores\View();
+		    $this->_view = new Core\View();
 		    
 		    $this->setController($controller);
 		    $this->setAction($action);
