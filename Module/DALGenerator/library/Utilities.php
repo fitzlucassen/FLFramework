@@ -194,17 +194,17 @@
 		    $cpt = 0;
 		    
 		    if($this->_two_files !== 2){
-		    	$paramsTmp['pdo'] = null;
-		    	$paramsTmp['lang'] = null;
+		    	$paramsTmp['pdo'] = '_none_';
+		    	$paramsTmp['lang'] = '_none_';
 		    }
 
 		    // Paramètres du constructeur
 		    foreach($tableFields as $thisField){
-		    	$paramsTmp[$thisField['label']] = "";
+		    	$paramsTmp[$thisField['label']] = "''";
 				$cpt++;
 		    }
 
-		    $source .= FileManager::getPrototype('__construct', $paramsTmp, true, false);
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype('__construct', $paramsTmp);
 		    $source .= "{" . FileManager::getBackSpace();
 		    
 		    // Construct queryBuilder
@@ -237,7 +237,7 @@
 				    $linking = $link[$tableName][$attribut];
 				    
 				    if($linking == "OneToOne"){
-						$source .= FileManager::getTab(2) . FileManager::getPrototype("get" . ucwords(str_replace("id", "", $thisField['label'])), array('repository' => null)) . " {" . FileManager::getBackSpace();
+						$source .= FileManager::getTab(2) . FileManager::getPrototype("get" . ucwords(str_replace("id", "", $thisField['label'])), array('repository' => '_none_')) . " {" . FileManager::getBackSpace();
 						$source .= FileManager::getTab(3) . '$result = $repository->getById($this->_' . $thisField['label'] . ');' . FileManager::getBackSpace();
 						$source .= FileManager::getTab(3) . 'return $result;' . FileManager::getBackSpace();
 						$source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
@@ -251,8 +251,8 @@
 		    if($replaceIdByObject){
 				foreach($link[$tableName] as $key => $value){
 				    if($value == "OneToMany"){
-						$source .= FileManager::getTab(2) . FileManager::getPrototype("get" . ucwords($key) . 's', array('repository' => null)) . " {" . FileManager::getBackSpace();
-						$source .= FileManager::getTab(3) . '$result = $repository->getBy(id' . ucwords($tableName) . ', $this->_id);' . FileManager::getBackSpace();
+						$source .= FileManager::getTab(2) . FileManager::getPrototype("get" . ucwords($key) . 's', array('repository' => '_none_')) . " {" . FileManager::getBackSpace();
+						$source .= FileManager::getTab(3) . '$result = $repository->getBy("id' . ucwords($tableName) . '", $this->_id);' . FileManager::getBackSpace();
 						$source .= FileManager::getTab(3) . 'return $result;' . FileManager::getBackSpace();
 						$source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 				    }
@@ -264,7 +264,7 @@
 						FileManager::getTab(2) . FileManager::getComment(7, false) . FileManager::getBackSpace(2);
 		    
 		    // Fonction privé pour remplir un objet
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("fillObject", array('properties' => null)) . ' {' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("fillObject", array('properties' => '_none_')) . ' {' . FileManager::getBackSpace();
 		    foreach($tableFields as $thisField){
 				$source .= FileManager::getTab(3) . 'if(!empty($properties["' . $thisField['label'] . '"]))' . FileManager::getBackSpace();
 				$source .= FileManager::getTab(4) . '$this->_' . $thisField['label'] . ' = $properties["' . $thisField['label'] . '"];' . FileManager::getBackSpace();
@@ -285,7 +285,7 @@
 
 		    // Constructeur
 		    if($this->_two_files === 2){
-				$source .= FileManager::getTab(2) . FileManager::getPrototype("__construct", array('pdo' => null, 'lang' => null)) . ' {' . FileManager::getBackSpace();
+				$source .= FileManager::getTab(2) . FileManager::getPrototype("__construct", array('pdo' => '_none_', 'lang' => '_none_')) . ' {' . FileManager::getBackSpace();
 				
 				if(count($this->_other_attributs) > 0){
 				    foreach ($this->_other_attributs as $thisOther){
@@ -311,7 +311,7 @@
 						FileManager::getTab(2) . ' * REPOSITORIES FUNCTIONS *' . FileManager::getBackSpace() . 
 						FileManager::getTab(2) . FileManager::getComment(26, false) . FileManager::getBackSpace();
 		    
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("getAll", array('Connection' => null), true, true) . ' {' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("getAll", array('Connection' => '_none_'), true, true) . ' {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '$qb = new Core\QueryBuilder(true);' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '$query = $qb->select()->from(array("' . $tableName . '"))->getQuery();' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
@@ -329,7 +329,7 @@
 		    $source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 
 		    // GetById
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("getById", array('id' => null)) . ' {' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("getById", array('id' => '_none_')) . ' {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->select()->from(array("' . $tableName . '"))' . '
 											->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id)))->getQuery();' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
@@ -343,7 +343,7 @@
 		    $source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 
 		    // GetBy
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("getBy", array('key' => null, 'value' => null)) . ' {' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("getBy", array('key' => '_none_', 'value' => '_none_')) . ' {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->select()->from(array("' . $tableName . '"))' . '
 											->where(array(array("link" => "", "left" => $key, "operator" => "=", "right" => $value)))->getQuery();' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
@@ -361,7 +361,7 @@
 		    $source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 
 		    // Delete
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("delete", array('id' => null)) . ' {' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("delete", array('id' => '_none_')) . ' {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->delete("' . $tableName . '")
 											->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))
 											->getQuery();' . FileManager::getBackSpace();
@@ -373,7 +373,7 @@
 		    $source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 
 		    // Add
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("add", array('properties' => null)) . ' {' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("add", array('properties' => '_none_')) . ' {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->insert("' . $tableName . '", array(';
 		    $cpt = 0;
 
@@ -396,7 +396,7 @@
 		    $source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 
 		    // Update
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("update", array('id' => null, 'properties' => null)) . ' {' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("update", array('id' => '_none_', 'properties' => '_none_')) . ' {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->update("' . $tableName . '", array(';
 		    $cpt = 0;
 

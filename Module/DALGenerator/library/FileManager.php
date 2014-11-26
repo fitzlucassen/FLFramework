@@ -59,10 +59,16 @@
 		    
 		    $source .= ($public ? "public " : "private ") . ($static ? "static " : "") . "function " . $name . "(";
 
-		    foreach ($array as $key => $value) {
+		    $cpt = 0;
+		    foreach ($params as $key => $value) {
 		    	$source .= '$' . $key;
-		    	if(isset($value))
+		    	if($value != '_none_')
 		    		$source .= ' = ' . $value;
+
+		    	if(count($params) > ($cpt + 1))
+		    		$source .= ', ';
+		    	
+		    	$cpt++;
 		    }
 
 		    $source .= ')';
