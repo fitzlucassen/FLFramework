@@ -1,0 +1,166 @@
+/* =========================================
+  	Scroll bar styles for jQuery Scroll Path
+  	      (http://joelb.me/scrollpath)
+   ========================================= */
+
+.sp-scroll-bar {
+	position: fixed;
+	z-index: 9999;
+	right: 0;
+	top: 5%;
+	width: 10px;
+	height: 90%;
+	border-radius: 5px;
+}
+
+.sp-scroll-bar:hover {
+	background: white;
+	background: rgba(255,255,255, 0.1);
+}
+
+.sp-scroll-bar .sp-scroll-handle {
+	position: absolute;
+	width: 100%;
+	height: 50px;
+	border-radius: inherit;
+	background: gray;
+	background: rgba(0,0,0,0.7);
+}
+
+.sp-scroll-bar .sp-scroll-handle:hover {
+	background: black;
+}
+
+body {
+	overflow: hidden;
+}
+
+.wrapper > div {
+	position: absolute;
+}
+
+.settings, nav {
+	position: fixed;
+	z-index: 9999999;
+	bottom: 0;
+	background: rgba(10,10,10, 0.5);
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: normal;
+	font-size: 20px;
+}
+
+.settings {
+	right: 0;
+	padding: 10px 20px;
+	border-radius: 10px 0 0 0;
+}
+
+.settings a {
+	border: none;
+}
+
+nav {
+	left: 0;
+	border-radius: 0 10px 0 0;
+}
+
+nav li {
+	float: left;
+}
+
+nav a {
+	display: block;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	border: none;
+	text-align: center;
+	transition: 0.25s;
+}
+
+nav li:last-child a {
+	border-radius: 0 10px 0 0;
+}
+
+nav a:hover {
+	background: rgba(15,15,15, 0.5);
+}
+
+.sp-canvas {
+	display: none;
+}
+
+.div1 { 
+	width: 800px;
+	font-size: 30px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.div2 {
+	top: 740px;
+	left: 180px;
+	width: 440px;
+}
+
+.div3 {
+	top: 1510px;
+	left: 430px;
+	width: 400px;
+}
+
+.div4 {
+	top: 1540px;
+	left: 1600px;
+	width: 400px;
+}
+
+.div5 {
+	left: 2185px;
+	top: 660px;
+	width: 460px;
+	transform: rotate(-90deg) translateY(2.5em);
+}
+
+.div5 .upside-down {
+	font-size: 42px;
+	text-align: right;
+	transform: rotate(180deg) translateY(3em);
+}
+
+.div6 {
+	left: 2200px;
+	top: -800px;
+	width: 400px;
+	transform: rotate(90deg) translateX(50px);
+}
+
+.div7 {
+	width: 475px;
+	left: 1100px;
+	top: -950px;
+	transform: rotate(90deg) translateX(50px);
+}
+
+.div7 .big {
+	font-size: 40px;
+}
+
+.highlight {
+	animation: highlight 0.2s alternate 6 ;
+}
+
+@keyframes point-down {
+	from {
+		top: 0;
+	}
+	to {
+		top: 5px;
+	}
+}
+
+@keyframes highlight {
+	to {
+		background: lightblue;
+	}
+}
