@@ -1,4 +1,4 @@
 <?php
 	header('Content-type: text/xml');
-	echo $this->Body;
+	$this->Render($this->Sections['body']);
 ?>

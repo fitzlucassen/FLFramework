@@ -8,13 +8,12 @@
      */
     class View {
 		protected $Model;
-		protected $Head;
-		protected $Body;
+		protected $Sections = array();
 		
 		private $_controller;
 		private $_action;
 		private $_layout = "default";
-			
+
 		/*
 		  Constructeur
 		 */
@@ -44,16 +43,10 @@
 			$this->Model = $model;
 			
 			// Mise en cache de la vue
-			ob_start();
+			$this->BeginSection();
 			include __view_directory__ . "/" . ucfirst($this->_controller) . "/" . $this->_action . ".php";
-			$content = ob_get_clean();
+			$this->EndSection('body');
 			
-			// On récupère le contenue en cache (si layout rss --> on n'a pas de head)
-			if($this->_layout !== "rss" && $this->_layout !== "json")
-				$this->Head = $head;
-			else
-				$this->Head = "";
-			$this->Body = $content;	    
 			// Et on inclue le layout/vue
 			if(file_exists(__layout_directory__ . "/" . $this->_layout .".php"))
 				include(__layout_directory__ . "/" . $this->_layout .".php");
@@ -77,16 +70,14 @@
 		public function Render($string){
 			echo $string;
 		}
-		
-		/**
-		 * RegisterViewHead -> enregistre le head de la vue
-		 * @return type
-		 */
-		public function RegisterViewHead(){
-			$head = ob_get_clean();
+
+		public function BeginSection(){
+			// Mise en cache de la vue
 			ob_start();
-			
-			return $head;
+		}
+
+		public function EndSection($sectionName){
+			$this->Sections[$sectionName] = ob_get_clean();
 		}
 		
 		/***********

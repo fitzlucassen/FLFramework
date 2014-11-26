@@ -157,12 +157,15 @@
 		 * ManageAction -> set le nom de l'action et instancie un nouveau controller
 		 */
 		public function ManageAction(){
+			$this->_isValidUrl = $this->_dispatcher->isValidUrl($this->_url);
+
 		    // Si on est sur une page erreur ou si on a le module rewriting on récpère le nom de l'action en brute
 		    // Sinon on le récupère via l'objet routeurl
 		    if(!self::$_databaseNeeded || !self::$_urlRewritingNeeded || $this->_isInErrorPage || ($this->_isValidUrl && $this->_urlRewritingObject->isWrongRoute()))
 				$actionName = $this->_url['action'];
 		    else
 				$actionName = $this->_urlRewritingObject->getAction();
+
 			$this->_dispatcher->manageAction($actionName, $this->_repositoryManager);
 		    
 		    // On exécute l'action cible du controller et on affiche la vue avec le modèle renvoyé
