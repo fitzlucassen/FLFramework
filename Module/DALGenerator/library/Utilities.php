@@ -343,7 +343,7 @@
 		    $source .= FileManager::getTab(2) . '}' . FileManager::getBackSpace(2);
 
 		    // GetBy
-		    $source .= FileManager::getTab(2) . FileManager::getPrototype("getBy" array('key' => null, 'value' => null)) . ' {' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . FileManager::getPrototype("getBy", array('key' => null, 'value' => null)) . ' {' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->select()->from(array("' . $tableName . '"))' . '
 											->where(array(array("link" => "", "left" => $key, "operator" => "=", "right" => $value)))->getQuery();' . FileManager::getBackSpace();
 		    $source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();

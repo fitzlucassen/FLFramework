@@ -57,7 +57,7 @@
 		public static function getPrototype($name, $params = array(), $public = true, $static = false){
 		    $source = "";
 		    
-		    $source .= ($public ? "public " : "private ") . ($static ? "static " : "") . "function " . $name . "(");
+		    $source .= ($public ? "public " : "private ") . ($static ? "static " : "") . "function " . $name . "(";
 
 		    foreach ($array as $key => $value) {
 		    	$source .= '$' . $key;

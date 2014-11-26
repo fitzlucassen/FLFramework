@@ -50,7 +50,7 @@
     $Utilities->createClasses($Config->getPATHENTITIES(), $Config->getPATHREPOSITORIES(), $Config->getLink());
     
     if(defined('STDIN')){
-	   exit(0);
+      exit(0);
     }
     
     echo "<h1>Les classes ont &eacute;t&eacute; g&eacute;n&eacute;r&eacute;es avec succ&egrave;s !</h1>";
