@@ -1,7 +1,8 @@
 <?php
     namespace fitzlucassen\FLFramework\Library\Core;
 
-    use fitzlucassen\FLFramework\Data\Repository as repositories;
+    use fitzlucassen\FLFramework\Data\Repository;
+    use fitzlucassen\FLFramework\Library\Adapter;
     
     /*
       Class : Router
@@ -24,7 +25,7 @@
 		 */
 		public static function Add($lang, $controller, $action, $pattern) {
 		    if (!isset(self::$_routes[$lang]))
-			self::$_routes[$lang] = array();
+				self::$_routes[$lang] = array();
 		    array_push(self::$_routes[$lang], array("controller" => $controller, "action" => $action, "pattern" => $pattern));
 		}
 		
@@ -36,11 +37,11 @@
 		 */
 		public static function AddRange($routes, $lang, $pdo) {
 		    if(!in_array($lang, self::$_langs)){
-			self::$_langs[] = $lang;
+				self::$_langs[] = $lang;
 		    }
 		    foreach ($routes as $thisRoute){
-			$url = repositories\RewrittingurlRepository::getByIdRouteStatic($thisRoute->getId(), $lang, $pdo);
-			self::Add($lang, $thisRoute->getController(), $thisRoute->getAction(), $url->getUrlMatched());
+				$url = Repository\RewrittingurlRepository::getByIdRouteStatic($thisRoute->getId(), $lang, $pdo);
+				self::Add($lang, $thisRoute->getController(), $thisRoute->getAction(), $url->getUrlMatched());
 		    }
 		}
 		
@@ -283,6 +284,7 @@
 		    if ($lang === null)
 			$lang = self::$_defaultLang;
 		    
+		    self::$_routes[$lang] = Adapter\ArrayAdapter::OrderBy(self::$_routes[$lang], 'order');
 		    return ($key === null) ?
 			    ((isset(self::$_routes[$lang])) ? self::$_routes[$lang] : array() ) :
 			    ((isset(self::$_routes[$lang][$key])) ? self::$_routes[$lang][$key] : false );

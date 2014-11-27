@@ -30,11 +30,9 @@ TODO
 
 - Fix error in query builder (where clause)
 - Try catch refactoring
-- JS library --> include some nice plugin (carousel, rating...etc.)
 - Cache for views
 - Module manager
 - Router refactoring
-- Route order in router
 - Databases prefix
 - Module de traduction (i18n)
 - Abstract repository and entity classes
