@@ -40,7 +40,10 @@
 		}
 
 		public static function OrderBy($array, $key, $order = "ASC"){
-			usort($array, create_function('$a, $b', 'return strcmp($a->get' . ucfirst($key) . '(), $b->get' . ucfirst($key) . '());'));
+			if(is_object($array[0]))
+				usort($array, create_function('$a, $b', 'return strcmp($a->get' . ucfirst($key) . '(), $b->get' . ucfirst($key) . '());'));
+			else
+				usort($array, create_function('$a, $b', 'return strcmp($a["' . $key . '"], $b["' . $key . '"]);'));
 
 			if($order == 'DESC')
 				$array = array_reverse($array);

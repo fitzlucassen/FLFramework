@@ -23,10 +23,10 @@
 		 * @param string $action
 		 * @param string $pattern
 		 */
-		public static function Add($lang, $controller, $action, $pattern) {
+		public static function Add($lang, $controller, $action, $pattern, $order) {
 		    if (!isset(self::$_routes[$lang]))
 				self::$_routes[$lang] = array();
-		    array_push(self::$_routes[$lang], array("controller" => $controller, "action" => $action, "pattern" => $pattern));
+		    array_push(self::$_routes[$lang], array("controller" => $controller, "action" => $action, "pattern" => $pattern, 'order' => $order));
 		}
 		
 		/**
@@ -41,7 +41,7 @@
 		    }
 		    foreach ($routes as $thisRoute){
 				$url = Repository\RewrittingurlRepository::getByIdRouteStatic($thisRoute->getId(), $lang, $pdo);
-				self::Add($lang, $thisRoute->getController(), $thisRoute->getAction(), $url->getUrlMatched());
+				self::Add($lang, $thisRoute->getController(), $thisRoute->getAction(), $url->getUrlMatched(), $thisRoute->getOrder());
 		    }
 		}
 		
@@ -177,31 +177,9 @@
 		 */
 		public static function RedirectTo($url){
 			if(is_array($url)){
-				if(isset($url["controller"]) && isset($url["action"]) && isset($url["lang"])){
-					$controller = $url["controller"];
-					$action = $url["action"];
-					$lang = $url["lang"];
-				}
-				if(isset($url["controller"]) && isset($url["action"]) && !isset($url["lang"])){
-					$controller = $url["controller"];
-					$action = $url["action"];
-					$lang = self::$_defaultLang;
-				}
-				else if(isset($url["controller"]) && !isset($url["action"])  && isset($url["lang"])){
-					$controller = $url["controller"];
-					$action = self::$_defaultAction;
-					$lang = $url["lang"];
-				}
-				else if(isset($url["controller"]) && !isset($url["action"])  && !isset($url["lang"])){
-					$controller = $url["controller"];
-					$action = self::$_defaultAction;
-					$lang = self::$_defaultLang;
-				}
-				else {
-					$controller = self::$_defaultController;
-					$action = self::$_defaultAction;
-					$lang = self::$_defaultLang;
-				}
+				$controller = isset($url["controller"]) ? $url["controller"] : self::$_defaultController;
+				$action = isset($url["action"]) ? $url["action"] : self::$_defaultAction;
+				$controller = isset($url["lang"]) ? $url["lang"] : self::$_defaultLang;
 				
 				if(isset($url["params"])){
 					$redirect = GetUrlByLang($controller, $action, $url["params"]);
@@ -282,9 +260,10 @@
 		 */
 		public static function GetRoutes($key = null, $lang = null) {
 		    if ($lang === null)
-			$lang = self::$_defaultLang;
+				$lang = self::$_defaultLang;
 		    
-		    self::$_routes[$lang] = Adapter\ArrayAdapter::OrderBy(self::$_routes[$lang], 'order');
+		    if(isset(self::$_routes[$lang]) && is_array(self::$_routes[$lang]))
+			    self::$_routes[$lang] = Adapter\ArrayAdapter::OrderBy(self::$_routes[$lang], 'order');
 		    return ($key === null) ?
 			    ((isset(self::$_routes[$lang])) ? self::$_routes[$lang] : array() ) :
 			    ((isset(self::$_routes[$lang][$key])) ? self::$_routes[$lang][$key] : false );
