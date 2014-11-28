@@ -62,7 +62,7 @@
 			    $string .= ', ';
 			}
 			else
-			    $string .= ' ';
+			    $string .= ' '; 
 		    }
 		    $this->_query .= $string;
 		    return $this->_returnObject ? $this : $string;
@@ -90,8 +90,8 @@
 
 		    	if(isset($val['paranthesis']) && isset($val['paranthesis']['open']))
 		    		$string .= '(';
-				$string .= $val['left'] . ' ' . $val['operator'] . ' ' . 
-								 ($typeR == "string" ? "'" . $val['right'] . "'" : $val['right']);
+				$string .= $val['left'] . ' ' . $val['operator'] . ' ' . ($typeR == "string" ? "'" . $val['right'] . "'" : $val['right']);
+
 				if(isset($val['paranthesis']) && isset($val['paranthesis']['close']))
 		    		$string .= ')';
 		    }

@@ -28,11 +28,10 @@ AVAILABLE
 TODO
 ===========
 
-- Fix error in query builder (where clause)
+- Complete queryBuilder
 - Try catch refactoring
-- Cache for views
 - Module manager
 - Router refactoring
-- Databases prefix
 - Module de traduction (i18n)
-- Abstract repository and entity classes
+- $pdo refactoring
+- redirect refactoring
