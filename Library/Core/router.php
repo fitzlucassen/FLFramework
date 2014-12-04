@@ -42,7 +42,8 @@
 		    foreach ($routes as $thisRoute){
 		    	$repo = self::$_repositoryManager->get('Rewrittingurl');
 
-				$url = $repo->getBy('idRouteUrl', $thisRoute->getId())[0];
+				$url = $repo->getBy('idRouteUrl', $thisRoute->getId());
+				$url = $url[0];
 				self::Add($lang, $thisRoute->getController(), $thisRoute->getAction(), $url->getUrlMatched(), $thisRoute->getOrder() == null ? 0 : $thisRoute->getOrder());
 
 		    	self::$_routes[$lang] = Adapter\ArrayAdapter::OrderBy(self::$_routes[$lang], 'order');

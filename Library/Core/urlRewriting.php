@@ -73,8 +73,10 @@
 			// S'il n'y a aucune route en base matchant cette url, ou que l'url est '/'
 			if(!isset($this->_url['controller']) || empty($this->_url['controller']) || ($this->_url["debug"] == "default" && $this->_page == '/')){
 			    // On récupère la route de la homepage et on en déduit l'objet rewritting
-			    $this->_routeUrl = $this->_routeUrlRepository->getBy('name', 'home')[0];
-			    $this->_rewrittingUrl = $this->_rewrittingUrlRepository->getBy('idRouteUrl', $this->_routeUrl->getId())[0];
+			    $this->_routeUrl = $this->_routeUrlRepository->getBy('name', 'home');
+			    $this->_routeUrl = $this->_routeUrl[0];
+			    $this->_rewrittingUrl = $this->_rewrittingUrlRepository->getBy('idRouteUrl', $this->_routeUrl->getId());
+			    $this->_rewrittingUrl = $this->_rewrittingUrl[0];
 			    
 			    header('location: ' . $this->_rewrittingUrl->getUrlMatched());
 			    die();

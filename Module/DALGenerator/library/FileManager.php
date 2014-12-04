@@ -96,4 +96,26 @@
 				$source .= "/";
 		    return $source;
 		}
+
+		public static function createDirectoryIfNotExist($path){
+			if(!is_dir($path))
+		    	mkdir($path);
+		}
+
+		public static function createFile($file, $type, $erase){
+			if($erase)
+				return fopen($file, $type);
+			else {
+				if(!file_exists($file))
+					return fopen($file, $type);
+				else
+					return false;
+			}
+		}
+
+		public static function closeFiles($array){
+			foreach ($array as $value) {
+				fclose($value);
+			}
+		}
     }
