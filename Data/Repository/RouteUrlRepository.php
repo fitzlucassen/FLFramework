@@ -21,27 +21,6 @@
 			$this->_queryBuilder = new cores\QueryBuilder(true);
 			$this->_lang = $lang;
 		}
-		/**
-		 * 
-		 * @param type $route
-		 * @return \RouteUrl
-		 */
-		public function getByRouteName($route) {
-			$request = $this->_queryBuilder->select()
-							->from(array("routeurl"))
-							->where(array(array("link" => "", "left" => "name", "operator" => "=", "right" => $route)))
-							->getQuery();
-			try {
-				$resultat = $this->_pdoHelper->Select($request);
-
-				$RouteUrl = new entities\Routeurl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
-
-				return $RouteUrl;
-			} catch (\PDOException $e) {
-				print $e->getMessage();
-			}
-			return array();
-		}
 
 		/**
 		 * 

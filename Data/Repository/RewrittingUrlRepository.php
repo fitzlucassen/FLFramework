@@ -21,51 +21,6 @@
 			$this->_queryBuilder = new cores\QueryBuilder(true);
 			$this->_lang = $lang;
 		}
-		/**
-		 * 
-		 * @param type $idRoute
-		 * @return \RewrittingUrl
-		 */
-		public function getByIdRouteUrl($idRoute) {
-			$request = $this->_queryBuilder->select()->from(array("rewrittingurl"))
-								->where(array(array("link" => "", "left" => "lang", "operator" => "=", "right" => $this->_lang),
-									      array("link" => "AND", "left" => "idRouteUrl", "operator" => "=", "right" => $idRoute)))->getQuery();
-			
-			try {
-			    $resultat = $this->_pdoHelper->Select($request);
-
-			    $RewrittingUrl = new entities\Rewrittingurl($resultat["id"], $resultat["idRouteUrl"], $resultat["urlMatched"], $resultat["lang"]);
-
-			    return $RewrittingUrl;
-			} catch (\PDOException $e) {
-			    print $e->getMessage();
-			}
-			return array();
-		}
-
-		/**
-		 * 
-		 * @param type $idRoute
-		 * @param type $lang
-		 * @param type $Connexion
-		 * @return \RewrittingUrl
-		 */
-		public static function getByIdRouteStatic($idRoute, $lang, $Connexion) {
-			$qb = new cores\QueryBuilder(true);
-			$request = $qb->select()->from(array("rewrittingurl"))
-						->where(array(array("link" => "", "left" => "lang", "operator" => "=", "right" => $lang),
-								array("link" => "AND", "left" => "idRouteUrl", "operator" => "=", "right" => $idRoute)))->getQuery();
-			try {
-			    $resultat = $Connexion->Select($request);
-
-			    $RewrittingUrl = new entities\Rewrittingurl($resultat["id"], $resultat["idRouteUrl"], $resultat["urlMatched"], $resultat["lang"]);
-
-			    return $RewrittingUrl;
-			} catch (\PDOException $e) {
-			    print $e->getMessage();
-			}
-			return array();
-		}
 
 		public function getByUrlMatched($url) {
 			return cores\Router::GetRoute($url);

@@ -14,8 +14,10 @@
 		const FROM = "FROM";
 		const WHERE = "WHERE";
 		const ORDER_BY = "ORDER BY";
+		const GROUP_BY = "GROUP BY";
 		const SET = "SET";
 		const VALUES = "VALUES";
+		const LIMIT = "LIMIT";
 		
 		private $_query = "";
 		private $_returnObject = false;
@@ -32,18 +34,10 @@
 		 */
 		public function select($values = array("*")){
 		    $string = self::SELECT;
+
+		    $string .= ' ' . (count($values) > 1 ? implode(', ', $values) : $values[0]);
 		    
-		    $cpt = 0;
-		    foreach($values as $thisValue){
-			$string .= ' ' . $thisValue;
-			if(($cpt+1) < count($values)){
-			    $string .= ', ';
-			}
-			else
-			    $string .= ' ';
-		    }
-		    
-		    $this->_query = $string;
+		    $this->_query = $string . ' ';
 		    return $this->_returnObject ? $this : $string;
 		}
 		
@@ -54,17 +48,10 @@
 		 */
 		public function from($tables){
 		    $string = self::FROM;
-		    
-		    $cpt = 0;
-		    foreach($tables as $thisTable){
-			$string .= ' ' . $thisTable;
-			if(($cpt+1) < count($tables)){
-			    $string .= ', ';
-			}
-			else
-			    $string .= ' '; 
-		    }
-		    $this->_query .= $string;
+
+			$string .= ' ' . (count($tables) > 1 ? implode(', ', $tables) : $tables[0]);
+
+		    $this->_query .= $string . ' ';
 		    return $this->_returnObject ? $this : $string;
 		}
 		
@@ -95,7 +82,7 @@
 				if(isset($val['paranthesis']) && isset($val['paranthesis']['close']))
 		    		$string .= ')';
 		    }
-		    $this->_query .= $string;
+		    $this->_query .= $string . ' ';
 		    return $this->_returnObject ? $this : $string;
 		}
 		
@@ -114,8 +101,20 @@
 				    $string .= ', ';
 				}
 		    }
-		    $this->_query .= $string;
+		    $this->_query .= $string . ' ';
 		    return $this->_returnObject ? $this : $string;
+		}
+
+		public function groupBy($values){
+		    $string = self::GROUP_BY;
+
+		    $string .= ' ' . (count($values) > 1 ? implode(', ', $values) : $values[0]);
+		    
+		    $this->_query = $string . ' ';
+		}
+
+		public function limit($limit){
+			$this->_query .= self::LIMIT . ' ' . $limit;
 		}
 		
 		/**
@@ -124,7 +123,7 @@
 		 * @return string or object. Depends of returnObject var
 		 */
 		public function delete($table){
-		    $string = self::DELETE;
+		    $string = self::DELETE . ' ' . self::FROM;
 		    $string .= " " . $table . " ";
 		    
 		    $this->_query = $string;
@@ -141,14 +140,9 @@
 		    $string = self::INSERT;
 		    $string .= " " . $table . " (";
 		    
-		    $cpt = 0;
-		    foreach(array_keys($values) as $key){
-				$string .= $key;
-				
-				if($cpt < (count($values) - 1))
-				    $string .=  ", ";
-				$cpt++;
-		    }
+		    $keys = array_keys($values);
+		    $string .= count($keys) > 1 ? implode(', ', $keys) : $keys[0];
+
 		    $string .= ") ";
 		    $string .= self::VALUES . ' (';
 		    $cpt = 0;
@@ -182,15 +176,15 @@
 		    
 		    $cpt = 0;
 		    foreach($values as $key => $value){
-			$type = gettype($value);
-			if($type == "string")
-			    $string .= $key . "='" . $value . "'";
-			else
-			    $string .= $key . "=" . $value;
-			
-			if($cpt < (count($values) - 1))
-			    $string .=  ", ";
-			$cpt++;
+				$type = gettype($value);
+				if($type == "string")
+				    $string .= $key . "='" . $value . "'";
+				else
+				    $string .= $key . "=" . $value;
+				
+				if($cpt < (count($values) - 1))
+				    $string .=  ", ";
+				$cpt++;
 		    }
 		    $this->_query = $string . " ";
 		    return $this->_returnObject ? $this : $string;

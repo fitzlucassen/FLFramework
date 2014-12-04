@@ -41,6 +41,7 @@
 		    }
 		    foreach ($routes as $thisRoute){
 		    	$repo = self::$_repositoryManager->get('Rewrittingurl');
+
 				$url = $repo->getBy('idRouteUrl', $thisRoute->getId())[0];
 				self::Add($lang, $thisRoute->getController(), $thisRoute->getAction(), $url->getUrlMatched(), $thisRoute->getOrder() == null ? 0 : $thisRoute->getOrder());
 
