@@ -33,5 +33,4 @@ TODO
 - Module manager
 - Router refactoring
 - Module de traduction (i18n)
-- $pdo refactoring
 - redirect refactoring

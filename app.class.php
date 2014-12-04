@@ -39,7 +39,11 @@
 				try{
 				    $this->_pdo = new Core\Sql();
 				    $this->_repositoryManager = new Core\RepositoryManager($this->_pdo, $this->_session->read('lang'));
-		    		$this->_urlRewritingObject = new Core\UrlRewriting($this->_pdo);
+		    		$this->_urlRewritingObject = new Core\UrlRewriting($this->_repositoryManager);
+		    		Core\Router::SetRepositoryManager($this->_repositoryManager);
+
+		    		// Initialise le module manager
+		    		$this->_moduleManager = new Core\ModuleManager($this->_repositoryManager);
 				}
 				catch(Adapter\ConnexionException $e){
 				    $this->_errorManager->noConnexionAvailable();
@@ -66,8 +70,7 @@
 		    $this->_isInErrorPage = strpos($this->_page, '/Error/') !== false;
 		    // Initialisation du dispatcher
 		    $this->_dispatcher = new Core\Dispatcher();
-		    // Initialise le module manager
-		    $this->_moduleManager = new Core\ModuleManager();
+		    
 		    
 		    // Si on a pas de langue on session on set celle par défaut
 		    if(!$this->_session->ContainsKey("lang"))
@@ -230,7 +233,7 @@
 		public function ManageModuleException(){
 		    // On ne lance les exceptions qu'en mode debug
 		    if((self::$_isDebugMode && self::$_urlRewritingNeeded && self::$_databaseNeeded && !$this->_isInErrorPage)){
-				$this->_moduleManager->manageNativeModuleException($this->_pdo);
+				$this->_moduleManager->manageNativeModuleException();
 		    }
 		}
 		

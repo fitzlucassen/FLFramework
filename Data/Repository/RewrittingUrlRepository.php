@@ -150,7 +150,7 @@
 				)))->getQuery();
 			
 			try {
-				$result = $this->_pdo->SelectTable($query);
+				$result = $this->_pdoHelper->SelectTable($query);
 				$array = array();
 				foreach ($result as $object){
 				    $o = new entities\Rewrittingurl();

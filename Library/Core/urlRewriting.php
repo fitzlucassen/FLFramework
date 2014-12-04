@@ -17,17 +17,15 @@
     	private $_rewrittingUrl = null;
 
     	private $_repositoryManager = null;
-    	private $_pdo = null;
 
     	private $_langInUrl = false;
 
     	private $_page;
     	private $_url;
 
-    	public function __construct($pdo){
-    		$this->_pdo = $pdo;
+    	public function __construct($repo){
     		$this->_session = new Helper\Session();
-    		$this->_repositoryManager = new RepositoryManager($pdo, $this->_session->Read("lang"));
+    		$this->_repositoryManager = $repo;
     		
     		$this->_langRepository = $this->_repositoryManager->get('Lang');
     		$this->_rewrittingUrlRepository = $this->_repositoryManager->get('Rewrittingurl');
@@ -40,7 +38,7 @@
 			
 			// Si les langues ne sont pas encore en cache on requête en BDD
 			if(!$langs = Cache::read("lang")){
-			    $langs = Data\Repository\LangRepository::getAll($this->_pdo);
+			    $langs = Data\Repository\LangRepository::getAll($this->_repositoryManager->getConnection());
 			    // On ecrit le résultat en cache
 			    Cache::write("lang", $langs);
 			    // Si on a pas de module multilingue on insère la langue par défaut
@@ -52,11 +50,11 @@
 			foreach($langs as $thisLang){
 			    // Si les routes ne sont pas encore en cache on requête en BDD
 			    if(!$routes = Cache::read("routeurl")){
-					$routes = Data\Repository\RouteUrlRepository::getAll($this->_pdo);
+					$routes = Data\Repository\RouteUrlRepository::getAll($this->_repositoryManager->getConnection());
 					// On ecrit le résultat en cache
 					Cache::write("routeurl", $routes);
 			    }
-			    Router::AddRange($routes, $thisLang->getCode(), $this->_pdo);
+			    Router::AddRange($routes, $thisLang->getCode());
 			    
 			    // Si on est sur une page de langue spécifique alors on change la langue en session
 			    if(strpos($this->_page, "/" . $thisLang->getCode() . "/") === 0){

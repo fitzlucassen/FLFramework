@@ -9,12 +9,13 @@
       Déscription : Permet de gérer la couche du routing
      */
     class Router {
+		private static $_langs = array();
 		private static $_routes = array();
 		private static $_defaultController = "home";
 		private static $_defaultAction = "index";
 		private static $_defaultLang = "fr";
 		private static $_regex = "A-Za-z0-9\-\.";
-		private static $_langs = array();
+		private static $_repositoryManager = null;
 
 		/**
 		 * Add -> Ajoute une route à la collection
@@ -33,15 +34,17 @@
 		 * AddRange -> ajoute une collection de route à la collection
 		 * @param array $routes
 		 * @param string $lang
-		 * @param object $pdo
 		 */
-		public static function AddRange($routes, $lang, $pdo) {
+		public static function AddRange($routes, $lang) {
 		    if(!in_array($lang, self::$_langs)){
 				self::$_langs[] = $lang;
 		    }
 		    foreach ($routes as $thisRoute){
-				$url = Repository\RewrittingurlRepository::getByIdRouteStatic($thisRoute->getId(), $lang, $pdo);
-				self::Add($lang, $thisRoute->getController(), $thisRoute->getAction(), $url->getUrlMatched(), $thisRoute->getOrder());
+		    	$repo = self::$_repositoryManager->get('Rewrittingurl');
+				$url = $repo->getBy('idRouteUrl', $thisRoute->getId())[0];
+				self::Add($lang, $thisRoute->getController(), $thisRoute->getAction(), $url->getUrlMatched(), $thisRoute->getOrder() == null ? 0 : $thisRoute->getOrder());
+
+		    	self::$_routes[$lang] = Adapter\ArrayAdapter::OrderBy(self::$_routes[$lang], 'order');
 		    }
 		}
 		
@@ -87,12 +90,10 @@
 				}
 
 				$array = self::GetRoutes(null, $langInUrl);
-
 				foreach ($array as $key => $value) {
 				    $regex = "#" . preg_replace("#{([" . self::$_regex . "]+)}#i", "([" . self::$_regex . "]+)", $value["pattern"]) . "#i";
 				    
 				    if (preg_match($regex, $pattern, $matches) && isset($value["pattern"])){
-
 						if(isset($matches[1]) || isset($matches[0])){
 						    $i = 1;
 						    if(!isset($matches[1])){
@@ -241,6 +242,10 @@
 		    self::$_defaultAction = $action;
 		}
 
+		public static function SetRepositoryManager($repo){
+			self::$_repositoryManager = $repo;
+		}
+
 		/***********
 		 * Getters *
 		 ***********/
@@ -262,8 +267,6 @@
 		    if ($lang === null)
 				$lang = self::$_defaultLang;
 		    
-		    if(isset(self::$_routes[$lang]) && is_array(self::$_routes[$lang]))
-			    self::$_routes[$lang] = Adapter\ArrayAdapter::OrderBy(self::$_routes[$lang], 'order');
 		    return ($key === null) ?
 			    ((isset(self::$_routes[$lang])) ? self::$_routes[$lang] : array() ) :
 			    ((isset(self::$_routes[$lang][$key])) ? self::$_routes[$lang][$key] : false );
