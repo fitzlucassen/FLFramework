@@ -4,16 +4,14 @@
 	 * All right reserved to fitzlucassen repository on github*
 	 ************* https://github.com/fitzlucassen ************
 	 **********************************************************/
-	namespace fitzlucassen\FLFramework\Data\Repository;
+	namespace fitzlucassen\FLFramework\Data\Entity;
 
 	use fitzlucassen\FLFramework\Library\Core;
-	use fitzlucassen\FLFramework\Data\Entity;
 	use fitzlucassen\FLFramework\Data\Base\Entity as EntityBase;
-	use fitzlucassen\FLFramework\Data\Base\Repository as RepositoryBase;
 
-	class LangRepository extends RepositoryBase\LangRepositoryBase {
-		public function __construct($pdo, $lang) {
-			parent::__construct($pdo, $lang);
+	class Header extends EntityBase\HeaderBase {
+		public function __construct($id = '', $title = '', $metaDescription = '', $metaKeywords = '', $lang = ''){
+			parent::__construct($id, $title, $metaDescription, $metaKeywords, $lang);
 		}
 
 	}

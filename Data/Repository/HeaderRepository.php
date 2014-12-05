@@ -11,7 +11,7 @@
 	use fitzlucassen\FLFramework\Data\Base\Entity as EntityBase;
 	use fitzlucassen\FLFramework\Data\Base\Repository as RepositoryBase;
 
-	class LangRepository extends RepositoryBase\LangRepositoryBase {
+	class HeaderRepository extends RepositoryBase\HeaderRepositoryBase {
 		public function __construct($pdo, $lang) {
 			parent::__construct($pdo, $lang);
 		}

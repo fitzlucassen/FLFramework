@@ -34,4 +34,3 @@ TODO
 - Router refactoring
 - Module de traduction (i18n)
 - redirect refactoring
-- Data/Base + extension de classe

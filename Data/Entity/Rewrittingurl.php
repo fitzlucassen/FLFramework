@@ -6,63 +6,12 @@
 	 **********************************************************/
 	namespace fitzlucassen\FLFramework\Data\Entity;
 
-	use fitzlucassen\FLFramework\Library\Core as cores;
+	use fitzlucassen\FLFramework\Library\Core;
+	use fitzlucassen\FLFramework\Data\Base\Entity as EntityBase;
 
-	class Rewrittingurl {
-		private $_id;
-		private $_routeurl;
-		private $_idRouteUrl;
-		private $_urlMatched;
-		private $_lang;
-		private $_queryBuilder;
-
-		public function __construct($id = "", $idRouteUrl = "", $urlMatched = "", $lang = ""){
-			$this->_queryBuilder = new cores\QueryBuilder(true);
-			$this->fillObject(array("id" => $id, "idRouteUrl" => $idRouteUrl, "urlMatched" => $urlMatched, "lang" => $lang));
+	class Rewrittingurl extends EntityBase\RewrittingurlBase {
+		public function __construct($id = '', $idRouteUrl = '', $urlMatched = '', $lang = ''){
+			parent::__construct($id, $idRouteUrl, $urlMatched, $lang);
 		}
 
-		/***********
-		 * GETTERS *
-		 ***********/
-		public function getId() {
-			return $this->_id;
-		}
-		public function getRouteUrl() {
-			$query = $this->_queryBuilder->select()->from("routeurl")
-								->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $this->_idRouteUrl)))->getQuery();
-			try {
-			    $result = $this->_pdo->Select($query);
-			    $o = new Routeurl();
-			    $o->fillObject($result);
-			    return $o;
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
-		}
-
-		public function getIdRouteUrl() {
-			return $this->_idRouteUrl;
-		}
-		public function getUrlMatched() {
-			return $this->_urlMatched;
-		}
-		public function getLang() {
-			return $this->_lang;
-		}
-		/*******
-		 * END *
-		 *******/
-
-		public function fillObject($properties) {
-			if(!empty($properties["id"]))
-				$this->_id = $properties["id"];
-			if(!empty($properties["idRouteUrl"]))
-				$this->_idRouteUrl = $properties["idRouteUrl"];
-			if(!empty($properties["urlMatched"]))
-				$this->_urlMatched = $properties["urlMatched"];
-			if(!empty($properties["lang"]))
-				$this->_lang = $properties["lang"];
-		}
 	}

@@ -118,21 +118,19 @@
                 <p class="pre">DAL\Sql($db, $host, $user, $pwd)</p>
                 <p>Ce constructeur permet de créer la connexion à votre base de données. 
                     Il suffit donc en amont de renseigner vos informations</p>
-                <p class="pre">DAL\Utilities($sqlObject, $nbFile, $array, $host)</p>
+                <p class="pre">DAL\Utilities($sqlObject, $array, $host)</p>
                 <p>Ce constructeur créer l'objet qui va s'occuper de générer vos classes php.<br/>
                     Le premier paramètre est l'objet sql créer précédemment.<br/>
-                    Le deuxième paramètre permet de préciser si l'on veut un fichier final généré ou deux<br/>
-                    Le troisième paramètre est facultatif. 
+                    Le deuxième paramètre est facultatif. 
                     C'est un array qui permet de préciser des attributs supplémentaires que l'on veut voir apparaître dans les classes générées.<br/>
                     Le dernier paramètre est l'host de la BDD. Il est facultatif.</p>
                 
-                <p class="pre">$Utilities->createClasses($entityPath, $repositoryPath, $links)</p>
+                <p class="pre">$Utilities->createClasses($path, $links)</p>
                 <p>
                     Cette fonction lance la génération des classes.<br/>
-                    Le premier paramètre est le chemin physique dans lequel nous voulons générer les fichiers "entity".<br/>
-                    Le deuxième paramètre est le chemin physique dans lequel nous voulons générer les fichiers "repository".<br/>
-                    (Sachant que ces deux paramètres sont à configurer en amont)<br/>
-                    Le troisième paramètre est l'array de lien configurer plutôt avec la fonction <i>setLink</i>.
+                    Le premier paramètre est le chemin physique dans lequel nous voulons générer les fichiers.<br/>
+                    (Sachant que ce paramètre est à configurer en amont)<br/>
+                    Le deuxième paramètre est l'array de lien configurer plutôt avec la fonction <i>setLink</i>.
                 </p>
             </div>
         </div>

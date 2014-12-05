@@ -107,7 +107,6 @@
 		    $sourceRepository2 = $this->getRepositoryHeader($tableName, false, ucwords(strtolower($tableName)) . 'RepositoryBase');
 		    $sourceEntity2 = $this->getEntityHeader($tableName, false, ucwords(strtolower($tableName)) . 'Base');
 
-		    $sourceRepository2 .= $this->fillRepositoryAttributs($tableName, $tableFields);
 		    $sourceRepository2 .= $this->getRepositoryContent();
 		    $sourceEntity2 .= $this->getEntityContent($tableName, $tableFields, $link);
 
@@ -131,13 +130,15 @@
 			$string .= FileManager::getTab() . 'namespace fitzlucassen\FLFramework\Data\\' . ($base ? 'Base\\' : '') . 'Repository;' . FileManager::getBackSpace(2);
 		    $string .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Library\Core;' . FileManager::getBackSpace();
 		    $string .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Data\Entity;' . FileManager::getBackSpace();
-	    	$string .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Data\Base\Entity;' . FileManager::getBackSpace();
+	    	$string .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Data\Base\Entity as EntityBase;' . FileManager::getBackSpace();
 
 	    	if(!$base)
-	    		$string .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Data\Base\Repository;' . FileManager::getBackSpace();
+	    		$string .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Data\Base\Repository as RepositoryBase;' . FileManager::getBackSpace();
+
+		    $extends = ($extends !== false ? 'extends ' . (!$base ? 'RepositoryBase\\' : '') . $extends : '');
 
 	    	$string .= FileManager::getBackSpace();
-		    $string .= FileManager::getTab() . 'class ' . ucwords(strtolower($tableName)) . 'Repository' . ($base ? 'Base' : '') . ' ' . ($extends !== false ? 'extends ' . $extends : '') . ' {' . FileManager::getBackSpace();
+		    $string .= FileManager::getTab() . 'class ' . ucwords(strtolower($tableName)) . 'Repository' . ($base ? 'Base' : '') . ' ' . $extends . ' {' . FileManager::getBackSpace();
 
 			return $string;
 		}
@@ -149,12 +150,14 @@
 			$string .= FileManager::getTab() . 'namespace fitzlucassen\FLFramework\Data\\' . ($base ? 'Base\\' : '') . 'Entity;' . FileManager::getBackSpace(2);
 		    $string .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Library\Core;' . FileManager::getBackSpace();
 		    if(!$base)
-		    	$string .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Data\Base\Entity;' . FileManager::getBackSpace();
+		    	$string .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Data\Base\Entity as EntityBase;' . FileManager::getBackSpace();
 		    else
 		    	$string .= FileManager::getTab() . 'use fitzlucassen\FLFramework\Data\Entity;' . FileManager::getBackSpace();
 
+		    $extends = ($extends !== false ? 'extends ' . (!$base ? 'EntityBase\\' : '') . $extends : '');
+
 		    $string .= FileManager::getBackSpace();
-		    $string .= FileManager::getTab() . 'class ' . ucwords(strtolower($tableName)) . ($base ? 'Base' : '') . ' ' . ($extends !== false ? 'extends ' . $extends : '') . ' {' . FileManager::getBackSpace();
+		    $string .= FileManager::getTab() . 'class ' . ucwords(strtolower($tableName)) . ($base ? 'Base' : '') . ' ' . $extends . ' {' . FileManager::getBackSpace();
 
 			return $string;
 		}
@@ -243,11 +246,11 @@
 		 * @return string source code to write
 		 */
 		private function fillRepositoryAttributs($tableName, $tableFields){
-		    $source = FileManager::getTab(2) . 'private $_pdo;' . FileManager::getBackSpace();
-		    $source .= FileManager::getTab(2) . 'private $_lang;' . FileManager::getBackSpace();
+		    $source = FileManager::getTab(2) . 'protected $_pdo;' . FileManager::getBackSpace();
+		    $source .= FileManager::getTab(2) . 'protected $_lang;' . FileManager::getBackSpace();
 		    
 		    foreach ($this->_other_attributs as $thisOther){
-				$source .= FileManager::getTab(2) . 'private $' . $thisOther . ';' . FileManager::getBackSpace();
+				$source .= FileManager::getTab(2) . 'protected $' . $thisOther . ';' . FileManager::getBackSpace();
 		    }
 		    $source .= FileManager::getBackSpace();
 			    

@@ -6,28 +6,16 @@
 	 **********************************************************/
 	namespace fitzlucassen\FLFramework\Data\Repository;
 
-	use fitzlucassen\FLFramework\Library\Core as cores;
-	use fitzlucassen\FLFramework\Data\Entity as entities;
+	use fitzlucassen\FLFramework\Library\Core;
+	use fitzlucassen\FLFramework\Data\Entity;
+	use fitzlucassen\FLFramework\Data\Base\Entity as EntityBase;
+	use fitzlucassen\FLFramework\Data\Base\Repository as RepositoryBase;
 
-	class RouteurlRepository {
-		private $_pdo;
-		private $_lang;
-		private $_pdoHelper;
-		private $_queryBuilder;
-
-		public function __construct($pdo, $lang){
-			$this->_pdoHelper = $pdo;
-			$this->_pdo = $pdo->GetConnection();
-			$this->_queryBuilder = new cores\QueryBuilder(true);
-			$this->_lang = $lang;
+	class RouteurlRepository extends RepositoryBase\RouteurlRepositoryBase {
+		public function __construct($pdo, $lang) {
+			parent::__construct($pdo, $lang);
 		}
 
-		/**
-		 * 
-		 * @param type $controller
-		 * @param type $action
-		 * @return \RouteUrl
-		 */
 		public function getByControllerAction($controller, $action) {
 			$request = $this->_queryBuilder->select()
 							->from(array("routeurl"))
@@ -37,7 +25,7 @@
 			try {
 				$resultat = $this->_pdoHelper->Select($request);
 
-				$RouteUrl = new entities\Routeurl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
+				$RouteUrl = new Entity\Routeurl($resultat["id"], $resultat["name"], $resultat["controller"], $resultat["action"], $resultat["order"]);
 
 				return $RouteUrl;
 			} catch (\PDOException $e) {
@@ -45,102 +33,4 @@
 			}
 			return array();
 		}
-	
-		/**************************
-		 * REPOSITORIES FUNCTIONS *
-		 **************************/
-		public static function getAll($Connection){
-			$qb = new cores\QueryBuilder(true);
-			$query = $qb->select()->from(array("routeurl"))->getQuery();
-			try {
-				$result = $Connection->SelectTable($query);
-				$array = array();
-				foreach ($result as $object){
-					$o = new entities\Routeurl();
-					$o->fillObject($object);
-					$array[] = $o;
-				}
-				return $array;
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
-		}
-
-		public function getById($id){
-			$query = $this->_queryBuilder->select()->from(array("routeurl"))
-										->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id)))->getQuery();
-			try {
-				$properties = $this->_pdoHelper->Select($query);
-				$object = new entities\Routeurl();
-				$object->fillObject($properties);
-				return $object;
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
-		}
-
-		public function delete($id) {
-			$query = $this->_queryBuilder->delete("routeurl")
-										->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))
-										->getQuery();
-			try {
-				return $this->_pdo->Query($query);
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
-		}
-
-		public function add($properties) {
-			$query = $this->_queryBuilder->insert("routeurl", array('name' => $properties["name"], 'controller' => $properties["controller"], 'action' => $properties["action"], 'order' => $properties["order"], ))->getQuery();
-			try {
-				return $this->_pdo->Query($query);
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
-		}
-
-		public function update($id, $properties) {
-			$query = $this->_queryBuilder->update("routeurl", array('name' => $properties["name"], 'controller' => $properties["controller"], 'action' => $properties["action"], 'order' => $properties["order"], ))->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))->getQuery();
-			try {
-				return $this->_pdo->Query($query);
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
-		}
-
-		public function getBy($key, $value){
-			$query = $this->_queryBuilder->select()->from(array("routeurl"))->where(array(
-				array(
-					"link" => "", "left" => $key, "operator" => "=", "right" => $value
-				)))->getQuery();
-			
-			try {
-				$result = $this->_pdoHelper->SelectTable($query);
-				$array = array();
-				foreach ($result as $object){
-				    $o = new entities\Routeurl();
-				    $o->fillObject($object);
-				    $array[] = $o;
-				}
-				return $array;
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
-		}
-		/*******
-		 * END *
-		 *******/
-
 	}

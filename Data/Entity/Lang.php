@@ -6,35 +6,12 @@
 	 **********************************************************/
 	namespace fitzlucassen\FLFramework\Data\Entity;
 
-	use fitzlucassen\FLFramework\Library\Core as cores;
+	use fitzlucassen\FLFramework\Library\Core;
+	use fitzlucassen\FLFramework\Data\Base\Entity as EntityBase;
 
-	class Lang {
-		private $_id;
-		private $_code;
-		private $_queryBuilder;
-
-		public function __construct($id = "", $code = ""){
-			$this->_queryBuilder = new cores\QueryBuilder(true);
-			$this->fillObject(array("id" => $id, "code" => $code));
+	class Lang extends EntityBase\LangBase {
+		public function __construct($id = '', $code = ''){
+			parent::__construct($id, $code);
 		}
 
-		/***********
-		 * GETTERS *
-		 ***********/
-		public function getId() {
-			return $this->_id;
-		}
-		public function getCode() {
-			return $this->_code;
-		}
-		/*******
-		 * END *
-		 *******/
-
-		public function fillObject($properties) {
-			if(!empty($properties["id"]))
-				$this->_id = $properties["id"];
-			if(!empty($properties["code"]))
-				$this->_code = $properties["code"];
-		}
 	}

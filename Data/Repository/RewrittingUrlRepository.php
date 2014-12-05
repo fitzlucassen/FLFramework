@@ -6,121 +6,17 @@
 	 **********************************************************/
 	namespace fitzlucassen\FLFramework\Data\Repository;
 
-	use fitzlucassen\FLFramework\Library\Core as cores;
-	use fitzlucassen\FLFramework\Data\Entity as entities;
+	use fitzlucassen\FLFramework\Library\Core;
+	use fitzlucassen\FLFramework\Data\Entity;
+	use fitzlucassen\FLFramework\Data\Base\Entity as EntityBase;
+	use fitzlucassen\FLFramework\Data\Base\Repository as RepositoryBase;
 
-	class RewrittingurlRepository {
-		private $_pdo;
-		private $_lang;
-		private $_pdoHelper;
-		private $_queryBuilder;
-
-		public function __construct($pdo, $lang){
-			$this->_pdoHelper = $pdo;
-			$this->_pdo = $pdo->GetConnection();
-			$this->_queryBuilder = new cores\QueryBuilder(true);
-			$this->_lang = $lang;
+	class RewrittingurlRepository extends RepositoryBase\RewrittingurlRepositoryBase {
+		public function __construct($pdo, $lang) {
+			parent::__construct($pdo, $lang);
 		}
 
 		public function getByUrlMatched($url) {
-			return cores\Router::GetRoute($url);
+			return Core\Router::GetRoute($url);
 		}
-		
-		/**************************
-		 * REPOSITORIES FUNCTIONS *
-		 **************************/
-		public static function getAll($Connection){
-			$qb = new cores\QueryBuilder(true);
-			$query = $qb->select()->from(array("rewrittingurl"))->getQuery();
-			try {
-				$result = $Connection->SelectTable($query);
-				$array = array();
-				foreach ($result as $object){
-					$o = new entities\Rewrittingurl();
-					$o->fillObject($object);
-					$array[] = $o;
-				}
-				return $array;
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
-		}
-
-		public function getById($id){
-			$query = $this->_queryBuilder->select()->from(array("rewrittingurl"))
-								->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id)))->getQuery();
-			try {
-				$properties = $this->_pdoHelper->Select($query);
-				$object = new entities\Rewrittingurl();
-				$object->fillObject($properties);
-				return $object;
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
-		}
-
-		public function delete($id) {
-			$query = $this->_queryBuilder->delete("rewrittingurl")
-							->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))
-							->getQuery();
-			try {
-				return $this->_pdo->Query($query);
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
-		}
-
-		public function add($properties) {
-			$query = $this->_queryBuilder->insert("rewrittingurl", array('idRouteUrl' => $properties["idRouteUrl"], 'urlMatched' => $properties["urlMatched"], 'lang' => $properties["lang"], ))->getQuery();
-			try {
-				return $this->_pdo->Query($query);
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
-		}
-
-		public function update($id, $properties) {
-			$query = $this->_queryBuilder->update("rewrittingurl", array('idRouteUrl' => $properties["idRouteUrl"], 'urlMatched' => $properties["urlMatched"], 'lang' => $properties["lang"], ))->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))->getQuery();
-			try {
-				return $this->_pdo->Query($query);
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
-		}
-
-		public function getBy($key, $value){
-			$query = $this->_queryBuilder->select()->from(array("rewrittingurl"))->where(array(
-				array(
-					"link" => "", "left" => $key, "operator" => "=", "right" => $value
-				)))->getQuery();
-			
-			try {
-				$result = $this->_pdoHelper->SelectTable($query);
-				$array = array();
-				foreach ($result as $object){
-				    $o = new entities\Rewrittingurl();
-				    $o->fillObject($object);
-				    $array[] = $o;
-				}
-				return $array;
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
-		}
-		/*******
-		 * END *
-		 *******/
-
 	}
