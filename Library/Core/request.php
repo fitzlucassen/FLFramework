@@ -51,7 +51,7 @@
 		    $params = array();
 		    $vars = self::isPost() ? $_POST : $_GET;
 		    
-		    if(!Request::isJson($vars)){
+		    if(!self::isJson($vars)){
 			    foreach($vars as $key => $value){
 					if(gettype($value) == "string"){
 					    $params[$key] = htmlspecialchars($value);

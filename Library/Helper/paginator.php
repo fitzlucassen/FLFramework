@@ -1,5 +1,7 @@
 <?php
     namespace fitzlucassen\FLFramework\Library\Helper;
+
+    use fitzlucassen\FLFramework\Library\Core;
     
     /*
       Class : Paginator
@@ -39,13 +41,13 @@
     	}
 
     	public function managePaginator(){
-    		if(isset($_GET) && isset($_GET[$this->_config['paramPage']])){
-    			$requestedPage = isset($_GET[$this->_config['paramPage']]) ? $_GET[$this->_config['paramPage']] : 1;
-    			$requestedNbItem = isset($_GET[$this->_config['paramItemPerPar']]) ? $_GET[$this->_config['paramItemPerPar']] : $this->_config['itemPerPage'];
-    		}
-    		else {
-    			$requestedPage = isset($_POST[$this->_config['paramPage']]) ? $_POST[$this->_config['paramPage']] : 1;
-    			$requestedNbItem = isset($_POST[$this->_config['paramItemPerPar']]) ? $_POST[$this->_config['paramItemPerPar']] : $this->_config['itemPerPage'];
+    		if(Request::isGet() || Request::isPost()){
+                $data = Request::cleanRequest();
+
+                if(isset($data[$this->_config['paramPage']])){
+        			$requestedPage = isset($data[$this->_config['paramPage']]) ? $data[$this->_config['paramPage']] : 1;
+        			$requestedNbItem = isset($data[$this->_config['paramItemPerPar']]) ? $data[$this->_config['paramItemPerPar']] : $this->_config['itemPerPage'];
+                }
     		}
 
     		$this->_config['itemPerPage'] = $requestedNbItem;
