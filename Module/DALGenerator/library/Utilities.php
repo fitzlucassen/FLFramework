@@ -114,10 +114,12 @@
 		    $sourceEntity2.= FileManager::getTab() . "}" . FileManager::getBackSpace();
 
 		    // On ecrit le contenu de chaque classe dans leur fichier
-			fwrite($entityBaseFile, $sourceEntity);
-		    fwrite($repositoryBaseFile, $sourceRepository);
-		    fwrite($entityFile, $sourceEntity2);
-		    fwrite($repositoryFile, $sourceRepository2);
+		    FileManager::writeInFiles(array(
+		    	$sourceEntity => $entityBaseFile,
+		    	$sourceRepository => $repositoryBaseFile,
+		    	$sourceEntity2 => $entityFile,
+		    	$sourceRepository2 => $repositoryFile,
+		    ));
 
 		    // On ferme les quatres fichiers
 		    FileManager::closeFiles(array($entityFile, $repositoryFile, $entityBaseFile, $repositoryBaseFile));

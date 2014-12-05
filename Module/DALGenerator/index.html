@@ -98,6 +98,10 @@
             <p>&nbsp;</p>
             
             <div class="doc">
+                <p>Ce module est indépendant du framework. Cependant, s'il doit être utiliser ailleurs, certaines modifications sont nécessaire.<p>
+                <P>Tout d'abord, il faut changer les namespaces générés afin de coller à votre projet.<p>
+                <p>Ensuite il faut inclure dans votre projet les classes <b>queryBuilder.php</b> et <b>Sql.php</b> présentes dans le core de ce framework</p>
+                <br/>
                 <p class="pre">$Config->setLink($array)</p>
                 <p>L'array est sous la forme :</p>
                 <p class="pre">array('table1' => array('table2' => 'typeDeLien'))</p>

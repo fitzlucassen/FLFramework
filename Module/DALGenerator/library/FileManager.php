@@ -114,8 +114,14 @@
 		}
 
 		public static function closeFiles($array){
-			foreach ($array as $value) {
-				fclose($value);
-			}
+			foreach ($array as $value)
+				if(isset($value) && gettype($value) !== 'boolean')
+					fclose($value);
+		}
+
+		public static function writeInFiles($array){
+			foreach ($array as $content => $file) 
+				if(isset($file) && gettype($file) !== 'boolean')
+					fwrite($file, $content);
 		}
     }
