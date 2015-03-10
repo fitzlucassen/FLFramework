@@ -6,7 +6,11 @@
 }
 
 /* UTILITIES CLASSES */
-.left{float: left;display:block;}.right{float:right;display:block;}.alignCenter{text-align:center;}.cl{clear:both;display: block;}.vAlign{vertical-align:middle;}
+.fLeft{float: left;display:block;}
+.fRight{float:right;display:block;}
+.tAlignCenter{text-align:center;}
+.cl{clear:both;display: block;}
+.vAlignCenter{vertical-align:middle;}
 
 /* LAYOUT */
 html, body{
