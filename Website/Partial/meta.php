@@ -29,7 +29,7 @@
 <link type="text/css" rel="stylesheet" href="/<?php echo __css_directory__;?>/_built.css" />
 
 <!--[if lt IE 9]>
-	<script src="<?php echo __js_directory__  ; ?>/Base/html5shiv.js"></script>
+	<script src="/<?php echo __js_directory__  ; ?>/Module/html5shiv.js"></script>
 <![endif]-->
 
 <?php

@@ -10,8 +10,8 @@
      */
     class Model {
 		public $_headerInformations = null;
-		public $_controller = "home";
-		public $_action = "index";
+		public $_controller = "";
+		public $_action = "";
 		public $_params = array();
 		
 		public function __construct($manager, $params = array()) {

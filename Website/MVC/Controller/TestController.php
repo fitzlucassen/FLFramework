@@ -24,7 +24,7 @@
 		public function TestCdiscount(){
 		    $Model = new Model\HomeModel($this->_repositoryManager);
 		    	
-		    $Cdiscount = new Helper\Cdiscount($this->_repositoryManager, 'YOUR-API-KEY');
+		    $Cdiscount = new Helper\Cdiscount($this->_repositoryManager, '[YOUR-API-KEY]');
 
 		    $Cdiscount->request('Search', array(
 		    	"SearchRequest" => array(
@@ -161,8 +161,8 @@
 			// Initialization of the API
 			$Paypal = new Helper\Paypal("sell_api1.localhost.fr", "1393605614", "ATM9fpmKSuPGPsQ.TNNoHOvNfnzMAIHsSTo8Ioj7.fhhmklFDRL83E77", false);
 			// Iniialize the url vars for the return of the first request
-			$Paypal->setReturnUrl('http://flframework:81/' . Core\Router::GetUrl("home", "testpaypal"));
-			$Paypal->setCancelUrl('http://flframework:81/' . Core\Router::GetUrl("home", "testpaypal"));
+			$Paypal->setReturnUrl('http://[YOUR-URL]/' . Core\Router::GetUrl("home", "testpaypal"));
+			$Paypal->setCancelUrl('http://[YOUR-URL]/' . Core\Router::GetUrl("home", "testpaypal"));
 			// Fraix de port
 			$Paypal->setPort(10);
 			// total amount ttc without port
@@ -192,7 +192,7 @@
 		    // Initialize your rss flux
 		    $Rss = new Helper\Rss();
 		    $Rss->setTitle("Test RSS")
-	    		->setLink("http://www.passanger.fr")
+	    		->setLink("http://www.thibaultdulon.com")
 	    		->setDescription("This is a description");
 
 	    	// And then fill it with your items
@@ -200,12 +200,12 @@
     			array(
     				"title" => "item1",
     				"description" => "description item1",
-    				"link" => "http://www.passanger.fr"
+    				"link" => "http://www.thibaultdulon.com"
     			),
     			array(
     				"title" => "item2",
     				"description" => "description item2",
-    				"link" => "http://www.passanger.fr"
+    				"link" => "http://www.thibaultdulon.com"
     			)
     		));
 

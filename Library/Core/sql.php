@@ -6,13 +6,12 @@
       Class : SQL
       Déscription : Permet de gérer les données en base
      */
-    class Sql{
+    class Sql {
 		private static $_db = '';					// base de données 
 		private static $_host = '';					// adresse de la base 
 		private static $_user = '';					// nom 
 		private static $_pwd = '';					// mot de passe 
 		private $_con = '';							// connexion PDO
-		private $_email = 'contact@flframework.fr';	// email de l'admin du site 
 	
 		/*
 		 * Constructeur
@@ -25,7 +24,6 @@
 					$this->_con->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true); 
 			} 
 			catch(\PDOException $e) { 
-				//On indique par email qu'on n'a plus de connection disponible 
 				throw new Adapter\ConnexionException(Adapter\ConnexionException::getNO_DB_FOUND(), null);
 			} 
 		}
@@ -45,7 +43,6 @@
 				return $result->fetch(\PDO::FETCH_ASSOC); 
 			}
 			catch (\Exception $e) {
-				//On indique par email que la requête n'a pas fonctionné. 
 				$this->_con->rollBack(); 
 				throw new Adapter\ConnexionException(Adapter\ConnexionException::getQUERY_FAILED(), array("message" => $e->getMessage()));
 		    } 
@@ -64,11 +61,9 @@
 				$this->_con->commit();
 				
 				/* Récupération de toutes les lignes d'un jeu de résultats "équivalent à mysql_num_row() " */ 
-				$resultat = $result->fetchAll(); 
-				return $resultat; 
+				return $result->fetchAll();
 			}
 			catch (\Exception $e) { 
-				//On indique par email que la requête n'a pas fonctionné. 
 				$this->_con->rollBack(); 
 				throw new Adapter\ConnexionException(Adapter\ConnexionException::getQUERY_FAILED(), array("message" => $e->getMessage()));
 		    } 

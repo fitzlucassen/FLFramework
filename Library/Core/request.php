@@ -37,10 +37,7 @@
 
 
 		private static function isJson($string) {
-			$tmp = json_decode($string);
-
-		  	return 	(is_string($string) && 
-	         		(is_object($tmp) || is_array($tmp))) ? true : false;
+		  	return 	is_object($string) || is_array($string) ? false : true;
 		}
 
 		/**

@@ -1,12 +1,12 @@
 <?php
-     
-    namespace fitzlucassen\FLFramework\Library\Core;
+	 
+	namespace fitzlucassen\FLFramework\Library\Core;
 
-    /*
-      Class : Cache
-      Déscription : Permet de gérer le cache (mise en cache de requête ou de vue)
-     */
-    class Cache {
+	/*
+	  Class : Cache
+	  Déscription : Permet de gérer le cache (mise en cache de requête ou de vue)
+	 */
+	class Cache {
 		private static $_cacheFolder = '/Cache/';
 		private static $_expireTime = 86400; // Un jour
 
@@ -17,9 +17,12 @@
 		 * @return object
 		 */
 		public static function write($key, $text){
-		    file_put_contents(self::$_cacheFolder . $key, serialize($text));
-		    
-		    return $text;
+			if(!is_dir(self::$_cacheFolder))
+				mkdir(self::$_cacheFolder);
+			
+			file_put_contents(self::$_cacheFolder . $key, serialize($text));
+			
+			return $text;
 		}
 		
 		/**
@@ -28,15 +31,18 @@
 		 * @return boolean/object
 		 */
 		public static function read($key){
-		    if(file_exists(self::$_cacheFolder . $key)){
-			if(filemtime(self::$_cacheFolder . $key) + self::$_expireTime <= time()){
-			    self::delete($key);
-			    return false;
+			if(!is_dir(self::$_cacheFolder))
+				mkdir(self::$_cacheFolder);
+
+			if(file_exists(self::$_cacheFolder . $key)){
+				if(filemtime(self::$_cacheFolder . $key) + self::$_expireTime <= time()){
+					self::delete($key);
+					return false;
+				}
+				return unserialize(file_get_contents(self::$_cacheFolder . $key));
 			}
-			return unserialize(file_get_contents(self::$_cacheFolder . $key));
-		    }
-		    else
-			return false;
+			else
+				return false;
 		}
 		
 		/**
@@ -44,32 +50,32 @@
 		 * @param string $key
 		 */
 		public static function delete($key){
-		    unlink(self::$_cacheFolder . $key);
+			unlink(self::$_cacheFolder . $key);
 		}
 		
 		/**
 		 * clear --> supprime tous les élément du cache
 		 */
 		public static function clear(){
-		    foreach(glob(self::$_cacheFolder . '*') as $file){
-			self::delete($file);
-		    }
+			foreach(glob(self::$_cacheFolder . '*') as $file){
+				self::delete($file);
+			}
 		}
 		
-	       /***********
-	        * GETTERS *
-	        ***********/
-	       public static function getCacheFolder(){
-		   return self::$_cacheFolder;
-	       }
-	       
-	       /***********
-	        * SETTERS *
-	        ***********/
-	       public static function setCacheFolder($arg){
-		   self::$_cacheFolder = $arg;
-	       }
-	       public static function setExpireTime($arg){
-		    self::$_expireTime = $arg;
+		/***********
+		 * GETTERS *
+		 ***********/
+	   	public static function getCacheFolder(){
+			return self::$_cacheFolder;
 		}
-    }
+		   
+		/***********
+		* SETTERS *
+		***********/
+		public static function setCacheFolder($arg){
+			self::$_cacheFolder = $arg;
+		}
+		public static function setExpireTime($arg){
+			self::$_expireTime = $arg;
+		}
+	}

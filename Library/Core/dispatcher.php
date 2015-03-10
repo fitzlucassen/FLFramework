@@ -19,7 +19,6 @@
     	private $_controller;
 
     	public function __construct(){
-
     	}
 
     	public function getControllerFilePath($controllerName){
@@ -59,9 +58,9 @@
     	}
 
     	public function isValidUrl($url){
-    		return file_exists(str_replace('\\', '/', str_replace($this->_FLF_NAMESPACE, '', $this->_CONTROLLER_NAMESPACE . $url['controller'])) . 'Controller.php') && 
-    				class_exists($this->_CONTROLLER_NAMESPACE . $url['controller'] . 'Controller') &&
-    				method_exists($this->_CONTROLLER_NAMESPACE . $url['controller'] . 'Controller', $url['action']);
+            return      file_exists(str_replace('\\', '/', str_replace($this->_FLF_NAMESPACE, '', $this->_CONTROLLER_NAMESPACE . $url['controller'])) . 'Controller.php') && 
+    				    class_exists($this->_CONTROLLER_NAMESPACE . $url['controller'] . 'Controller') &&
+    				    method_exists($this->_CONTROLLER_NAMESPACE . $url['controller'] . 'Controller', $url['action']);
     	}
 
     	public function executeAction($url){

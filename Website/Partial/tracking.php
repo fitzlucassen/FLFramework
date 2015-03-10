@@ -7,5 +7,4 @@
   	ga('create', '[[YOUR-UAID]]', 'auto');
   	ga('send', 'pageview');
 	ga('require', 'displayfeatures');
-
 </script>

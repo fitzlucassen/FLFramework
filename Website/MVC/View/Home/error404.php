@@ -1,4 +1,3 @@
-<link type="text/css" rel="stylesheet" href="<?php echo __css_directory__;?>/home.css" />
 <title>404 - Cette page n'existe pas ou plus...</title>
 
 <?php

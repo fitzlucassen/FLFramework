@@ -1,4 +1,4 @@
-<title>YOUR TITLE</title>
+<title>[YOUR TITLE]</title>
 
 <?php
     // inclure ci-dessus les balises à inclure dans la balise <head> du layout

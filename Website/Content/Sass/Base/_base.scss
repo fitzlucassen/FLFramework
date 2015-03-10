@@ -1,8 +1,13 @@
 /* FONT FAMILY LINKAGE */
-@font-face
-{
-    font-family: "Segoe UI";
-    src: url("../Font/Segoe UI.ttf");
+@font-face {
+    font-family: 'Segoe UI';
+    src:    url('Font/Segoe/Segoe.eot');
+    src:    url('Font/Segoe/Segoe.eot?#iefix') format('embedded-opentype'),
+            url('Font/Segoe/Segoe.woff') format('woff'),
+            url('Font/Segoe/Segoe.ttf') format('truetype'),
+            url('Font/Segoe/Segoe.svg#Sri-TSCRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 /* UTILITIES CLASSES */

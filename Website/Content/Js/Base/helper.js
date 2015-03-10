@@ -80,3 +80,6 @@ Array.prototype.where = function (attribut, value) {
 String.prototype.replaceAll = function (replace, value) {
 	return this.replace(new RegExp(replace, 'g'), value);
 };
+String.prototype.isNullOrEmpty = function(){
+	return this === null || this === '' || this === 'undefined' || this === undefined;
+};
