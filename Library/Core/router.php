@@ -24,10 +24,10 @@
 		 * @param string $action
 		 * @param string $pattern
 		 */
-		public static function Add($lang, $controller, $action, $pattern, $order) {
+		public static function Add($lang, $name, $controller, $action, $pattern, $order) {
 		    if (!isset(self::$_routes[$lang]))
 				self::$_routes[$lang] = array();
-		    array_push(self::$_routes[$lang], array("controller" => $controller, "action" => $action, "pattern" => $pattern, 'order' => $order));
+		    array_push(self::$_routes[$lang], array("name" => $name, "controller" => $controller, "action" => $action, "pattern" => $pattern, 'order' => $order));
 		}
 		
 		/**
@@ -36,20 +36,59 @@
 		 * @param string $lang
 		 */
 		public static function AddRange($routes, $lang) {
-		    if(!in_array($lang, self::$_langs)){
+		    if(!in_array($lang, self::$_langs))
 				self::$_langs[] = $lang;
-		    }
-		    foreach ($routes as $thisRoute){
-		    	$repo = self::$_repositoryManager->get('Rewrittingurl');
 
+	    	$repo = self::$_repositoryManager->get('Rewrittingurl');
+		    foreach ($routes as $thisRoute){
 				$url = $repo->getBy('idRouteUrl', $thisRoute->getId());
-				$url = $url[0];
-				self::Add($lang, $thisRoute->getController(), $thisRoute->getAction(), $url->getUrlMatched(), $thisRoute->getOrder() == null ? 0 : $thisRoute->getOrder());
+				$url = is_array($url) ? $url[0] : $url;
+				self::Add($lang, $thisRoute->getName(), $thisRoute->getController(), $thisRoute->getAction(), $url->getUrlMatched(), $thisRoute->getOrder() == null ? 0 : $thisRoute->getOrder());
 
 		    	self::$_routes[$lang] = Adapter\ArrayAdapter::OrderBy(self::$_routes[$lang], 'order');
 		    }
 		}
+
+		/**
+		 * RedirectTo -> redirige vers l'url précisé
+		 * @param string/array $url
+		 */
+		public static function RedirectTo($url) {
+			if(is_array($url)) {
+				$controller = isset($url["controller"]) ? $url["controller"] : self::$_defaultController;
+				$action = isset($url["action"]) ? $url["action"] : self::$_defaultAction;
+				$controller = isset($url["lang"]) ? $url["lang"] : self::$_defaultLang;
+				
+				if(isset($url["params"])) {
+					$redirect = GetUrlByLang($controller, $action, $url["params"]);
+				}
+				else {
+					$redirect = GetUrlByLang($controller, $action, null);
+				}
+				header("location: " . $redirect[$lang]);
+				die();
+			}
+			else {
+				header("location: " . $url);
+				die();
+			}
+		}
 		
+		/**
+		 * ReplacePattern -> remplace dans l'url fournit tous les pattern d'argument par le paramètre replace
+		 * @param string $url
+		 * @param string $replace
+		 * @return string
+		 */
+		public static function ReplacePattern($url, $replace){
+		    $regex = '/\{[' . self::$_regex . ']+\}/';
+		    
+		    if (preg_match($regex, $url, $match))
+				return preg_replace($regex, $replace, $url);
+		    else
+				return $url;
+		}
+
 		/**
 		 * FindRoute -> Retrouve une route dans la collection actuelle
 		 * @param string $controller
@@ -57,30 +96,30 @@
 		 * @param string $lang
 		 * @return type
 		 */
-		public static function FindRoute($controller, $action, $lang) {
+		private static function FindRoute($controller, $action, $lang) {
 		    foreach (self::GetRoutes(null, $lang) as $key => $value) {
-			if ($value["controller"] == $controller && $value["action"] == $action)
-			    return self::GetRoutes($key, $lang);
+				if ($value["controller"] == $controller && $value["action"] == $action)
+				    return self::GetRoutes($key, $lang);
 		    }
 		    return false;
 		}
-		
+
 		/**
 		 * FindPattern -> Retrouve un pattern d'url selon une url réelle données
 		 * @param string $pattern
 		 * @param string $method
 		 * @return type
 		 */
-		public static function FindPattern($pattern, $method = false) { // method is for anonymous params
+		private static function FindPattern($pattern, $method = false) { // method is for anonymous params
 		    if (!$method) {
 				foreach (self::GetRoutes() as $key => $value) {
 				    if ($value["pattern"] == $pattern)
-					return self::GetRoutes($key);
+						return self::GetRoutes($key);
 				}
 		    }
 		    else {		
 				$langInUrl = "";
-				if(isset($pattern) && !empty($pattern)){
+				if(!Adapter\StringAdapter::IsNullOrEmpty($pattern)){
 				    $langInUrl = false;
 				    
 				    foreach(self::$_langs as $thisLang){
@@ -96,7 +135,7 @@
 				    $regex = "#" . preg_replace("#{([" . self::$_regex . "]+)}#i", "([" . self::$_regex . "]+)", $value["pattern"]) . "#i";
 				    
 				    if (preg_match($regex, $pattern, $matches) && isset($value["pattern"])){
-						if(isset($matches[1]) || isset($matches[0])){
+						if(isset($matches[0])){
 						    $i = 1;
 						    if(!isset($matches[1])){
 								$i = 0;
@@ -127,23 +166,6 @@
 		}
 		
 		/**
-		 * ReplacePattern -> remplace dans l'url fournit tous les pattern d'argument par le paramètre replace
-		 * @param string $url
-		 * @param string $replace
-		 * @return string
-		 */
-		public static function ReplacePattern($url, $replace){
-		    $regex = '/\{[' . self::$_regex . ']+\}/';
-		    
-		    if (preg_match($regex, $url, $match)){
-			return preg_replace($regex, $replace, $url);
-		    }
-		    else{
-			return $url;
-		    }
-		}
-		
-		/**
 		 * ReplaceParamsInUrl --> remplace tous les pattern d'argument d'une url par les vrai paramètres.
 		 * @param string $url
 		 * @param array $params
@@ -154,49 +176,10 @@
 		    $regex = '/\{[' . self::$_regex . ']+\}/';
 		    
 		    foreach($params as $thisParam){
-			$newUrl = preg_replace($regex, $thisParam, $newUrl, 1);	
+				$newUrl = preg_replace($regex, $thisParam, $newUrl, 1);	
 		    }
 		    
 		    return $newUrl;
-		}
-		
-		/**
-		 * GetUrlByLang -> retourne un array contenant pour la langue française et anglaise l'url rewwritté.
-		 * @param string $controller
-		 * @param string $action
-		 * @param array $params
-		 * @return array
-		 */
-		public static function GetUrlByLang($controller, $action, $params){
-		    $array = array();
-		    foreach(self::$_langs as $thisLang){
-				$array[$thisLang] = self::ReplaceParamsInUrl(self::FindRoute($controller, $action, $thisLang), $params);
-		    }
-		   return $array;
-		}
-		/**
-		 * RedirectTo -> redirige vers l'url récisé
-		 * @param string/array $url
-		 */
-		public static function RedirectTo($url){
-			if(is_array($url)){
-				$controller = isset($url["controller"]) ? $url["controller"] : self::$_defaultController;
-				$action = isset($url["action"]) ? $url["action"] : self::$_defaultAction;
-				$controller = isset($url["lang"]) ? $url["lang"] : self::$_defaultLang;
-				
-				if(isset($url["params"])){
-					$redirect = GetUrlByLang($controller, $action, $url["params"]);
-				}
-				else {
-					$redirect = GetUrlByLang($controller, $action, null);
-				}
-				header("location: " . $redirect[$lang]);
-				die();
-			}
-			else {
-				header("location: " . $url);
-				die();
-			}
 		}
 		
 		/***********
@@ -273,6 +256,35 @@
 			    ((isset(self::$_routes[$lang])) ? self::$_routes[$lang] : array() ) :
 			    ((isset(self::$_routes[$lang][$key])) ? self::$_routes[$lang][$key] : false );
 		}
+
+		/**
+		 * GetRouteByName -> Retrouve une route dans la collection actuelle
+		 * @param string $name
+		 * @param string $lang
+		 * @return type
+		 */
+		public static function GetUrlByName($name, $lang) {
+		    foreach (self::GetRoutes(null, $lang) as $key => $value) {
+				if ($value["name"] == $name)
+				    return self::GetRoutes($key, $lang);
+		    }
+		    return false;
+		}
+
+		/**
+		 * GetUrlByLang -> retourne un array contenant pour la langue française et anglaise l'url rewwritté.
+		 * @param string $controller
+		 * @param string $action
+		 * @param array $params
+		 * @return array
+		 */
+		public static function GetUrlsByLang($controller, $action, $params) {
+		    $array = array();
+		    foreach(self::$_langs as $thisLang) {
+				$array[$thisLang] = self::ReplaceParamsInUrl(self::FindRoute($controller, $action, $thisLang), $params);
+		    }
+		   return $array;
+		}
 		
 		/**
 		 * GetUrl -> récupère une url rewrité grâce à un controller et une action
@@ -287,9 +299,11 @@
 				$lang = self::$_defaultLang;
 		    if ($route = self::FindRoute($controller, $action, $lang)) {
 				$url = $route["pattern"];
+				
 				if ($params !== null)
 				    foreach ($params as $key => $value)
-							$url = str_replace("{" . $key . "}", $value, $url);
+						$url = str_replace("{" . $key . "}", $value, $url);
+				
 				if($lang === self::$_defaultLang)
 				    return $url;
 				else
@@ -300,6 +314,7 @@
 				if ($params !== null)
 				    foreach ($params as $value)
 						$url .= "/" . $value;
+				
 				if($lang === self::$_defaultLang)
 				    return $url;
 				else

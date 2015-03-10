@@ -44,6 +44,6 @@
 		}
 
 		public static function IsNullOrEmpty($string){
-			return isset($string) || empty($string);
+			return !isset($string) || empty($string);
 		}
     }
