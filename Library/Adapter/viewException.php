@@ -1,7 +1,7 @@
 <?php
 	/*
-	  Class : ViewException
-	  Déscription : Permet de gérer les exceptions
+		Class : ViewException
+		Déscription : Permet de gérer les exceptions
 	 */
 	 
 	namespace fitzlucassen\FLFramework\Library\Adapter;
@@ -12,9 +12,9 @@
 		
 		const NO_MODEL = "no model";
 		const BAD_LAYOUT = "bad layout";
-		 /*
-		  Constructeur
-		 */
+		/*
+			Constructeur
+		*/
 		public function __construct($type, $params) {
 			parent::__construct();
 			$this->_typeError = $type;

@@ -1,13 +1,12 @@
 <?php
-     
-    namespace fitzlucassen\FLFramework\Library\Helper;
+	namespace fitzlucassen\FLFramework\Library\Helper;
 
-    /*
-      Class : Upload
-      Déscription : Permet de gérer les uploads
-     */
-    class Upload extends Helper {
-    	/**
+	/*
+		Class : Upload
+		Déscription : Permet de gérer les uploads
+	 */
+	class Upload extends Helper {
+		/**
 		 * Default directory persmissions (destination dir)
 		 */
 		const DEFAULT_DIR_PERMISSIONS = 750;
@@ -303,4 +302,4 @@
 		protected function get_file_size() {
 			return filesize($this->tmp_name);
 		}
-    }
+	}

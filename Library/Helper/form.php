@@ -1,12 +1,12 @@
 <?php
-     
-    namespace fitzlucassen\FLFramework\Library\Helper;
 
-    /**
-     * Class : Form
-     * Déscription : Permet de gérer les formulaires de façon automatique
-     */
-    class Form extends Helper{
+	namespace fitzlucassen\FLFramework\Library\Helper;
+
+	/*
+		Class : Form
+		Déscription : Permet de gérer les formulaires de façon automatique
+	 */
+	class Form extends Helper{
 		
 		/**
 		 * Open -> open a new html form
@@ -16,9 +16,9 @@
 		 * @return string -> the html
 		 */
 		public static function open($action = "", $method = "post", $enctype = ""){
-		    $form = '';
-		    $form = '<form action="' . $action . '" method="' . $method . '" enctype="' . $enctype . '">';
-		    return $form;
+			$form = '';
+			$form = '<form action="' . $action . '" method="' . $method . '" enctype="' . $enctype . '">';
+			return $form;
 		}
 		
 		/**
@@ -26,7 +26,7 @@
 		 * @return string
 		 */
 		public static function close(){
-		    return '</form>';
+			return '</form>';
 		}
 		
 		/**
@@ -41,20 +41,20 @@
 		 * @return string -> the html
 		 */
 		public static function input($type, $name, $value = "", $label = false, $withBr = true, $params = array(), $required = false){
-		    $form = "";
-		    if($label){
+			$form = "";
+			if($label){
 				$form .= '<label class="label" for="' . $name . 'Field">' . $label . '</label>';
 				if($withBr)
-				    $form .= '<br/>';
-		    }
-		    $form .= '<input type="' . $type . '" name="' . $name . '" id="' . $name . 'Field" ';
-		    
-		    foreach($params as $key => $val){
+					$form .= '<br/>';
+			}
+			$form .= '<input type="' . $type . '" name="' . $name . '" id="' . $name . 'Field" ';
+			
+			foreach($params as $key => $val){
 				$form .= $key . '="' . $val . '" ';
-		    }
-		    $form .= 'value="' . $value . '" ' . ($required ? 'required' : '') . ' />';
-		    
-		    return $form;
+			}
+			$form .= 'value="' . $value . '" ' . ($required ? 'required' : '') . ' />';
+			
+			return $form;
 		}
 		
 		/**
@@ -68,20 +68,20 @@
 		 * @return string -> the html
 		 */
 		public static function textarea($name, $value = "", $label = false, $withBr = true, $params = array(), $required = false){
-		    $form = "";
-		    if($label){
+			$form = "";
+			if($label){
 				$form .= '<label class="label" for="' . $name . 'Field">' . $label . '</label>';
 				if($withBr)
-				    $form .= '<br/>';
-		    }
-		    $form .= '<textarea name="' . $name . '" id="' . $name . 'Field" ';
-		    
-		    foreach($params as $key => $val){
+					$form .= '<br/>';
+			}
+			$form .= '<textarea name="' . $name . '" id="' . $name . 'Field" ';
+			
+			foreach($params as $key => $val){
 				$form .= $key . '="' . $val . '" ';
-		    }
-		    $form .= ($required ? 'required' : '') . ' >' . $value . '</textarea>';
-		    
-		    return $form;
+			}
+			$form .= ($required ? 'required' : '') . ' >' . $value . '</textarea>';
+			
+			return $form;
 		}
 		
 		/**
@@ -95,25 +95,25 @@
 		 * @return string -> the html
 		 */
 		public static function select($name, $value = array(), $label = false, $withBr = true, $params = array(), $required = false){
-		    $form = "";
-		    if($label){
+			$form = "";
+			if($label){
 				$form .= '<label class="label" for="' . $name . 'Field">' . $label . '</label>';
 				if($withBr)
-				    $form .= '<br/>';
-		    }
-		    $form .= '<select name="' . $name . '" id="' . $name . 'Field" ';
-		    
-		    foreach($params as $key => $val){
+					$form .= '<br/>';
+			}
+			$form .= '<select name="' . $name . '" id="' . $name . 'Field" ';
+			
+			foreach($params as $key => $val){
 				$form .= $key . '="' . $val . '" ';
-		    }
-		    $form .= ($required ? 'required' : '') . ' >';
-		    
-		    foreach($value as $thisValueKey => $thisValueValue){
+			}
+			$form .= ($required ? 'required' : '') . ' >';
+			
+			foreach($value as $thisValueKey => $thisValueValue){
 				$form .= '<option value="' . $thisValueValue . '">' . $thisValueKey . '</option>';
-		    }
-		    
-		    $form .= '</select>';
-		    
-		    return $form;
+			}
+			
+			$form .= '</select>';
+			
+			return $form;
 		}
-    }
+	}

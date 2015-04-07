@@ -1,12 +1,12 @@
 <?php
-    namespace fitzlucassen\FLFramework\Library\Core;
-    
-    use fitzlucassen\FLFramework\Library\Adapter;
-    /*
-      Class : SQL
-      Déscription : Permet de gérer les données en base
-     */
-    class Sql {
+	namespace fitzlucassen\FLFramework\Library\Core;
+	
+	use fitzlucassen\FLFramework\Library\Adapter;
+	/*
+		Class : SQL
+		Déscription : Permet de gérer les données en base
+	 */
+	class Sql {
 		private static $_db = '';					// base de données 
 		private static $_host = '';					// adresse de la base 
 		private static $_user = '';					// nom 
@@ -45,7 +45,7 @@
 			catch (\Exception $e) {
 				$this->_con->rollBack(); 
 				throw new Adapter\ConnexionException(Adapter\ConnexionException::getQUERY_FAILED(), array("message" => $e->getMessage()));
-		    } 
+			} 
 		}
 	
 		/**
@@ -66,7 +66,7 @@
 			catch (\Exception $e) { 
 				$this->_con->rollBack(); 
 				throw new Adapter\ConnexionException(Adapter\ConnexionException::getQUERY_FAILED(), array("message" => $e->getMessage()));
-		    } 
+			} 
 		}
 	
 		/**
@@ -163,4 +163,4 @@
 		public static function SetPwd($arg){
 			self::$_pwd = $arg;
 		}
-    }
+	}
