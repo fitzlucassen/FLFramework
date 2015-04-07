@@ -27,9 +27,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `lang` (
-  `id` tinyint(5) NOT NULL AUTO_INCREMENT,
-  `code` varchar(2) NOT NULL,
-  PRIMARY KEY (`id`)
+	`id` tinyint(5) NOT NULL AUTO_INCREMENT,
+	`code` varchar(2) NOT NULL,
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
@@ -47,11 +47,11 @@ INSERT INTO `lang` (`id`, `code`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `rewrittingurl` (
-  `id` tinyint(5) NOT NULL AUTO_INCREMENT,
-  `idRouteUrl` tinyint(5) NOT NULL,
-  `urlMatched` varchar(255) NOT NULL,
-  `lang` varchar(2) NOT NULL DEFAULT 'fr',
-  PRIMARY KEY (`id`)
+	`id` tinyint(5) NOT NULL AUTO_INCREMENT,
+	`idRouteUrl` tinyint(5) NOT NULL,
+	`urlMatched` varchar(255) NOT NULL,
+	`lang` varchar(2) NOT NULL DEFAULT 'fr',
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
@@ -71,12 +71,12 @@ INSERT INTO `rewrittingurl` (`id`, `idRouteUrl`, `urlMatched`, `lang`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `routeurl` (
-  `id` tinyint(5) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL DEFAULT '',
-  `controller` varchar(100) NOT NULL DEFAULT '',
-  `action` varchar(100) NOT NULL DEFAULT '',
-  `order` tinyint(2) NOT NULL,
-  PRIMARY KEY (`id`)
+	`id` tinyint(5) NOT NULL AUTO_INCREMENT,
+	`name` varchar(100) NOT NULL DEFAULT '',
+	`controller` varchar(100) NOT NULL DEFAULT '',
+	`action` varchar(100) NOT NULL DEFAULT '',
+	`order` tinyint(2) NOT NULL,
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --

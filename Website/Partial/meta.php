@@ -19,7 +19,7 @@
 
 <link rel="icon" type="images/png" href="../favicon.ico" />
 <!--[if IE]>
-    <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
+	<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
 <![endif]-->
 
 <link rel="apple-touch-icon" href="../favicon57.png" />

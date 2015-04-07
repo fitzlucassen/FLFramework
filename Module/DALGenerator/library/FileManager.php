@@ -1,7 +1,7 @@
 <?php
-    namespace fitzlucassen\DALGenerator\library;
+	namespace fitzlucassen\DALGenerator\library;
 	
-    class FileManager {
+	class FileManager {
 		private static $_cpt_instance = 0;
 		
 		/**
@@ -15,11 +15,11 @@
 		 * @return \Config|boolean
 		 */
 		public static function getInstance(){
-		    if(FileManager::$_cpt_instance === 0){
+			if(FileManager::$_cpt_instance === 0){
 				FileManager::$_cpt_instance++;
 				return new FileManager();
-		    }
-		    else
+			}
+			else
 				return false;
 		}
 		
@@ -29,10 +29,10 @@
 		 * @return string
 		 */
 		public static function getTab($nb = 1){
-		    $source = "";
-		    for($cpt = 0; $cpt < $nb; $cpt++)
+			$source = "";
+			for($cpt = 0; $cpt < $nb; $cpt++)
 				$source .= "\t";
-		    return $source;
+			return $source;
 		}
 		
 		/**
@@ -41,10 +41,10 @@
 		 * @return string
 		 */
 		public static function getBackSpace($nb = 1){
-		    $source = "";
-		    for($cpt = 0; $cpt < $nb; $cpt++)
+			$source = "";
+			for($cpt = 0; $cpt < $nb; $cpt++)
 				$source .= "\n";
-		    return $source;
+			return $source;
 		}
 		
 		/**
@@ -55,25 +55,25 @@
 		 * @return string
 		 */
 		public static function getPrototype($name, $params = array(), $public = true, $static = false){
-		    $source = "";
-		    
-		    $source .= ($public ? "public " : "private ") . ($static ? "static " : "") . "function " . $name . "(";
+			$source = "";
+			
+			$source .= ($public ? "public " : "private ") . ($static ? "static " : "") . "function " . $name . "(";
 
-		    $cpt = 0;
-		    foreach ($params as $key => $value) {
-		    	$source .= '$' . $key;
-		    	if($value != '_none_')
-		    		$source .= ' = ' . $value;
+			$cpt = 0;
+			foreach ($params as $key => $value) {
+				$source .= '$' . $key;
+				if($value != '_none_')
+					$source .= ' = ' . $value;
 
-		    	if(count($params) > ($cpt + 1))
-		    		$source .= ', ';
-		    	
-		    	$cpt++;
-		    }
+				if(count($params) > ($cpt + 1))
+					$source .= ', ';
+				
+				$cpt++;
+			}
 
-		    $source .= ')';
-		    
-		    return $source;
+			$source .= ')';
+			
+			return $source;
 		}
 		
 		/**
@@ -83,23 +83,23 @@
 		 * @return string
 		 */
 		public static function getComment($nb_etoile, $open = true){
-		    $source = "";
-		    if($open === true)
+			$source = "";
+			if($open === true)
 				$source .= "/";
-		    else
+			else
 				$source .= " ";
-		    
-		    for($cpt = 0; $cpt < $nb_etoile; $cpt++)
+			
+			for($cpt = 0; $cpt < $nb_etoile; $cpt++)
 				$source .= "*";
-		    
-		    if($open === false)
+			
+			if($open === false)
 				$source .= "/";
-		    return $source;
+			return $source;
 		}
 
 		public static function createDirectoryIfNotExist($path){
 			if(!is_dir($path))
-		    	mkdir($path);
+				mkdir($path);
 		}
 
 		public static function createFile($file, $type, $erase){
@@ -124,4 +124,4 @@
 				if(isset($file) && gettype($file) !== 'boolean')
 					fwrite($file, $content);
 		}
-    }
+	}

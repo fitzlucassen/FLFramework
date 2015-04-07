@@ -3,8 +3,8 @@
 	namespace fitzlucassen\FLFramework\Website\MVC\Model;
 	
 	 /*
-	  Class : WebserviceModel
-	  Déscription : Model de donnée pour les résultat du webservice
+		Class : WebserviceModel
+		Déscription : Model de donnée pour les résultat du webservice
 	 */
 	class WebserviceModel extends Model{
 		public $result = "";
