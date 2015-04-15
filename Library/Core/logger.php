@@ -3,8 +3,8 @@
 	namespace fitzlucassen\FLFramework\Library\Core;
 
 	/*
-	  Class : Logger
-	  Déscription : Permet de gérer les logs (trâcage du parcours du programme)
+		Class : Logger
+		Déscription : Permet de gérer les logs (trâcage du parcours du programme)
 	 */
 	class Logger {
 		private static $_logFile = "/Logs/log.txt";

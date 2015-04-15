@@ -1,12 +1,12 @@
 <?php
-     
-    namespace fitzlucassen\FLFramework\Library\Core;
-    use fitzlucassen\FLFramework\Library\Adapter;
-    /*
-      Class : View
-      Déscription : Permet de gérer les vues
-     */
-    class View {
+	 
+	namespace fitzlucassen\FLFramework\Library\Core;
+	use fitzlucassen\FLFramework\Library\Adapter;
+	/*
+		Class : View
+		Déscription : Permet de gérer les vues
+	 */
+	class View {
 		protected $Model;
 		protected $Sections = array();
 		
@@ -105,4 +105,4 @@
 		public function GetAction(){
 			return $this->_action;
 		}
-    }
+	}

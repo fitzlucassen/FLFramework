@@ -21,19 +21,19 @@
 		/*************************
 		* PUT YOUR CONFIGS HERE *
 		*************************/
-		 $Config->setDB("flframework");					    // database
-		 $Config->setHOST("localhost");					    // database host
-		 $Config->setUSER("root");					        // user name
-		 $Config->setPWD("");						        // password
-		 $Config->setPATH("C:/wamp/www/flframework/Data/");			// The path where entities and repositories will be created
-		 
-		 // If there is some links into your tables, you have to precise these right here.
-		 // 
-		 // Example: you will have "getSongs" method into the "album" class, and you'll have "getALbum" instead of "getAlbumId" into "song" class
-		 $Config->setLink(array(
-				'routeurl' => array('rewrittingurl' => 'OneToMany'),
-				'rewrittingurl' => array('routeurl' => 'OneToOne'),
-			));
+		$Config->setDB("flframework");					    // database
+		$Config->setHOST("localhost");					    // database host
+		$Config->setUSER("root");					        // user name
+		$Config->setPWD("");						        // password
+		$Config->setPATH("C:/wamp/www/flframework/Data/");			// The path where entities and repositories will be created
+		
+		// If there is some links into your tables, you have to precise these right here.
+		// 
+		// Example: you will have "getSongs" method into the "album" class, and you'll have "getALbum" instead of "getAlbumId" into "song" class
+		$Config->setLink(array(
+			'routeurl' => array('rewrittingurl' => 'OneToMany'),
+			'rewrittingurl' => array('routeurl' => 'OneToOne'),
+		));
 		/*******
 		* END *
 		*******/

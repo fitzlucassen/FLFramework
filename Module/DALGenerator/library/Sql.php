@@ -1,13 +1,13 @@
 <?php
-    namespace fitzlucassen\DALGenerator\library;
-    
-    use PDO;
+	namespace fitzlucassen\DALGenerator\library;
+	
+	use PDO;
 
-    /*
-      Class : SQL
-      Description : allow you to manage your SQL queries
-     */
-    class Sql {
+	/*
+	  Class : SQL
+	  Description : allow you to manage your SQL queries
+	 */
+	class Sql {
 		private $_db = '';			    					// database
 		private $_host = '';			    				// host of the database
 		private $_user = '';			   	 				// user name
@@ -24,8 +24,8 @@
 		 * @return PDOConnection
 		 */
 		public function __construct($db, $host, $user, $pwd) {
-		    try  
-		    { 
+			try  
+			{ 
 				$this->_db = $db;
 				$this->_host = $host;
 				$this->_user = $user;
@@ -35,14 +35,14 @@
 
 				// pour mysql on active le cache de requ�te 
 				if($this->_con->getAttribute(PDO::ATTR_DRIVER_NAME) == 'mysql') 
-				    $this->_con->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true); 
+					$this->_con->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true); 
 
 				return $this->_con; 
-		    } 
-		    catch(PDOException $e) { 
+			} 
+			catch(PDOException $e) { 
 				var_dump($e);
 				die();
-		    } 
+			} 
 		}
 		
 		/**
@@ -50,7 +50,7 @@
 		 * @return string host for connection
 		 */
 		public function GetDns() { 
-		    return 'mysql:host=' . $this->_host . ';dbname=' . $this->_db; 
+			return 'mysql:host=' . $this->_host . ';dbname=' . $this->_db; 
 		} 
 		
 		/**
@@ -59,20 +59,20 @@
 		 * @return array the result array
 		 */
 		public function Select($reqSelect) { 
-		    try 
-		    { 
+			try 
+			{ 
 				$this->_con->beginTransaction();
 				$result = $this->_con->prepare($reqSelect); 
 				$result->execute(); 
 				$this->_con->commit();
 			
 				return $result->fetch(PDO::FETCH_ASSOC); 
-		    } 
-		    catch (Exception $e)  
-		    { 
+			} 
+			catch (Exception $e)  
+			{ 
 				var_dump($e);
 				die(); 
-		    } 
+			} 
 		}
 		
 		/**
@@ -81,14 +81,14 @@
 		 * @return array the result array
 		 */
 		public function SelectTable($reqSelect) {
-		    $this->_con->beginTransaction();
-		    $result = $this->_con->prepare($reqSelect); 
-		    $result->execute();
-		    $this->_con->commit();
-		    
-		    /* R�cup�ration de toutes les lignes d'un jeu de r�sultats "�quivalent à mysql_num_row() " */ 
-		    $resultat = $result->fetchAll(); 
-		    return $resultat; 
+			$this->_con->beginTransaction();
+			$result = $this->_con->prepare($reqSelect); 
+			$result->execute();
+			$this->_con->commit();
+			
+			/* R�cup�ration de toutes les lignes d'un jeu de r�sultats "�quivalent à mysql_num_row() " */ 
+			$resultat = $result->fetchAll(); 
+			return $resultat; 
 		}
 
 		/**
@@ -97,7 +97,7 @@
 		 * @return array the result array
 		 */
 		public function Query($query) {
-		    return $this->_con->query($query); 
+			return $this->_con->query($query); 
 		}
 		
 		/***********
@@ -109,13 +109,13 @@
 		 * @return PDOConnection
 		 */
 		public function GetConnection() {
-		    return $this->_con;
+			return $this->_con;
 		}
 		/**
 		 * GetDB -> Get the database string
 		 * @return string database
 		 */
 		public function GetDB(){
-		    return $this->_db;
+			return $this->_db;
 		}
-    }
+	}

@@ -32,22 +32,22 @@ module.exports = function(grunt) {
 		},
 		sass: {
 			dist: {
-			  	options: {
-                    style: 'compressed',
-                    compass: true
-                },
-                files: {
-                    "Website/Content/Css/_built.css": "Website/Content/Sass/index.scss",
-                }
+				options: {
+					style: 'compressed',
+					compass: true
+				},
+				files: {
+					"Website/Content/Css/_built.css": "Website/Content/Sass/index.scss",
+				}
 			},
 			dev: {}
-	  	},
-	  	cssmin: {
-            compile: {
-                src: cssSrc,
-                dest: cssDist
-            }
-        },
+		},
+		cssmin: {
+			compile: {
+				src: cssSrc,
+				dest: cssDist
+			}
+		},
 		img: {
 			task: {
 				src: ['Website/Content/Media/Image/**/*.jpg', 'Website/Content/Media/Image/**/*.jpeg', 'Website/Content/Media/Image/**/*.png','Website/Content/Media/Image/**/*.gif']

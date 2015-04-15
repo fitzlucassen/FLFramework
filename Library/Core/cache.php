@@ -3,8 +3,8 @@
 	namespace fitzlucassen\FLFramework\Library\Core;
 
 	/*
-	  Class : Cache
-	  Déscription : Permet de gérer le cache (mise en cache de requête ou de vue)
+		Class : Cache
+		Déscription : Permet de gérer le cache (mise en cache de requête ou de vue)
 	 */
 	class Cache {
 		private static $_cacheFolder = '/Cache/';
@@ -65,7 +65,7 @@
 		/***********
 		 * GETTERS *
 		 ***********/
-	   	public static function getCacheFolder(){
+		public static function getCacheFolder(){
 			return self::$_cacheFolder;
 		}
 		   

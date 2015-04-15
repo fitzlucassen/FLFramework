@@ -6,8 +6,8 @@
 <link type="text/css" rel="stylesheet" href="/<?php echo __css_directory__;?>/Module/scrollpath.css" />
 
 <?php
-    // inclure ci-dessus les balises à inclure dans la balise <head> du layout
-    $this->EndSection('head');
+	// inclure ci-dessus les balises à inclure dans la balise <head> du layout
+	$this->EndSection('head');
 ?>
 <?php
 	// inclure ci-dessous les balises à inclure à la fin de votre DOM
@@ -80,7 +80,7 @@
 	<!-- Unslider -->
 	<script type="text/javascript">
 		$(function() {
-	    	$('.banner').unslider({
+			$('.banner').unslider({
 				speed: 500,               //  The speed to animate each slide (in milliseconds)
 				delay: 3000,              //  The delay between slide animations (in milliseconds)
 				complete: function() {},  //  A function that gets called after every slide animation
@@ -96,8 +96,8 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			var path = $.fn.scrollPath("getPath", {
-			    scrollSpeed: 80, // Default is 50
-			    rotationSpeed: Math.PI / 10 // Default is Math.PI / 15
+				scrollSpeed: 80, // Default is 50
+				rotationSpeed: Math.PI / 10 // Default is Math.PI / 15
 			});
 			path.moveTo(400, 50, {name: "div1"})
 			.lineTo(400, 800, {name: "div2"})
@@ -148,7 +148,7 @@
 	$this->EndSection('scripts');
 	$this->BeginSection();
 	// START CONTENT
-    // Intégrer ci-dessous la vue
+	// Intégrer ci-dessous la vue
 ?>
 
 <!-- NAVIGATION -->
@@ -183,11 +183,11 @@
 
 	<!-- Unslider -->
 	<div class="banner div4" id="div4">
-	    <ul>
-	        <li>This is a slide.</li>
-	        <li>This is another slide.</li>
-	        <li>This is a final slide.</li>
-	    </ul>
+		<ul>
+			<li>This is a slide.</li>
+			<li>This is another slide.</li>
+			<li>This is a final slide.</li>
+		</ul>
 	</div>
 	<!-- END Unslider -->
 </div>

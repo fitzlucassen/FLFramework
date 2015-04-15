@@ -1,12 +1,12 @@
 <?php
-    /*
-      Class : Array
-      Déscription : Permet de gérer les Array
-     */
-     
-    namespace fitzlucassen\FLFramework\Library\Adapter;
+	/*
+		Class : Array
+		Déscription : Permet de gérer les Array
+	 */
+	
+	namespace fitzlucassen\FLFramework\Library\Adapter;
 
-    class ArrayAdapter {
+	class ArrayAdapter {
 		/**
 		 * Select -> sélectionne une unique clef parmi un array
 		 * @param type $array
@@ -14,29 +14,29 @@
 		 * @return type
 		 */
 		public static function Select($array, $label, $level) {
-		    $arrayReturn = array();
-		    foreach($array as $key => $value){
+			$arrayReturn = array();
+			foreach($array as $key => $value){
 				if($level == 2){
-				    foreach($value as $key => $value){
+					foreach($value as $key => $value){
 						if($key === $label){
-						    $arrayReturn[] = $value;
+							$arrayReturn[] = $value;
 						}
-				    }
+					}
 				}
 				else {
-				    if($key === $label){
+					if($key === $label){
 						$arrayReturn[] = $value;
-				    }
+					}
 				}
-		    }
-		    
-		    return $arrayReturn;
+			}
+			
+			return $arrayReturn;
 		}
 		
 		public static function Order($array){
-		    sort($array);
-		    
-		    return $array;
+			sort($array);
+			
+			return $array;
 		}
 
 		public static function OrderBy($array, $key, $order = "ASC"){
@@ -51,16 +51,16 @@
 		}
 		
 		public static function Distinct($array){
-		    $a = array();
-		    
-		    foreach($array as $temp){
+			$a = array();
+			
+			foreach($array as $temp){
 				if(in_array($temp, $a)){
-				    continue;
+					continue;
 				}
 				else {
-				    $a[] = $temp;
+					$a[] = $temp;
 				}
-		    }
-		    return $a;
+			}
+			return $a;
 		}
-    }
+	}
