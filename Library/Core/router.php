@@ -34,12 +34,12 @@
 		 * @param array $routes
 		 * @param string $lang
 		 */
-		public static function AddRange($routes, $lang) {
+		public static function AddRange($routes, $lang, $repository) {
 			if(!in_array($lang, self::$_langs))
 				self::$_langs[] = $lang;
 
 			foreach ($routes as $thisRoute){
-				$url = $thisRoute->getRewrittingurls();
+				$url = $thisRoute->getRewrittingurls($repository);
 				$url = is_array($url) ? $url[0] : $url;
 
 				if(is_array($url)){

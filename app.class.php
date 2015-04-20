@@ -40,8 +40,6 @@
 					$this->_repositoryManager = new Core\RepositoryManager($this->_pdo, $this->_session->read('lang'));
 					$this->_urlRewritingObject = new Core\UrlRewriting($this->_repositoryManager);
 					
-					Core\Router::SetRepositoryManager($this->_repositoryManager);
-
 					// Initialise le module manager
 					$this->_moduleManager = new Core\ModuleManager($this->_repositoryManager);
 				}

@@ -55,7 +55,7 @@
 
 			// On ajoute toutes les routes présentes en base de données au router
 			foreach($langs as $thisLang){
-				Router::AddRange($routes, $thisLang->getCode());
+				Router::AddRange($routes, $thisLang->getCode(), $this->_repositoryManager->get('Rewrittingurl'));
 				
 				// Si on est sur une page de langue spécifique alors on change la langue en session
 				if(strpos($this->_clientUrl, "/" . $thisLang->getCode() . "/") === 0){
@@ -105,7 +105,7 @@
 			return $this->_langInUrl;
 		}
 		public function getDispatchedUrl(){
-			$this->_dispatchedUrl = Core\Router::GetRoute($this->_clientUrl);
+			$this->_dispatchedUrl = Router::GetRoute($this->_clientUrl);
 			return $this->_dispatchedUrl;
 		}
 		public function getClientUrl(){

@@ -45,7 +45,7 @@
 			$this->_actionName = $actionName;
 
 			// Si l'action n'existe pas, alors soit on lance une exeption en mode debug
-			if(!method_exists($this->_controllerName, $this->_actionName)){
+			if(!method_exists($this->_fullControllerName, $this->_actionName)){
 				throw new Adapter\ControllerException(Adapter\ControllerException::ACTION_NOT_FOUND, array("controller" => $this->_fullControllerName, "action" => $this->_actionName));
 			}
 		}

@@ -27,7 +27,7 @@
 		 * @return boolean
 		 */
 		public static function isPost(){
-			return isset($_POST) && !empty($_POST);
+			return isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST';
 		}
 		
 		/**
@@ -35,7 +35,23 @@
 		 * @return boolean
 		 */
 		public static function isGet(){
-			return isset($_GET) && !empty($_GET);
+			return isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET';
+		}
+
+		/**
+		 * isPut
+		 * @return boolean
+		 */
+		public static function isPut(){
+			return isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'PUT';
+		}
+
+		/**
+		 * isDelete
+		 * @return boolean
+		 */
+		public static function isDelete(){
+			return isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'DELETE';
 		}
 
 		/**
@@ -57,7 +73,19 @@
 		 */
 		public static function cleanRequest(){
 			$params = array();
-			$vars = self::isPost() ? $_POST : $_GET;
+			$vars = (self::isPost() ? $_POST : (self::isGet() ? $_GET : $_REQUEST));
+
+			if(self::isPut()){
+				$putVarsInString = file_get_contents("php://input");
+				$matches = [];
+				preg_match('/name\=\"([^"]*)\"[\ \n\t\r\n]{4}(.*)[\ \n\t\r\n]{2}[-]{6}/', $putVarsInString, $matches);
+				while(isset($matches[1]) && isset($matches[2])){
+					$vars[$matches[1]] = $matches[2];
+					$putVarsInString = str_replace($matches[0], '', $putVarsInString);
+					$matches = [];
+					preg_match('/name\=\"([^"]*)\"[\ \n\t\r\n]{4}(.*)[\ \n\t\r\n]{2}[-]{6}/', $putVarsInString, $matches);
+				}
+			}
 			
 			if(!self::isJson($vars)){
 				foreach($vars as $key => $value){
