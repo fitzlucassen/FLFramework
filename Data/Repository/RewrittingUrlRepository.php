@@ -15,8 +15,4 @@
 		public function __construct($pdo, $lang) {
 			parent::__construct($pdo, $lang);
 		}
-
-		public function getByUrlMatched($url) {
-			return Core\Router::GetRoute($url);
-		}
 	}

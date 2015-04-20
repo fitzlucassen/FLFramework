@@ -10,6 +10,17 @@
 		public function __construct() {
 			parent::__construct();
 		}
+
+		public static function redirectTo($url, $httpCode = 200, $contentType = ""){
+			if(empty($contentType))
+				$contentType = 'html';
+
+			header('Content-type: ' . ContentType::getContentType($contentType));
+			http_response_code($httpCode);
+
+			header('location:' . $url);
+			die();
+		}
 		
 		/**
 		 * IsPost
