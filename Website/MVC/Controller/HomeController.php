@@ -30,6 +30,8 @@
 		public function Error404(){
 			$Model = new Model\HomeModel($this->_repositoryManager);
 			
+			http_response_code(404);
+
 			$this->_view->ViewCompact($Model);
 		}
 	}
