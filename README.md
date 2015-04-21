@@ -36,8 +36,7 @@ AVAILABLE
 TODO
 ----
 
-- redirect refactoring
-- 404 refactoring
+- content type refactoring
 - webservice improvment
 - error refactoring
 - Complete queryBuilder
