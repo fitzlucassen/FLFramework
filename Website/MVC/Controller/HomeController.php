@@ -26,7 +26,7 @@
 			// cette fonction prend en paramètre le modèle
 			$this->_view->ViewCompact($Model);
 		}
-
+		
 		public function Error404(){
 			$Model = new Model\HomeModel($this->_repositoryManager);
 			

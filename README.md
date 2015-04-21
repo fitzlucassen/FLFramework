@@ -42,5 +42,4 @@ TODO
 - Complete queryBuilder
 - Try catch refactoring
 - Module manager
-- Router refactoring
 - Module de traduction (i18n)

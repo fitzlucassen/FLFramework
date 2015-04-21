@@ -218,9 +218,7 @@
 			$pattern = $pattern[0];
 
 			// Si on trouve une route correspondant à cette url
-			// TODO: verify this line
-			if ($route = self::FindPattern(preg_replace("#{([" . self::$_regex . "]+)}#i", "{}", $pattern), true)) {
-				// TODO: verify this line
+			if ($route = self::FindPattern($pattern, true)) {
 				$tab = preg_split("#[{}]#i", $route["pattern"]);
 				// Si on a des paramètres dans l'url
 				if (count($tab) > 1) {
@@ -237,7 +235,9 @@
 					}
 					// On récupère le tableau équivalent
 					$paramsValue = explode("%", $pattern);
+					// Pour chaque nom de paramètre
 					foreach ($paramsName as $key => $value)
+						// On ajoute sa valeur dans le tableau des paramètres
 						$params[$value] = $paramsValue[$key + 1];
 				}
 				else
@@ -279,11 +279,13 @@
 		 * @param array $params
 		 * @return array
 		 */
-		// TODO: Test this function
 		public static function GetUrlsByLang($controller, $action, $params) {
 			$array = array();
 			foreach(self::$_langs as $thisLang) {
-				$array[$thisLang] = self::ReplacePatternInUrl(self::FindRoute($controller, $action, $thisLang), $params);
+				$route = self::FindRoute($controller, $action, $thisLang);
+				if(isset($route)){
+					$array[$thisLang] = self::ReplacePatternInUrl($route['pattern'], $params);
+				}
 			}
 		   return $array;
 		}
@@ -296,12 +298,11 @@
 		 * @param string $lang
 		 * @return type
 		 */
-		// TODO: Test this function
 		public static function GetUrl($controller, $action, $params = null, $lang = null) {
 			if ($lang === null)
 				$lang = self::$_defaultLang;
 			if ($route = self::FindRoute($controller, $action, $lang)) {
-				return self::ReplacePatternInUrl($route, $params);
+				return self::ReplacePatternInUrl($route['pattern'], $params);
 			}
 			else {
 				$url = "/" . $controller . "/" . $action;
