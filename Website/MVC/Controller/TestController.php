@@ -214,7 +214,7 @@
 
 			var_dump($Rss->display(false));die();
 
-			$this->_view->view($Model);
+			$this->_view->view($Model, 'xml');
 		}
 
 		public function TestSession(){

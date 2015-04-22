@@ -365,7 +365,7 @@
 				foreach ($this->_other_attributs as $thisOther){
 					if($thisOther == '_pdoHelper'){
 						$source .= FileManager::getTab(3) . '$this->' . $thisOther . ' = $pdo;' . FileManager::getBackSpace();
-						$source .= FileManager::getTab(3) . '$this->_pdo = $pdo->GetConnection();' . FileManager::getBackSpace();
+						$source .= FileManager::getTab(3) . '$this->_pdo = $pdo->getConnection();' . FileManager::getBackSpace();
 					}
 					if($thisOther == '_queryBuilder'){
 						$source .= FileManager::getTab(3) . '$this->' . $thisOther . ' = new Core\QueryBuilder(true);' . FileManager::getBackSpace();
@@ -388,7 +388,7 @@
 			$source .= FileManager::getTab(3) . '$qb = new Core\QueryBuilder(true);' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(3) . '$query = $qb->select()->from(array("' . $tableName . '"))->getQuery();' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
-			$source .= FileManager::getTab(4) . '$result = $Connection->SelectTable($query);' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(4) . '$result = $Connection->selectTable($query);' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(4) . '$array = array();' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(4) . 'foreach ($result as $object){' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(5) . '$o = new Entity\\' . ucwords($tableName) . '();' . FileManager::getBackSpace();
@@ -406,7 +406,7 @@
 			$source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->select()->from(array("' . $tableName . '"))' . '
 											->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id)))->getQuery();' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
-			$source .= FileManager::getTab(4) . '$properties = $this->_pdoHelper->Select($query);' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(4) . '$properties = $this->_pdoHelper->select($query);' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(4) . '$object = new Entity\\' . ucwords($tableName) . '();' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(4) . '$object->fillObject($properties);' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(4) . 'return $object;' . FileManager::getBackSpace();
@@ -420,7 +420,7 @@
 			$source .= FileManager::getTab(3) . '$query = $this->_queryBuilder->select()->from(array("' . $tableName . '"))' . '
 											->where(array(array("link" => "", "left" => $key, "operator" => "=", "right" => $value)))->getQuery();' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(3) . 'try {' . FileManager::getBackSpace();
-			$source .= FileManager::getTab(4) . '$properties = $this->_pdoHelper->SelectTable($query);' . FileManager::getBackSpace();
+			$source .= FileManager::getTab(4) . '$properties = $this->_pdoHelper->selectTable($query);' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(4) . '$array = array();' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(4) . 'foreach ($properties as $object){' . FileManager::getBackSpace();
 			$source .= FileManager::getTab(5) . '$o = new Entity\\' . ucwords($tableName) . '();' . FileManager::getBackSpace();

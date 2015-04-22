@@ -36,8 +36,6 @@ AVAILABLE
 TODO
 ----
 
-- content type refactoring
-- webservice improvment
 - error refactoring
 - Complete queryBuilder
 - Try catch refactoring

@@ -26,7 +26,7 @@
 		 * @param type $action
 		 * @param type $compact
 		 */
-		public function view($model){
+		public function view($model, $contentType = ""){
 			if(!isset($model))
 				throw new Adapter\ViewException(Adapter\ViewException::getNO_MODEL(), array("controller" => $controller, "action" => $action));
 			
@@ -43,7 +43,7 @@
 				include(__layout_directory__ . "/" . $this->_layout .".php");
 				$this->endSection('layout');
 
-				$this->render($this->Sections['layout']);
+				$this->render($this->Sections['layout'], $contentType);
 			}
 			else
 				throw new Adapter\ViewException(Adapter\ViewException::getBAD_LAYOUT(), array('layout' => $this->_layout));

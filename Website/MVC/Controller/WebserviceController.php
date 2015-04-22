@@ -39,6 +39,6 @@
 			}
 			// Une action finira toujours par un $this->_view->view contenant : 
 			// cette fonction prend en paramètre le modèle
-			$this->_view->view($Model);
+			$this->_view->view($Model, 'json');
 		}
 	}
