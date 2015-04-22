@@ -41,3 +41,9 @@
 	// End
 	
 	$App = new App();
+	$modules = $App->getModuleToInclude();
+	foreach ($modules as $value) {
+		require_once $value;
+	}
+
+	$App->run();

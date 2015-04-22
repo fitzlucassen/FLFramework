@@ -11,6 +11,7 @@
 <?php
 	$this->endSection('scripts');
 	$this->beginSection();
+	
 	// START CONTENT
 	// Intégrer ci-dessous la vue
 ?>

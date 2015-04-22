@@ -22,6 +22,7 @@ AVAILABLE
 
 - url rewriting module
 - multilinguisme module
+- traduction module
 - webservice module
 - cache module
 - log module
@@ -39,5 +40,3 @@ TODO
 - error refactoring
 - Complete queryBuilder
 - Try catch refactoring
-- Module manager
-- Module de traduction (i18n)

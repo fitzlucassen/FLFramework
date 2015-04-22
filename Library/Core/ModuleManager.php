@@ -17,6 +17,17 @@
 			$this->_repositoryManager = $repo;
 		}
 
+		public function getModuleToInclude($root){
+			$dir = $root . __module_directory__;
+			$array = [];
+			foreach (scandir($dir) as $path) {
+				if(file_exists($dir . '/' . $path . '/main.php')){
+					array_push($array, $dir . '/' . $path . '/main.php');
+				}
+			}
+			return $array;
+		}
+
 		/**
 		 * ManageModuleException -> vérifie que les modules quasi indispensable sont bien inclus
 		 * @throws ConnexionException

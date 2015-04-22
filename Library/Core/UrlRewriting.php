@@ -33,7 +33,7 @@
 			$this->_routeUrlRepository = $this->_repositoryManager->get('Routeurl');
 		}
 
-		public function loadRoutes($clientUrl){
+		public function loadRoutes($clientUrl, $i18n){
 			$this->_clientUrl = $clientUrl;
 			
 			// Si les langues ne sont pas encore en cache on requête en BDD
@@ -60,6 +60,7 @@
 				// Si on est sur une page de langue spécifique alors on change la langue en session
 				if(strpos($this->_clientUrl, "/" . $thisLang->getCode() . "/") === 0){
 					$this->_session->write("lang", $thisLang->getCode());
+					$i18n->setLocale(Locale::getLocale($this->_session->read('lang')));
 					$this->_langInUrl = true;
 				}
 			}

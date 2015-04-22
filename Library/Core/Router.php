@@ -40,8 +40,7 @@
 
 			foreach ($routes as $thisRoute){
 				$url = $thisRoute->getRewrittingurls($repository);
-				$url = is_array($url) ? $url[0] : $url;
-
+				
 				if(is_array($url)){
 					foreach ($url as $value) {
 						if($value->getLang() == $lang){
@@ -154,6 +153,7 @@
 
 				// On récupère toutes les routes de cette langue
 				$array = self::getRoutes(null, $langInUrl);
+
 				// Et pour chacune d'entre elles
 				foreach ($array as $key => $value) {
 					// Dans l'url de la route courante,

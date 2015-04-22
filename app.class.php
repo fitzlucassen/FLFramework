@@ -20,6 +20,8 @@
 		// String vars
 		private $_clientUserAgent = "";
 
+		private $_moduleToInclude = [];
+
 		// Helpers object
 		private $_pdo = null;
 		private $_session = null;
@@ -28,6 +30,7 @@
 		private $_urlRewritingObject = null;
 		private $_dispatcher = null;
 		private $_moduleManager = null;
+		private $_i18n = null;
 		
 		// Construction des objets et récupération des variables
 		public function __construct() {
@@ -42,14 +45,13 @@
 					
 					// Initialise le module manager
 					$this->_moduleManager = new Core\ModuleManager($this->_repositoryManager);
+					$this->_moduleToInclude = $this->_moduleManager->getModuleToInclude(dirname(__FILE__) . DIRECTORY_SEPARATOR);
 				}
 				catch(Adapter\ConnexionException $e){
 					$this->_errorManager->noConnexionAvailable();
 					die();	
 				}
 			}
-			
-			$this->run();
 		}
 		
 		public function initialize(){
@@ -68,7 +70,8 @@
 			$this->_isInErrorPage = strpos($this->_clientUrl, '/Error/') !== false;
 			// Initialisation du dispatcher
 			$this->_dispatcher = new Core\Dispatcher();
-			
+			// Initialisation de l'internationalisation
+			$this->_i18n = new Core\I18n('fr_FR', ['fr_FR', 'en_US']);			
 			
 			// Si on a pas de langue on session on set celle par défaut
 			if(!$this->_session->containsKey("lang"))
@@ -87,9 +90,10 @@
 			
 			// On récupère les routes en base de données seulement si a une base de données
 			if(self::$_isDatabaseNeeded && self::$_isUrlRewritingNeeded && !$this->_isInErrorPage){
-				$this->_urlRewritingObject->loadRoutes($this->_clientUrl);
+				$this->_urlRewritingObject->loadRoutes($this->_clientUrl, $this->_i18n);
 				$langInUrl = $this->_urlRewritingObject->isLangInUrl();
 			}
+			$this->_i18n->initialize();
 			
 			// Si on est pas sur une page de langue spécifique, on set la langue par défaut en session
 			if(!$langInUrl)
@@ -250,6 +254,9 @@
 		}
 		public function getIsInErrorPage(){
 			return $this->_isInErrorPage;
+		}
+		public function getModuleToInclude(){
+			return $this->_moduleToInclude;
 		}
 		
 		/***********
