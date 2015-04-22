@@ -1,6 +1,11 @@
+<?php
+	$defaultMetaDesc = isset($this->Model->_headerInformations) ? $this->Model->_headerInformations->getMetaDescription() : "";
+	$defaultTitle = isset($this->Model->_headerInformations) ? $this->Model->_headerInformations->getTitle() : "";
+?>
+
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
-<meta name="Description" content="<?php echo isset($this->Model->_headerInformations) ? $this->Model->_headerInformations->getMetaDescription() : ""; ?>" >
+<meta name="Description" content="<?php echo $defaultMetaDesc; ?>" >
 <meta name="Author" content="Thibault Dulon">
 
 <meta name="Revisit-after" content="3 days">
@@ -11,11 +16,11 @@
 <meta name="Language" content="fr">
 <meta name="Viewport" content="initial-scale=1.0">
 
-<meta property="og:title" content="<?php echo isset($this->Model->_headerInformations) ? $this->Model->_headerInformations->getTitle() : ""; ?>" />
+<meta property="og:title" content="<?php echo $defaultTitle; ?>" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="<?php echo $_SERVER['SERVER_NAME'] . '/'; ?>" />
 <meta property="og:image" content="../favicon.ico" />
-<meta property="og:description" content="<?php echo isset($this->Model->_headerInformations) ? $this->Model->_headerInformations->getMetaDescription() : ""; ?>" />
+<meta property="og:description" content="<?php echo $defaultMetaDesc; ?>" />
 
 <link rel="icon" type="images/png" href="../favicon.ico" />
 <!--[if IE]>
@@ -34,4 +39,11 @@
 
 <?php
 	include(__partial_directory__ . "/tracking.php");
+
+	// S'il n'y a pas de title de précisé, on inclue le title par défaut présent en base de données
+	if(!$this->containsTitle($this->Sections['head'])) {
+?>
+	<title><?php echo $defaultTitle; ?></title>
+<?php
+	}
 ?>

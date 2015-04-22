@@ -43,7 +43,7 @@
 				Cache::write("lang", $langs);
 				// Si on a pas de module multilingue on insère la langue par défaut
 				if(count($langs) == 0)
-					$langs = array(array('id' => 1, 'code' => Router::GetDefaultLanguage()));
+					$langs = array(array('id' => 1, 'code' => Router::getDefaultLanguage()));
 			}
 		
 			// Si les routes ne sont pas encore en cache on requête en BDD
@@ -55,11 +55,11 @@
 
 			// On ajoute toutes les routes présentes en base de données au router
 			foreach($langs as $thisLang){
-				Router::AddRange($routes, $thisLang->getCode(), $this->_repositoryManager->get('Rewrittingurl'));
+				Router::addRange($routes, $thisLang->getCode(), $this->_repositoryManager->get('Rewrittingurl'));
 				
 				// Si on est sur une page de langue spécifique alors on change la langue en session
 				if(strpos($this->_clientUrl, "/" . $thisLang->getCode() . "/") === 0){
-					$this->_session->Write("lang", $thisLang->getCode());
+					$this->_session->write("lang", $thisLang->getCode());
 					$this->_langInUrl = true;
 				}
 			}
@@ -95,7 +95,7 @@
 			$this->_rewrittingUrl = is_array($this->_rewrittingUrl) ? $this->_rewrittingUrl[0] : $this->_rewrittingUrl;
 
 			// TODO: debug this line
-			Request::redirectTo(Router::ReplacePattern($this->_rewrittingUrl->getUrlMatched(), $this->_clientUrl), 404);
+			Request::redirectTo(Router::replacePattern($this->_rewrittingUrl->getUrlMatched(), $this->_clientUrl), 404);
 		}
 
 		/***********
@@ -105,7 +105,7 @@
 			return $this->_langInUrl;
 		}
 		public function getDispatchedUrl(){
-			$this->_dispatchedUrl = Router::GetRoute($this->_clientUrl);
+			$this->_dispatchedUrl = Router::getRoute($this->_clientUrl);
 			return $this->_dispatchedUrl;
 		}
 		public function getClientUrl(){

@@ -8,20 +8,20 @@
 	require_once 'app.class.php';
 	
 	// Auto-load pour les entity et les repository et les helper
-	spl_autoload_register("App::ManageAutoload");
+	spl_autoload_register("App::manageAutoload");
 	
 	// Put your SQL config here
-	Core\Sql::SetDb("flframework");
-	Core\Sql::SetHost("localhost");
-	Core\Sql::SetUser("root");
-	Core\Sql::SetPwd("");
+	Core\Sql::setDb("flframework");
+	Core\Sql::setHost("localhost");
+	Core\Sql::setUser("root");
+	Core\Sql::setPwd("");
 	// End SQL config
 	
 	/* FOR DEVELOPER ONLY */
 	// Put your router config here
-	Core\Router::SetDefaultAction("index");
-	Core\Router::SetDefaultController("home");
-	Core\Router::SetDefaultLanguage("fr");
+	Core\Router::setDefaultAction("index");
+	Core\Router::setDefaultController("home");
+	Core\Router::setDefaultLanguage("fr");
 	// End router config
 
 	// Put your logger config here

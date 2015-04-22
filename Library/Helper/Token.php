@@ -1,7 +1,7 @@
 <?php
 	namespace fitzlucassen\FLFramework\Library\Helper;
 
-	class Token {
+	class Token extends Helper {
 		private static $_privateKey = "efzfzdiuhzdiuzezouzhdazdpij";
 		private static $_validityTime = 3;
 

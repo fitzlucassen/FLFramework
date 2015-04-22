@@ -21,88 +21,95 @@
 		}
 		
 		/**
-		 * View -> appelle une vue le plus simplement possible
-		 * @param type $view
-		 * @param type $model
-		 */
-		public function View($view, $model = array()){
-			$this->Model = $model;
-			include __view_directory__ . '/' . $view;
-		}
-		
-		/**
-		 * ViewCompact -> la méthode complète d'appel à une vue
+		 * view -> la méthode complète d'appel à une vue
 		 * @param type $controller
 		 * @param type $action
 		 * @param type $compact
 		 */
-		public function ViewCompact($model){
+		public function view($model){
 			if(!isset($model))
 				throw new Adapter\ViewException(Adapter\ViewException::getNO_MODEL(), array("controller" => $controller, "action" => $action));
 			
 			$this->Model = $model;
 			
 			// Mise en cache de la vue
-			$this->BeginSection();
+			$this->beginSection();
 			include __view_directory__ . "/" . ucfirst($this->_controller) . "/" . $this->_action . ".php";
-			$this->EndSection('body');
+			$this->endSection('body');
 			
 			// Et on inclue le layout/vue
-			if(file_exists(__layout_directory__ . "/" . $this->_layout .".php"))
+			if(file_exists(__layout_directory__ . "/" . $this->_layout .".php")){
+				$this->beginSection();
 				include(__layout_directory__ . "/" . $this->_layout .".php");
+				$this->endSection('layout');
+
+				$this->render($this->Sections['layout']);
+			}
 			else
 				throw new Adapter\ViewException(Adapter\ViewException::getBAD_LAYOUT(), array('layout' => $this->_layout));
 		}
 		
 		/**
-		 * ContainsTitle -> retourne vrai si la chaine contient la balise title
+		 * containsTitle -> retourne vrai si la chaine contient la balise title
 		 * @param type $string
 		 * @return type
 		 */
-		public function ContainsTitle($string){
+		public function containsTitle($string){
 			return !empty($string) && strpos($string, "<title>") !== false;
 		}
 		
 		/**
-		 * Render -> affiche le html passé en paramètre
-		 * @param type $string
+		 * render -> affiche le html passé en paramètre
+		 * @param mixed $string
 		 */
-		public function Render($string){
-			echo $string;
+		public function render($mixed, $contentType = ""){
+			if(empty($contentType))
+				$contentType = 'html';
+
+			header('Content-type: ' . ContentType::getContentType($contentType));
+
+			if(is_string($mixed)){
+				echo $string;
+			}
+			else {
+				foreach ($mixed as $key => $value) {
+					echo $value;
+				}
+			}
 		}
 
-		public function BeginSection(){
+		public function beginSection(){
 			// Mise en cache de la vue
 			ob_start();
 		}
 
-		public function EndSection($sectionName){
+		public function endSection($sectionName){
 			$this->Sections[$sectionName] = ob_get_clean();
 		}
 		
 		/***********
 		 * SETTERS *
 		 ***********/
-		public function SetLayout($layout){
+		public function setLayout($layout){
 			$this->_layout = $layout;
 		}
-		public function SetController($controller){
+		public function setController($controller){
 			$this->_controller = $controller;
 		}
-		public function SetAction($action){
+		public function setAction($action){
 			$this->_action = $action;
 		}
 		
 		/***********
 		 * GETTERS *
 		 ***********/
-		public function GetLayout(){
+		public function getLayout(){
 			return $this->_layout;
 		}
-		public function GetController(){
+		public function getController(){
 			return $this->_controller;
 		}
-		public function GetAction(){
+		public function getAction(){
 			return $this->_action;
 		}
 	}

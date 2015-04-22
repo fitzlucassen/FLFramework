@@ -1,5 +1,6 @@
 <?php
 	use fitzlucassen\DALGenerator\library as DAL;
+	use fitzlucassen\FLFramework\Library\Core
 
 	require_once 'library/Config.php';
 	require_once 'library/Sql.php';
@@ -39,7 +40,7 @@
 		*******/
 	}
 
-	$Connexion = new DAL\Sql($Config->getDB(), $Config->getHOST(), $Config->getUSER(), $Config->getPWD());
+	$Connexion = new Core\Sql($Config->getDB(), $Config->getHOST(), $Config->getUSER(), $Config->getPWD());
 
 	// The last argument is the array of all attributs you want to add into your classes
 	$Utilities = new DAL\Utilities($Connexion, array("_pdoHelper", "_queryBuilder"), $Config->getHOST());

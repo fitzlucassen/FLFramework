@@ -9,5 +9,5 @@
 
 <?php
 	if(isset($this->Sections['scripts']))
-		$this->Render($this->Sections['scripts']);
+		$this->render($this->Sections['scripts']);
 ?>

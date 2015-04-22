@@ -24,17 +24,17 @@
 		public function manageNativeModuleException(){
 			$pdo = $this->_repositoryManager->getConnection();
 			// On ne lance les exceptions qu'en mode debug
-			if(!$pdo->TableExist("header")){
+			if(!$pdo->tableExist("header")){
 				Logger::write(Adapter\ConnexionException::NO_HEADER_TABLE_FOUND . " : noHeaderTableFound ");
 				$this->_errorManager->noHeaderTableFound(null);
 				die();
 			}
-			if(!$pdo->TableExist("routeurl") && !$this->_pdo->TableExist("rewrittingurl")){
+			if(!$pdo->tableExist("routeurl") && !$this->_pdo->tableExist("rewrittingurl")){
 				Logger::write(Adapter\ConnexionException::NO_URL_REWRITING_FOUND . " : noRewritingFound ");
 				$this->_errorManager->noRewritingFound(null);
 				die();
 			}
-			if(!$pdo->TableExist("lang")){
+			if(!$pdo->tableExist("lang")){
 				Logger::write(Adapter\ConnexionException::NO_LANG_FOUND . " : noMultilingueFound ");
 				$this->_errorManager->noMultilingueFound(null);
 				die();

@@ -24,25 +24,25 @@
 		 * SETTERS *
 		 ***********/
 		public function setController($controller){
-			$this->_view->SetController($controller);
+			$this->_view->setController($controller);
 		}
 		public function setAction($action){
-			$this->_view->SetAction($action);
+			$this->_view->setAction($action);
 		}
 		public function setLayout($layout){
-			$this->_view->SetLayout($layout);
+			$this->_view->setLayout($layout);
 		}
 		
 		/***********
 		 * GETTERS *
 		 ***********/
 		public function getController(){
-			return $this->_view->GetController();
+			return $this->_view->getController();
 		}
 		public function getAction(){
-			return $this->_view->GetAction();
+			return $this->_view->getAction();
 		}
 		public function getLayout(){
-			return $this->_view->GetLayout();
+			return $this->_view->getLayout();
 		}
 	}

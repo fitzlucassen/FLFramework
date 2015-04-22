@@ -53,7 +53,7 @@
 				$id = $user->$attr();
 
 				if(isset($id) && !empty($id) && $id > 0 && $user->$attrPwd() == $this->hashData($pwd)){
-					$this->_session->Write("Auth", $id);
+					$this->_session->write("Auth", $id);
 					$this->_user = $user;
 					return $this->_user;
 				}
@@ -70,7 +70,7 @@
 		 * disconnect --> déconnecte un utilisateur de la session courante
 		 */
 		public function disconnect() {
-			$this->_session->Clear("Auth");
+			$this->_session->clear("Auth");
 			$this->_user = null;
 		}
 

@@ -18,25 +18,25 @@
 		public function noConnexionAvailable(){
 			$Model = new Model\ErrorModel($this->_repositoryManager);
 			
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 		
 		public function noHeaderTableFound(){
 			$Model = new Model\ErrorModel($this->_repositoryManager);
 			
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 		
 		public function noRewritingFound(){
 			$Model = new Model\ErrorModel($this->_repositoryManager);
 			
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 		
 		public function noMultilingueFound(){
 			$Model = new Model\ErrorModel($this->_repositoryManager);
 			
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 
 		public function queryFailed($params){
@@ -44,7 +44,7 @@
 			
 			$Model->_message = $params[0];
 
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 		
 		/********
@@ -56,7 +56,7 @@
 			$Model->_controllerTarget = $params[0];
 			$Model->_modelTarget = $params[1];
 
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 		
 		public function layoutDoesntExist($params){
@@ -64,7 +64,7 @@
 			
 			$Model->_layoutTarget = $params[0];
 
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 		
 		/**************
@@ -75,7 +75,7 @@
 			
 			$Model->_controllerTarget = $params[0];
 			
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 		
 		public function controllerInstanceFailed($params){
@@ -83,7 +83,7 @@
 			
 			$Model->_controllerTarget = $params[0];
 			
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 		
 		public function actionDoesntExist($params){
@@ -92,7 +92,7 @@
 			$Model->_controllerTarget = $params[0];
 			$Model->_modelTarget = $params[1];
 
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 
 		/*********
@@ -103,7 +103,7 @@
 			
 			$Model->_layoutTarget = $params[0];
 
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 
 		public function emailViewDoesntExist($params){
@@ -111,6 +111,6 @@
 			
 			$Model->_viewTarget = $params[0];
 
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 	}

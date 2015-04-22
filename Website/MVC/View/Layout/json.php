@@ -1,4 +1,4 @@
 <?php
 	header('Content-type: application/json');
-	$this->Render($this->Sections['body']);
+	$this->render($this->Sections['body']);
 ?>

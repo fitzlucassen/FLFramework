@@ -18,7 +18,7 @@
 		public function JSLibraries(){
 			$Model = new Model\HomeModel($this->_repositoryManager);
 
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 
 		public function TestCdiscount(){
@@ -37,7 +37,7 @@
 				)
 			));
 			die();
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 		
 		public function TestAuth(){
@@ -66,7 +66,7 @@
 			}
 
 
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 		
 		public function TestEmail(){
@@ -88,7 +88,7 @@
 			// Puis on construit le header et on l'envoi
 			$Email->buildHeaders()->send();
 
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 
 		public function TestForm(){
@@ -116,7 +116,7 @@
 				var_dump($html);die();
 			}
 			
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 
 		public function TestPaginator(){
@@ -132,7 +132,7 @@
 			// Print the default paginator
 			var_dump($Paginator->getPagination(false));die();
 			
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 
 		public function TestPaypal(){
@@ -183,7 +183,7 @@
 
 
 			
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 
 		public function TestRss(){
@@ -214,7 +214,7 @@
 
 			var_dump($Rss->display(false));die();
 
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 
 		public function TestSession(){
@@ -223,16 +223,16 @@
 			$Session = new Helper\Session();
 
 			// Test an existing key
-			if($Session->ContainsKey("test")){
+			if($Session->containsKey("test")){
 				// If true, get it
-				$test = $Session->Read("test");
+				$test = $Session->read("test");
 			}
 			else{
 				// Else, write it in session
-				$Session->Write("test", "this is a test");
+				$Session->write("test", "this is a test");
 			}
 			
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 
 		public function TestUpload(){
@@ -246,6 +246,6 @@
 				$Upload->upload();
 			}
 			
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 	}

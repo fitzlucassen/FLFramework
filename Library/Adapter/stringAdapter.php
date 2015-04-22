@@ -12,7 +12,7 @@
 		 * @param string $string
 		 * @return string
 		 */
-		public static function Sanitize($string) {
+		public static function sanitize($string) {
 		    $string = strtolower($string);
 
 		    $search = [
@@ -33,15 +33,15 @@
 		 * @param string $string
 		 * @return string
 		 */
-		public static function IsNullOrEmpty($string){
+		public static function isNullOrEmpty($string){
 			return !isset($string) || empty($string);
 		}
 
-		public static function StartsWith($haystack, $needle){
+		public static function startsWith($haystack, $needle){
 			return strpos($haystack, $needle) === 0;
 		}
 
-		public static function EndsWith($haystack, $needle){
+		public static function endsWith($haystack, $needle){
 			if(strlen($needle) > strlen($haystack))
 				return false;
 			else {

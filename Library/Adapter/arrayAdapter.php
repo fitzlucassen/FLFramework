@@ -13,7 +13,7 @@
 		 * @param type $label
 		 * @return type
 		 */
-		public static function Select($array, $label, $level) {
+		public static function select($array, $label, $level) {
 			$arrayReturn = array();
 			foreach($array as $key => $value){
 				if($level == 2){
@@ -33,13 +33,13 @@
 			return $arrayReturn;
 		}
 		
-		public static function Order($array){
+		public static function order($array){
 			sort($array);
 			
 			return $array;
 		}
 
-		public static function OrderBy($array, $key, $order = "ASC"){
+		public static function orderBy($array, $key, $order = "ASC"){
 			if(is_object($array[0]))
 				usort($array, create_function('$a, $b', 'return strcmp($a->get' . ucfirst($key) . '(), $b->get' . ucfirst($key) . '());'));
 			else
@@ -50,7 +50,7 @@
 			return $array;
 		}
 		
-		public static function Distinct($array){
+		public static function distinct($array){
 			$a = array();
 			
 			foreach($array as $temp){

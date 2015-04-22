@@ -19,7 +19,7 @@
 				$Header = $manager->get('Header');
 
 				$Session = new Helper\Session();
-				$this->_headerInformations = $Header->getBy('lang', $Session->Read('lang'));
+				$this->_headerInformations = $Header->getBy('lang', $Session->read('lang'));
 
 				if(is_array($this->_headerInformations))
 					$this->_headerInformations = $this->_headerInformations[0];

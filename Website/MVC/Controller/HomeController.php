@@ -22,9 +22,9 @@
 			// Cette initialisation doit obligatoirement contenir le repository manager
 			$Model = new Model\HomeModel($this->_repositoryManager);
 	
-			// Une action finira toujours par un $this->_view->ViewCompact contenant : 
+			// Une action finira toujours par un $this->_view->view contenant : 
 			// cette fonction prend en paramètre le modèle
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 		
 		public function Error404(){
@@ -32,6 +32,6 @@
 			
 			http_response_code(404);
 
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 	}

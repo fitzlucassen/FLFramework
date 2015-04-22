@@ -7,11 +7,11 @@
 
 <?php
 	// inclure ci-dessus les balises à inclure dans la balise <head> du layout
-	$this->EndSection('head');
+	$this->endSection('head');
 ?>
 <?php
 	// inclure ci-dessous les balises à inclure à la fin de votre DOM
-	$this->BeginSection();
+	$this->beginSection();
 ?>
 	<script type="text/javascript" src="/<?php echo __js_directory__  ; ?>/Module/raphael.min.js"></script>
 	<script type="text/javascript" src="/<?php echo __js_directory__  ; ?>/Module/morris.min.js"></script>
@@ -145,8 +145,8 @@
 	</script>
 	<!-- END Scrollpath -->
 <?php
-	$this->EndSection('scripts');
-	$this->BeginSection();
+	$this->endSection('scripts');
+	$this->beginSection();
 	// START CONTENT
 	// Intégrer ci-dessous la vue
 ?>

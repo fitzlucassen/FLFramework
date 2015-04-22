@@ -71,8 +71,8 @@
 			
 			
 			// Si on a pas de langue on session on set celle par défaut
-			if(!$this->_session->ContainsKey("lang"))
-				$this->_session->Write("lang", Core\Router::GetDefaultLanguage());
+			if(!$this->_session->containsKey("lang"))
+				$this->_session->write("lang", Core\Router::getDefaultLanguage());
 		}
 		
 		/**
@@ -81,7 +81,7 @@
 		public function run(){	
 			// On vérifie que tous les modules quasi indispensable sont inclus.
 			// Si non on lance les exceptions adaptées
-			$this->ManageModuleException();
+			$this->manageModuleException();
 			
 			$langInUrl = false;
 			
@@ -93,14 +93,14 @@
 			
 			// Si on est pas sur une page de langue spécifique, on set la langue par défaut en session
 			if(!$langInUrl)
-				$this->_session->Write("lang", Core\Router::GetDefaultLanguage());
+				$this->_session->write("lang", Core\Router::getDefaultLanguage());
 			
 			// On récupère le controller et l'action de l'url
 			if(self::$_isDatabaseNeeded && self::$_isUrlRewritingNeeded && !$this->_isInErrorPage){
 				$this->_dispatchedUrl = $this->_urlRewritingObject->getDispatchedUrl();
 			}
 			else {
-				$this->_dispatchedUrl = Core\Router::GetRoute($this->_clientUrl);
+				$this->_dispatchedUrl = Core\Router::getRoute($this->_clientUrl);
 			}
 			
 			if(self::$_isDatabaseNeeded && self::$_isUrlRewritingNeeded && !$this->_isInErrorPage){
@@ -109,14 +109,14 @@
 
 			$this->_isValidUrl = $this->_dispatcher->isValidUrl($this->_dispatchedUrl);
 
-			$this->Manage404();
-			$this->ManageAction();
+			$this->manage404();
+			$this->manageAction();
 		}
 		
 		/**
 		 * Manage404Route -> gère le routing vers la page 404 si la page n'existe pas
 		 */
-		public function Manage404(){
+		public function manage404(){
 			// On récupèrele nom du controller
 			$controllerTemp = (self::$_isDatabaseNeeded && self::$_isUrlRewritingNeeded && !$this->_isInErrorPage) ? $this->_urlRewritingObject->getController() : "";
 			
@@ -161,7 +161,7 @@
 		/**
 		 * ManageAction -> set le nom de l'action et instancie un nouveau controller
 		 */
-		public function ManageAction(){
+		public function manageAction(){
 			// Si on est sur une page erreur ou si on a le module rewriting on récupère le nom de l'action en brute
 			// Sinon on le récupère via l'objet routeurl
 			if(!self::$_isDatabaseNeeded || !self::$_isUrlRewritingNeeded || $this->_isInErrorPage || ($this->_isValidUrl && $this->_urlRewritingObject->isWrongRoute()))
@@ -219,7 +219,7 @@
 		 * ManageAutoload -> gère l'autoload des class
 		 * @param string $class
 		 */
-		public static function ManageAutoload($class){
+		public static function manageAutoload($class){
 			$file = str_replace('fitzlucassen/FLFramework/', '', trim(str_replace(array('\\', '_'), '/', $class), '/')).'.php';
 			if(file_exists($file))
 				require_once $file;
@@ -229,7 +229,7 @@
 		 * ManageModuleException -> vérifie que les modules quasi indispensable sont bien inclus
 		 * @throws ConnexionException
 		 */
-		public function ManageModuleException(){
+		public function manageModuleException(){
 			// On ne lance les exceptions qu'en mode debug
 			if((self::$_isDebugMode && self::$_isUrlRewritingNeeded && self::$_isDatabaseNeeded && !$this->_isInErrorPage)){
 				$this->_moduleManager->manageNativeModuleException();

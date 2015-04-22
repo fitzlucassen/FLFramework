@@ -37,8 +37,8 @@
 				);
 				$Model->result = json_encode($Model->result);
 			}
-			// Une action finira toujours par un $this->_view->ViewCompact contenant : 
+			// Une action finira toujours par un $this->_view->view contenant : 
 			// cette fonction prend en paramètre le modèle
-			$this->_view->ViewCompact($Model);
+			$this->_view->view($Model);
 		}
 	}
