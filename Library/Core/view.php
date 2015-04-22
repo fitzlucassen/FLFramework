@@ -69,7 +69,7 @@
 			header('Content-type: ' . ContentType::getContentType($contentType));
 
 			if(is_string($mixed)){
-				echo $string;
+				echo $mixed;
 			}
 			else {
 				foreach ($mixed as $key => $value) {
