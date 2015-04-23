@@ -17,7 +17,6 @@
 	Core\Sql::setPwd("");
 	// End SQL config
 	
-	/* FOR DEVELOPER ONLY */
 	// Put your router config here
 	Core\Router::setDefaultAction("index");
 	Core\Router::setDefaultController("home");
@@ -25,7 +24,7 @@
 	// End router config
 
 	// Put your logger config here
-	Core\Logger::setLogFile(__log_directory__ . '/log.txt');
+	Core\Logger::setLogFile(__log_directory__ . '/', 'log.txt');
 	Core\Logger::setExpireTime(3600);
 	// End logger config
 	
@@ -38,12 +37,15 @@
 	App::setIsDebugMode(true);
 	App::setDatabaseNeeded(true);
 	App::setUrlRewritingNeeded(true);
+	App::setSupportedLanguages(['fr_FR', 'en_US']);
 	// End
 	
+	// Initialize App
 	$App = new App();
+	// Get extern module to include
 	$modules = $App->getModuleToInclude();
 	foreach ($modules as $value) {
 		require_once $value;
 	}
-
+	// Run the request
 	$App->run();

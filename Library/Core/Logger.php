@@ -7,7 +7,7 @@
 		Déscription : Permet de gérer les logs (trâcage du parcours du programme)
 	 */
 	class Logger {
-		private static $_logFile = "/Logs/log.txt";
+		private static $_logFile = "";
 		private static $_expireTime = 86400; // Un jour
 		
 		/**
@@ -16,9 +16,6 @@
 		 * @param boolean $append
 		 */
 		public static function write($message, $append = false){
-			if(!is_dir(self::$_logFile))
-				mkdir(self::$_logFile);
-
 			date_default_timezone_set('Europe/Paris');
 			$date = date('d-m-y H:i:s');
 			$fileDate = filemtime(self::$_logFile);
@@ -39,9 +36,6 @@
 		 * @return string
 		 */
 		public static function read(){
-			if(!is_dir(self::$_logFile))
-				mkdir(self::$_logFile);
-			
 			return file_get_contents(self::$_logFile);
 		}
 		
@@ -62,8 +56,13 @@
 		/***********
 		 * SETTERS *
 		 ***********/
-		public static function setLogFile($arg){
-			self::$_logFile = $arg;
+		public static function setLogFile($path, $filename){
+			self::$_logFile = $path . $filename;
+
+			if(!is_dir($path))
+				mkdir($path);
+
+			file_put_contents(self::$_logFile, '');
 		}
 		public static function setExpireTime($arg){
 			self::$_expireTime = $arg;

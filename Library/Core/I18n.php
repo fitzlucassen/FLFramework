@@ -2,9 +2,7 @@
 	 
 	namespace fitzlucassen\FLFramework\Library\Core;
 
-	use fitzlucassen\FLFramework\Data;
 	use fitzlucassen\FLFramework\Library\Helper;
-	use fitzlucassen\FLFramework\Library\Adapter;
 
 	/*
 		Class : I18n
@@ -30,7 +28,7 @@
 			else {
 				$S = new Helper\Session();
 				if($S->containsKey('lang'))
-					$this->_defaultLocale = $S->read('lang');
+					$this->_defaultLocale = Locale::getLocale($S->read('lang'));
 			}
 		}
 

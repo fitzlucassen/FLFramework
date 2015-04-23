@@ -16,6 +16,7 @@
 		private static $_isDebugMode = false;
 		private static $_isDatabaseNeeded = true;
 		private static $_isUrlRewritingNeeded = true;
+		private static $_supportedLanguages = [];
 		
 		// String vars
 		private $_clientUserAgent = "";
@@ -71,7 +72,7 @@
 			// Initialisation du dispatcher
 			$this->_dispatcher = new Core\Dispatcher();
 			// Initialisation de l'internationalisation
-			$this->_i18n = new Core\I18n('fr_FR', ['fr_FR', 'en_US']);			
+			$this->_i18n = new Core\I18n('fr_FR', self::$_supportedLanguages);			
 			
 			// Si on a pas de langue on session on set celle par défaut
 			if(!$this->_session->containsKey("lang"))
@@ -100,41 +101,32 @@
 				$this->_session->write("lang", Core\Router::getDefaultLanguage());
 			
 			// On récupère le controller et l'action de l'url
-			if(self::$_isDatabaseNeeded && self::$_isUrlRewritingNeeded && !$this->_isInErrorPage){
-				$this->_dispatchedUrl = $this->_urlRewritingObject->getDispatchedUrl();
+			$this->_dispatchedUrl = Core\Router::getRoute($this->_clientUrl);
+			$this->_dispatcher->setControllerFilePath($this->_dispatchedUrl['controller']);
+			$this->_dispatcher->setAction($this->_dispatchedUrl['action']);
+			$this->_isValidUrl = $this->_dispatcher->isValidUrl($this->_dispatchedUrl);
+
+			if(!$this->_isValidUrl){
+				$this->manage404();
 			}
-			else {
-				$this->_dispatchedUrl = Core\Router::getRoute($this->_clientUrl);
-			}
-			
+
 			if(self::$_isDatabaseNeeded && self::$_isUrlRewritingNeeded && !$this->_isInErrorPage){
+				$this->_urlRewritingObject->setDispatchedUrl($this->_dispatchedUrl);
 				$this->_urlRewritingObject->createRouteUrl();
 			}
 
-			$this->_isValidUrl = $this->_dispatcher->isValidUrl($this->_dispatchedUrl);
-
-			$this->manage404();
 			$this->manageAction();
 		}
 		
 		/**
-		 * Manage404Route -> gère le routing vers la page 404 si la page n'existe pas
+		 * manage404 -> gère le routing vers la page 404 si la page n'existe pas
 		 */
-		public function manage404(){
-			// On récupèrele nom du controller
-			$controllerTemp = (self::$_isDatabaseNeeded && self::$_isUrlRewritingNeeded && !$this->_isInErrorPage) ? $this->_urlRewritingObject->getController() : "";
-			
-			// Si on est sur une page erreur OU si on a pas de module rewriting alors on récupère le controller et l'action via l'url directement
-			// Sinon on récupère le controller et l'action via l'objet routeurl
-			if(empty($controllerTemp)){
-				$controllerTemp = $this->_dispatchedUrl['controller'];
-			}
-			$this->_dispatcher->setControllerFilePath($controllerTemp);
-			
+		public function manage404(){			
 			try {
 				// On vérifie que le fichier de la classe de ce controller existe bien
 				// Sinon on lance une exception en mode debug OU on redirige vers la page 404 en mode non debug
 				$this->_dispatcher->verifyController();
+				$this->_dispatcher->verifyAction();
 			}
 			catch(Adapter\ControllerException $e){
 				if(self::$_isDebugMode){
@@ -144,6 +136,11 @@
 						$this->_errorManager->controllerInstanceFailed($e->getParams());
 						die();
 					}
+					else if($e->getType() == Adapter\ControllerException::ACTION_NOT_FOUND){
+						Core\Logger::write(Adapter\ControllerException::ACTION_NOT_FOUND . " : actionDoesntExist " . implode(' ', $e->getParams()));
+						$this->_errorManager->actionDoesntExist($e->getParams());
+						die();
+					}
 					else{
 						Core\Logger::write(Adapter\ControllerException::NOT_FOUND . " : controllerClassDoesntExist " . implode(' ', $e->getParams()));
 						$this->_errorManager->controllerClassDoesntExist($e->getParams());
@@ -151,13 +148,10 @@
 					}
 				}
 				else {
-					// On récupère les objet routeurl et rewrittingurl de la page 404
-					if(self::$_isDatabaseNeeded && self::$_isUrlRewritingNeeded){
-						$this->_urlRewritingObject->redirectTo404();
-					}
-					else {
-						Core\Request::redirectTo(__site_url__ . '/Home/error404', 404);
-					}
+					$this->_dispatchedUrl['controller'] = 'Home';
+					$this->_dispatchedUrl['action'] = 'error404';
+					$this->_dispatcher->dispatch('html', 404);
+					die();
 				}
 			}
 		}
@@ -165,34 +159,10 @@
 		/**
 		 * ManageAction -> set le nom de l'action et instancie un nouveau controller
 		 */
-		public function manageAction(){
-			// Si on est sur une page erreur ou si on a le module rewriting on récupère le nom de l'action en brute
-			// Sinon on le récupère via l'objet routeurl
-			if(!self::$_isDatabaseNeeded || !self::$_isUrlRewritingNeeded || $this->_isInErrorPage || ($this->_isValidUrl && $this->_urlRewritingObject->isWrongRoute()))
-				$actionName = $this->_dispatchedUrl['action'];
-			else
-				$actionName = $this->_urlRewritingObject->getAction();
-			
+		public function manageAction(){			
 			// On exécute l'action cible du controller et on affiche la vue avec le modèle renvoyé
 			try{
-				$this->_dispatcher->verifyAction($actionName);
 				$this->_dispatcher->executeAction($this->_dispatchedUrl, $this->_repositoryManager);
-			}
-			catch(Adapter\ControllerException $e){
-				if(self::$_isDebugMode){
-					Core\Logger::write(Adapter\ControllerException::ACTION_NOT_FOUND . " : actionDoesntExist " . implode(' ', $e->getParams()));
-					$this->_errorManager->actionDoesntExist($e->getParams());
-					die();
-				}
-				else {
-					// On récupère les objet routeurl et rewrittingurl de la page 404
-					if(self::$_isDatabaseNeeded && self::$_isUrlRewritingNeeded){
-						$this->_urlRewritingObject->redirectTo404();
-					}
-					else {
-						Core\Request::redirectTo(__site_url__ . '/Home/error404', 404);
-					}
-				}
 			}
 			catch(Adapter\ViewException $ex){
 				if(self::$_isDebugMode){
@@ -208,13 +178,10 @@
 					}
 				}
 				else {
-					// On récupère les objet routeurl et rewrittingurl de la page 404
-					if(self::$_isDatabaseNeeded && self::$_isUrlRewritingNeeded){
-						$this->_urlRewritingObject->redirectTo404();
-					}
-					else {
-						Core\Request::redirectTo(__site_url__ . '/Home/error404', 404);
-					}
+					$this->_dispatchedUrl['controller'] = 'Home';
+					$this->_dispatchedUrl['action'] = 'error404';
+					$this->_dispatcher->dispatch('html', 404);
+					die();
 				}
 			}
 		}
@@ -270,5 +237,8 @@
 		}
 		public static function setUrlRewritingNeeded($arg){
 			self::$_isUrlRewritingNeeded = $arg;
+		}
+		public static function setSupportedLanguages($args){
+			self::$_supportedLanguages = $args;
 		}
 	}

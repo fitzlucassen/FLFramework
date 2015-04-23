@@ -17,4 +17,12 @@
 		public static function getContentType($key){
 			return self::$_contentType[$key];
 		}
+
+		public static function addContentTypes($mixed){
+			if(is_array($mixed)){
+				foreach ($mixed as $key => $value) {
+					self::$_contentType[$key] = $value;
+				}
+			}
+		}
 	}

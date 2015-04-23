@@ -88,17 +88,6 @@
 			}
 		}
 
-		public function redirectTo404(){
-			// On récupère les objet routeurl et rewrittingurl de la page 404
-			$this->_routeUrl = $this->_routeUrlRepository->getBy('name', 'error404');
-			$this->_routeUrl = is_array($this->_routeUrl) ? $this->_routeUrl[0] : $this->_routeUrl;
-			$this->_rewrittingUrl = $this->_rewrittingUrlRepository->getBy('idRouteUrl', $this->_routeUrl->getId());
-			$this->_rewrittingUrl = is_array($this->_rewrittingUrl) ? $this->_rewrittingUrl[0] : $this->_rewrittingUrl;
-
-			// TODO: debug this line
-			Request::redirectTo(Router::replacePattern($this->_rewrittingUrl->getUrlMatched(), $this->_clientUrl), 404);
-		}
-
 		/***********
 		 * GETTERS *
 		 ***********/
@@ -106,7 +95,6 @@
 			return $this->_langInUrl;
 		}
 		public function getDispatchedUrl(){
-			$this->_dispatchedUrl = Router::getRoute($this->_clientUrl);
 			return $this->_dispatchedUrl;
 		}
 		public function getClientUrl(){
@@ -118,5 +106,13 @@
 
 		public function getAction(){
 			return isset($this->_routeUrl) ? $this->_routeUrl->getAction() : "";
+		}
+
+		/***********
+		 * SETTERS *
+		 ***********/
+
+		public function setDispatchedUrl($url){
+			$this->_dispatchedUrl = $url;
 		}
 	}

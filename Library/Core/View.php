@@ -26,7 +26,7 @@
 		 * @param type $action
 		 * @param type $compact
 		 */
-		public function view($model, $contentType = ""){
+		public function view($model, $contentType = "", $responseCode = 200){
 			if(!isset($model))
 				throw new Adapter\ViewException(Adapter\ViewException::getNO_MODEL(), array("controller" => $controller, "action" => $action));
 			
@@ -43,7 +43,7 @@
 				include(__layout_directory__ . "/" . $this->_layout .".php");
 				$this->endSection('layout');
 
-				$this->render($this->Sections['layout'], $contentType);
+				$this->render($this->Sections['layout'], $contentType, $responseCode);
 			}
 			else
 				throw new Adapter\ViewException(Adapter\ViewException::getBAD_LAYOUT(), array('layout' => $this->_layout));
@@ -62,12 +62,13 @@
 		 * render -> affiche le html passé en paramètre
 		 * @param mixed $string
 		 */
-		public function render($mixed, $contentType = ""){
+		public function render($mixed, $contentType = "", $responseCode = 200){
 			if(empty($contentType))
 				$contentType = 'html';
 
 			header('Content-type: ' . ContentType::getContentType($contentType));
-
+			http_response_code($responseCode);
+			
 			if(is_string($mixed)){
 				echo $mixed;
 			}

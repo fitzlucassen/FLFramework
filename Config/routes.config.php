@@ -1,6 +1,7 @@
 <?php
 	// Définie les chemins d'accès à tous les dossiers importants
 	define("__host_absolute__", "");
+	
 	define("__data_directory__", __host_absolute__ . "Data");
 	define("__library_directory__", __host_absolute__ . "Library");
 	define("__website_directory__", __host_absolute__ . "Website");

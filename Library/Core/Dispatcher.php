@@ -17,12 +17,14 @@
 		private $_fullControllerName;
 		private $_realControllerName;
 		private $_actionName;
+		private $_controllerName;
 		private $_controller;
 
 		public function __construct(){
 		}
 
 		public function setControllerFilePath($controllerName){
+			$this->_controllerName = $controllerName;
 			$this->_fullControllerName = $this->_CONTROLLER_NAMESPACE . ucwords($controllerName . 'Controller');
 			$this->_realControllerName = str_replace($this->_FLF_NAMESPACE, '', $this->_fullControllerName) . '.php';
 		}
@@ -41,9 +43,7 @@
 			}
 		}
 
-		public function verifyAction($actionName){    		
-			$this->_actionName = $actionName;
-
+		public function verifyAction(){    		
 			// Si l'action n'existe pas, alors soit on lance une exeption en mode debug
 			if(!method_exists($this->_fullControllerName, $this->_actionName)){
 				throw new Adapter\ControllerException(Adapter\ControllerException::ACTION_NOT_FOUND, array("controller" => $this->_fullControllerName, "action" => $this->_actionName));
@@ -66,9 +66,20 @@
 			}
 		}
 
+		public function dispatch($contentType = '', $responseCode = 200){
+			$View = new View();
+			$View->setController($this->_controllerName);
+			$View->setAction($this->_actionName);
+			$View->view([], $contentType, $responseCode);
+		}
+
 		public function isValidUrl($url){
 			return      file_exists(str_replace('\\', '/', str_replace($this->_FLF_NAMESPACE, '', $this->_CONTROLLER_NAMESPACE . $url['controller'])) . 'Controller.php') && 
 						class_exists($this->_CONTROLLER_NAMESPACE . $url['controller'] . 'Controller') &&
 						method_exists($this->_CONTROLLER_NAMESPACE . $url['controller'] . 'Controller', $url['action']);
+		}
+
+		public function setAction($actionName){
+			$this->_actionName = $actionName;
 		}
 	}

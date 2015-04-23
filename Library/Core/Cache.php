@@ -7,7 +7,7 @@
 		Déscription : Permet de gérer le cache (mise en cache de requête ou de vue)
 	 */
 	class Cache {
-		private static $_cacheFolder = '/Cache/';
+		private static $_cacheFolder = '';
 		private static $_expireTime = 86400; // Un jour
 
 		/**
