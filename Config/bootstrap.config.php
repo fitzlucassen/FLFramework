@@ -34,7 +34,7 @@
 	// End logger config
 	
 	// Define your webapp needs here
-	App::setIsDebugMode(true);
+	App::setIsDebugMode(false);
 	App::setDatabaseNeeded(true);
 	App::setUrlRewritingNeeded(true);
 	App::setSupportedLanguages(['fr_FR', 'en_US']);

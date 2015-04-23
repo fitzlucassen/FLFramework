@@ -20,6 +20,7 @@
 		public function getModuleToInclude($root){
 			$dir = $root . __module_directory__;
 			$array = [];
+
 			foreach (scandir($dir) as $path) {
 				if(file_exists($dir . '/' . $path . '/main.php')){
 					array_push($array, $dir . '/' . $path . '/main.php');

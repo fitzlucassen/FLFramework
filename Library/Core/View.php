@@ -36,7 +36,6 @@
 			$this->beginSection();
 			include __view_directory__ . "/" . ucfirst($this->_controller) . "/" . $this->_action . ".php";
 			$this->endSection('body');
-			
 			// Et on inclue le layout/vue
 			if(file_exists(__layout_directory__ . "/" . $this->_layout .".php")){
 				$this->beginSection();

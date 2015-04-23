@@ -93,8 +93,9 @@
 			if(self::$_isDatabaseNeeded && self::$_isUrlRewritingNeeded && !$this->_isInErrorPage){
 				$this->_urlRewritingObject->loadRoutes($this->_clientUrl, $this->_i18n);
 				$langInUrl = $this->_urlRewritingObject->isLangInUrl();
+				$this->_i18n->initialize();
+
 			}
-			$this->_i18n->initialize();
 			
 			// Si on est pas sur une page de langue spécifique, on set la langue par défaut en session
 			if(!$langInUrl)
@@ -148,8 +149,8 @@
 					}
 				}
 				else {
-					$this->_dispatchedUrl['controller'] = 'Home';
-					$this->_dispatchedUrl['action'] = 'error404';
+					$this->_dispatcher->setControllerFilePath('Home');
+					$this->_dispatcher->setAction('error404');
 					$this->_dispatcher->dispatch('html', 404);
 					die();
 				}
@@ -178,8 +179,8 @@
 					}
 				}
 				else {
-					$this->_dispatchedUrl['controller'] = 'Home';
-					$this->_dispatchedUrl['action'] = 'error404';
+					$this->_dispatcher->setControllerFilePath('Home');
+					$this->_dispatcher->setAction('error404');
 					$this->_dispatcher->dispatch('html', 404);
 					die();
 				}

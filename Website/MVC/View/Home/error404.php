@@ -1,5 +1,4 @@
 <title>404 - Cette page n'existe pas ou plus...</title>
-
 <?php
 	// inclure ci-dessus les balises à inclure dans la balise <head> du layout
 	$this->endSection('head');
