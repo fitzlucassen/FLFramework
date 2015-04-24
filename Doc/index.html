@@ -192,7 +192,6 @@
 					implémentant toutes les fonctions de base nécessaire comme :</p>
 				<ul>
 					<li><span class="pre">getAll()</span></li>
-					<li><span class="pre">getById($id)</span></li>
 					<li><span class="pre">getBy($key, $value)</span></li>
 					<li><span class="pre">add($object)</span></li>
 					<li><span class="pre">update($object)</span></li>
@@ -247,13 +246,15 @@
 				<p>Voici les helpers existant</p>
 				<ul>
 					<li><span class="pre">FLFramework/Library/Helper/auth.php</span> Ce helper gère la couche authentification de l'utilisateur (connexion/deconnexion/récupération...etc.)</li>
+					<li><span class="pre">FLFramework/Library/Helper/cdiscount.php</span> Ce helper permet de requêter l'api cdiscount</li>
 					<li><span class="pre">FLFramework/Library/Helper/form.php</span> Ce helper gère la couche formulaire (génération automatique, réception d'information...etc.)</li>
-					<li><span class="pre">FLFramework/Library/Helper/mail.php</span> Ce helper gère la couche email (création d'un e-mail, envoie, template...etc.)</li>
-					<li><span class="pre">FLFramework/Library/Helper/rss.php</span> Ce helper permet de générer des flux rss</li>
-					<li><span class="pre">FLFramework/Library/Helper/cdiscount.php</span> Ce helper permet de faire appel à l'API cdiscount</li>
+					<li><span class="pre">FLFramework/Library/Helper/email.php</span> Ce helper gère la couche email (création d'un e-mail, envoie, template...etc.)</li>
 					<li><span class="pre">FLFramework/Library/Helper/paginator.php</span> ce helper permet d'implémenter facilement des paginations dans vos pages</li>                  
-					<li><span class="pre">FLFramework/Library/Helper/upload.php</span> ce helper permet de gérer l'upload de fichier</li>                  
-					<li><span class="pre">FLFramework/Library/Helper/session.php</span> ce helper gère la couche session</li>                  
+					<li><span class="pre">FLFramework/Library/Helper/paypal.php</span> ce helper permet d'implémenter facilement du paiement paypal dans vos pages</li>                  
+					<li><span class="pre">FLFramework/Library/Helper/rss.php</span> Ce helper permet de générer des flux rss</li>
+					<li><span class="pre">FLFramework/Library/Helper/session.php</span> ce helper gère la couche session</li>
+					<li><span class="pre">FLFramework/Library/Helper/token.php</span> ce helper permet de gérer les token dans votre application (génération/comparation...etc.)</li>
+					<li><span class="pre">FLFramework/Library/Helper/upload.php</span> ce helper permet de gérer l'upload de fichier</li>
 				</ul>
 				<p>Toutes ces classes sont commentées et très facile d'utilisation.</p>
 				<p>De plus, il existe un controller <b>TestController</b> implémentant une action par helper afin de montrer l'utilisation de ces classes</p>
@@ -278,16 +279,27 @@
 
 
 				<h2 id="more">Les plus frontend</h2>
+				<p>FLFramework implémente nativement Sass (compass), afin de faciliter l'intégration. La logique est la suivante. Le dossier :</p>
+				<p class="pre">FLFramework/Website/Content/Sass/Base</p>
+				<p>Contient les Css de base tels que la feuille de reset ou encore les classes récurentes. Ensuite dans le dossier :</p>
+				<p class="pre">FLFramework/Website/Content/Sass</p>
+				<p>Les fichiers préfixés d'un '_' sont des fichiers voués à être inclus dans un fichier principal. Enfin, les fichiers non-préfixé sont les fichiers dit "d'index", incluant tous les autres dans un ordre défini</p>
+
+
+				<br/>
+
+
 				<p>Le framework implémente nativement grunt. Il vous suffit de lancer les commandes si après pour en bénéficier (sous condition d'avoir déjà grunt et npm dans votre path)</p>
 				<p class="pre">npm install</p>
 				<p class="pre">grunt</p>
-				<p>Le gruntfile présent dans l'application permet de compiler tous les JS ensemble et de les minifier et de compiler tous les CSS ensemble et de les minifier.</p>
+				<p>Le gruntfile présent dans l'application permet de compiler tous les JS ensemble et de les minifier et de compiler tous les SCSS ensemble et de les minifier puis de les transformer en fichier css dans le dossier : </p>
+				<p class="pre">FLFramework/Website/Content/Css</p>
 				<p>Il implémente aussi jshint qui compile vos JS, ainsi que watch, qui vous permet de lancer toutes ces tâches en temps réel, dès qu'un fichier est modifié.</p>
 				<p>Enfin, il implémente le module img qui permet de compresser toutes les images de votre projet.</p>
 				<p>Petite précision, les JS et CSS présents dans le dossier :</p>
 				<p class="pre">FLFramework/Website/Content/Css/Module</p>
 				<p class="pre">FLFramework/Website/Content/Js/Module</p>
-				<p>Ne seront pas compilés automatiquement puisque ce vous qui déciderez d'inclure tel ou tel module.</p>
+				<p>Ne seront pas compilés automatiquement puisque c'est vous qui déciderez d'inclure tel ou tel module.</p>
 				<p>En parlant de ces dossiers module, ce sont des librairies JS très utiles. Une demonstration de ces plugins est présent dans :</p>
 				<p class="pre">FLFramework/Website/View/Test/jslibrairies.php</p>
 				<p>Le framework implémente jQuery, jQuery UI et Bootstrap. Libre à vous des les inclures ou non.</p>

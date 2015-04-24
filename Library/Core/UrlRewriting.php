@@ -11,7 +11,6 @@
 		Déscription : 
 	 */
 	class UrlRewriting {
-		private $_langRepository = null;
 		private $_routeUrlRepository = null;
 		private $_rewrittingUrlRepository = null;
 		private $_routeUrl = null;
@@ -28,7 +27,6 @@
 			$this->_session = new Helper\Session();
 			$this->_repositoryManager = $repositoryManager;
 			
-			$this->_langRepository = $this->_repositoryManager->get('Lang');
 			$this->_rewrittingUrlRepository = $this->_repositoryManager->get('Rewrittingurl');
 			$this->_routeUrlRepository = $this->_repositoryManager->get('Routeurl');
 		}
@@ -66,11 +64,7 @@
 			}
 		}
 
-		public function isWrongRoute(){
-			return !isset($this->_routeUrl) || !is_object($this->_routeUrl) || $this->_routeUrl->getId() == 0;
-		}
-
-		public function createRouteUrl(){				
+		public function manageRootUrl(){				
 			// S'il n'y a aucune route en base matchant l'url, ou que l'url est '/'
 			if($this->_dispatchedUrl["debug"] == "default" && $this->_clientUrl == '/'){
 				// On récupère la route de la homepage et on en déduit l'objet rewritting
@@ -81,11 +75,6 @@
 				
 				Request::redirectTo($this->_rewrittingUrl->getUrlMatched());
 			}
-			// Sinon on récupère la route grâce à l'url rewritté
-			else {
-				// Via cette url on récupère l'objet route correspondant
-				$this->_routeUrl = $this->_routeUrlRepository->getByControllerAction($this->_dispatchedUrl['controller'], $this->_dispatchedUrl['action']);
-			}
 		}
 
 		/***********
@@ -93,19 +82,6 @@
 		 ***********/
 		public function isLangInUrl(){
 			return $this->_langInUrl;
-		}
-		public function getDispatchedUrl(){
-			return $this->_dispatchedUrl;
-		}
-		public function getClientUrl(){
-			return $this->_clientUrl;
-		}
-		public function getController(){
-			return isset($this->_routeUrl) ? $this->_routeUrl->getController() : "";
-		}
-
-		public function getAction(){
-			return isset($this->_routeUrl) ? $this->_routeUrl->getAction() : "";
 		}
 
 		/***********

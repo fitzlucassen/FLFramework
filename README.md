@@ -37,6 +37,5 @@ AVAILABLE
 TODO
 ----
 
-- error refactoring
-- Complete queryBuilder
-- Try catch refactoring
+- Refactorer le système des erreurs natives
+- Amélioré le queryBuilder (rêquête imbriquées...etc.)

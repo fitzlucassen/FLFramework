@@ -90,11 +90,12 @@
 			$langInUrl = false;
 			
 			// On récupère les routes en base de données seulement si a une base de données
+			// On vérifie si la langue est dans l'url
+			// On initialise le module de traduction
 			if(self::$_isDatabaseNeeded && self::$_isUrlRewritingNeeded && !$this->_isInErrorPage){
 				$this->_urlRewritingObject->loadRoutes($this->_clientUrl, $this->_i18n);
 				$langInUrl = $this->_urlRewritingObject->isLangInUrl();
 				$this->_i18n->initialize();
-
 			}
 			
 			// Si on est pas sur une page de langue spécifique, on set la langue par défaut en session
@@ -107,16 +108,17 @@
 			$this->_dispatcher->setAction($this->_dispatchedUrl['action']);
 			$this->_isValidUrl = $this->_dispatcher->isValidUrl($this->_dispatchedUrl);
 
+			// Si l'url demandée n'existe pas on redirige vers la 404
 			if(!$this->_isValidUrl){
 				$this->manage404();
 			}
-
-			if(self::$_isDatabaseNeeded && self::$_isUrlRewritingNeeded && !$this->_isInErrorPage){
+			else {
+				// On gère le cas ou l'url est '/' et que l'url de la home est différente
 				$this->_urlRewritingObject->setDispatchedUrl($this->_dispatchedUrl);
-				$this->_urlRewritingObject->createRouteUrl();
+				$this->_urlRewritingObject->manageRootUrl();
+				// Sinon on lance l'action du controller
+				$this->manageAction();
 			}
-
-			$this->manageAction();
 		}
 		
 		/**
@@ -149,10 +151,7 @@
 					}
 				}
 				else {
-					$this->_dispatcher->setControllerFilePath('Home');
-					$this->_dispatcher->setAction('error404');
-					$this->_dispatcher->dispatch('html', 404);
-					die();
+					$this->redirectTo404();
 				}
 			}
 		}
@@ -160,7 +159,7 @@
 		/**
 		 * ManageAction -> set le nom de l'action et instancie un nouveau controller
 		 */
-		public function manageAction(){			
+		private function manageAction(){			
 			// On exécute l'action cible du controller et on affiche la vue avec le modèle renvoyé
 			try{
 				$this->_dispatcher->executeAction($this->_dispatchedUrl, $this->_repositoryManager);
@@ -179,12 +178,16 @@
 					}
 				}
 				else {
-					$this->_dispatcher->setControllerFilePath('Home');
-					$this->_dispatcher->setAction('error404');
-					$this->_dispatcher->dispatch('html', 404);
-					die();
+					$this->redirectTo404();
 				}
 			}
+		}
+
+		private function redirectTo404(){
+			$this->_dispatcher->setControllerFilePath('Home');
+			$this->_dispatcher->setAction('error404');
+			$this->_dispatcher->dispatch('html', 404);
+			die();
 		}
 		
 		/**
@@ -201,7 +204,7 @@
 		 * ManageModuleException -> vérifie que les modules quasi indispensable sont bien inclus
 		 * @throws ConnexionException
 		 */
-		public function manageModuleException(){
+		private function manageModuleException(){
 			// On ne lance les exceptions qu'en mode debug
 			if((self::$_isDebugMode && self::$_isUrlRewritingNeeded && self::$_isDatabaseNeeded && !$this->_isInErrorPage)){
 				$this->_moduleManager->manageNativeModuleException();
