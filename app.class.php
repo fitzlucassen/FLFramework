@@ -113,9 +113,11 @@
 				$this->manage404();
 			}
 			else {
-				// On gère le cas ou l'url est '/' et que l'url de la home est différente
-				$this->_urlRewritingObject->setDispatchedUrl($this->_dispatchedUrl);
-				$this->_urlRewritingObject->manageRootUrl();
+				if(!$this->_isInErrorPage){
+					// On gère le cas ou l'url est '/' et que l'url de la home est différente
+					$this->_urlRewritingObject->setDispatchedUrl($this->_dispatchedUrl);
+					$this->_urlRewritingObject->manageRootUrl();
+				}
 				// Sinon on lance l'action du controller
 				$this->manageAction();
 			}
