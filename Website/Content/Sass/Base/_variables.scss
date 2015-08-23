@@ -1,0 +1,25 @@
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+       -o-border-radius: $radius;
+          border-radius: $radius;
+}
+
+@mixin box-shadow($top, $left, $prof, $diff, $color) {
+    -webkit-box-shadow: $top $left $prof $diff $color;
+       -moz-box-shadow: $top $left $prof $diff $color;
+        -ms-box-shadow: $top $left $prof $diff $color;
+         -o-box-shadow: $top $left $prof $diff $color;
+            box-shadow: $top $left $prof $diff $color;
+
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=$color, Direction=135, Strength=8);
+}
+
+@mixin transition($properties, $duration, $method) {
+    -webkit-transition: $properties $duration $method;
+       -moz-transition: $properties $duration $method;
+        -ms-transition: $properties $duration $method;
+         -o-transition: $properties $duration $method;
+            transition: $properties $duration $method;
+}
