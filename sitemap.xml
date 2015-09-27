@@ -1,0 +1,7 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<url>
+		<loc>http://[[YOUR_URL]]/</loc>
+		<changefreq>daily</changefreq>
+		<priority>1.00</priority>
+	</url>
+</urlset>

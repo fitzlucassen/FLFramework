@@ -15,7 +15,7 @@
 		public $_params = array();
 		
 		public function __construct($manager, $params = array()) {
-			if(class_exists("HeaderRepository")){
+			if(isset($manager)){
 				$Header = $manager->get('Header');
 
 				$Session = new Helper\Session();
