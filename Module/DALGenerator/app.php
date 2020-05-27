@@ -1,9 +1,11 @@
 <?php
-	use fitzlucassen\DALGenerator\library as DAL;
-	use fitzlucassen\FLFramework\Library\Core
+	namespace fitzlucassen\FLFramework\Module\DalGenerator;
 
+	use fitzlucassen\FLFramework\Module\DalGenerator\Library as DAL;
+	use fitzlucassen\FLFramework\Library\Core;
+
+	require_once '../../Library/Core/Sql.php';
 	require_once 'library/Config.php';
-	require_once 'library/Sql.php';
 	require_once 'library/FileManager.php';
 	require_once 'library/Utilities.php';
 
@@ -40,8 +42,12 @@
 		*******/
 	}
 
-	$Connexion = new Core\Sql($Config->getDB(), $Config->getHOST(), $Config->getUSER(), $Config->getPWD());
-
+	Core\Sql::setDb($Config->getDB());
+	Core\Sql::setHost($Config->getHOST());
+	Core\Sql::setUser($Config->getUSER());
+	Core\Sql::setPwd($Config->getPWD());
+	$Connexion = new Core\Sql();
+	
 	// The last argument is the array of all attributs you want to add into your classes
 	$Utilities = new DAL\Utilities($Connexion, array("_pdoHelper", "_queryBuilder"), $Config->getHOST());
 	// The argument is an array of which table you want to ignore

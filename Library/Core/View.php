@@ -20,6 +20,16 @@
 		public function __construct() {
 		}
 		
+		public function getView($folder, $view, $model){
+			$this->Model = $model;
+			
+			// Mise en cache de la vue
+			$this->beginSection();
+			include __view_directory__ . "/" . ucfirst($folder) . "/" . ucfirst($view) . ".php";
+			$this->endSection('body');
+			return $this->Sections['body'];
+		}
+		
 		/**
 		 * view -> la méthode complète d'appel à une vue
 		 * @param type $controller

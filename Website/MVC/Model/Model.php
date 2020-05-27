@@ -11,7 +11,8 @@
 	class Model {
 		public $_headerInformations = null;
 		public $_controller = "";
-		public $_action = "";
+		public $_action = "";		
+		public $_lang = "fr";
 		public $_params = array();
 		
 		public function __construct($manager, $params = array()) {

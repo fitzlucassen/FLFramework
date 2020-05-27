@@ -1,46 +1,45 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 	var path = require("path");
-
-	grunt.loadNpmTasks('grunt-contrib-uglify'); // Minifier/Concaténer les fichiers JS
-	grunt.loadNpmTasks('grunt-contrib-cssmin'); // Minifier/Concaténer les fichier CSS
-	grunt.loadNpmTasks('grunt-contrib-jshint'); // Compilateur JS
-	grunt.loadNpmTasks('grunt-contrib-watch'); 	// Watcher d'événement
-	grunt.loadNpmTasks('grunt-contrib-sass'); 	// Watcher d'événement
-	grunt.loadNpmTasks('grunt-img');
 	
-	var jsDist = 'Website/Content/JS/_built.js';
-	var jsSrc = ['Website/Content/JS/**/*.js', '!' + jsDist, '!Website/Content/JS/Module/**/*.js'];
+	var jsDist = 'Website/Content/Js/_built.js';
+	var jsSrc = ['Website/Content/Js/**/*.js', '!' + jsDist, '!Website/Content/Js/Module/**/*.js'];
 
 	var cssDist = 'Website/Content/Css/_built.css';
 	var cssSrc = ['Website/Content/Css/**/*.css', '!' + cssDist, '!Website/Content/Css/Module/**/*.css'];
 	var sassSrc = ['Website/Content/Sass/**/*.scss'];
-	
+
 	// Configuration de Grunt
 	grunt.initConfig({
 		jshint: {
-			all: ['Gruntfile.js', jsSrc]
-		},
-		uglify: {
 			options: {
-				separator: ';',
-				mangle: false
+				jshintrc: '.jshintrc'
 			},
-			compile: {
-				src: jsSrc,
-				dest: jsDist
-			}
+			all: [
+				'Gruntfile.js',
+				jsSrc
+			]
 		},
 		sass: {
 			dist: {
 				options: {
 					style: 'compressed',
-					compass: true
+					compass: true,
+					sourcemap: false
 				},
 				files: {
-					"Website/Content/Css/_built.css": "Website/Content/Sass/index.scss",
+					"Website/Content/Css/_built.css": ["Website/Content/Sass/index.scss"]
 				}
-			},
-			dev: {}
+			}
+		},
+		uglify: {
+			dist: {
+				files: {
+					'Website/Content/Js/_built.js': jsSrc
+				},
+				options: {
+					mangle: false
+				},
+			}
 		},
 		cssmin: {
 			compile: {
@@ -48,23 +47,54 @@ module.exports = function(grunt) {
 				dest: cssDist
 			}
 		},
-		img: {
-			task: {
-				src: ['Website/Content/Media/Image/**/*.jpg', 'Website/Content/Media/Image/**/*.jpeg', 'Website/Content/Media/Image/**/*.png','Website/Content/Media/Image/**/*.gif']
+		watch: {
+			options: {
+				livereload: true
+			},
+			sass: {
+				files: sassSrc,
+				tasks: ['sass']
+			},
+			js: {
+				files: jsSrc,
+				tasks: ['uglify']
+			},
+			html: {
+				files: [
+					'**/*.html'
+				]
 			}
 		},
-		watch: {
-			scripts: {
-				files: ['Gruntfile.js', jsSrc, cssSrc],
-				tasks: ['scripts']
-			},
-			styles: {
-				files: [sassSrc],
-				tasks: ['scripts']
+		clean: {
+			dist: [
+				cssDist,
+				jsDist
+			]
+		},
+		img: {
+			task: {
+				src: ['Website/Content/Media/Image/**/*.jpg', 'Website/Content/Media/Image/**/*.jpeg', 'Website/Content/Media/Image/**/*.png', 'Website/Content/Media/Image/**/*.gif']
 			}
 		}
 	});
 
-	grunt.registerTask('default', ['scripts', 'watch']);
-	grunt.registerTask('scripts', ['jshint', 'uglify:compile', 'sass:dist'/*, 'cssmin:compile'*/, 'img:task']);
+	// Load tasks
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-uglify-es');
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-sass');
+	grunt.loadNpmTasks('grunt-contrib-cssmin'); // Minifier/Concaténer les fichier CSS
+	grunt.loadNpmTasks('grunt-img');
+  
+	// Register tasks
+	grunt.registerTask('default', [
+	  'clean',
+	  'sass',
+	  'uglify',
+	  'img:task'
+	]);
+	grunt.registerTask('dev', [
+	  'watch'
+	]);
 };

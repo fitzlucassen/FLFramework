@@ -248,4 +248,31 @@
 			
 			$this->_view->view($Model);
 		}
+
+		public function TestPdf(){
+			$currentDevis = [];
+			$currentDevis["projectName"] = "Bon de commande";
+			$currentDevis["id"] = "1";
+			$currentDevis["fromCompany"] = "Super Entreprise";
+			$currentDevis["firstname"] = "Daniel";
+			$currentDevis["lastname"] = "Dupont";
+			$currentDevis["address"] = "2 avenue de test";
+			$currentDevis["city"] = "Paris";
+			$currentDevis["companySiret"] = "FR16457891";
+			$currentDevis["phoneNumber"] = "01 02 03 04 05";
+			$currentDevis["email"] = "aze@ze.com";
+
+			$pdf = new \Spipu\Html2Pdf\Html2Pdf("p","A4","fr");
+			$pdf->pdf->SetAuthor('Fitz Lucassen');
+			$pdf->pdf->SetTitle('Bon de commande numéro 1');
+			$pdf->pdf->SetSubject('Descriptif de la commande');
+			$pdf->pdf->SetKeywords('Commande, Devis, Client');
+
+			$content = $this->_view->getView("pdf", "commande", $currentDevis);
+
+			$pdf->writeHTML($content);
+
+			ob_end_clean();
+			$pdf->Output('Devis.pdf');
+		}
 	}

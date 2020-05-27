@@ -8,7 +8,6 @@
 	class Request {
 
 		public function __construct() {
-			parent::__construct();
 		}
 
 		public static function redirectTo($url, $httpCode = 200, $contentType = ""){

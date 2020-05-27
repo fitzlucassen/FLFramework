@@ -26,6 +26,7 @@
 					array_push($array, $dir . '/' . $path . '/main.php');
 				}
 			}
+			array_push($array, $root . "vendor/autoload.php");
 			return $array;
 		}
 

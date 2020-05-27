@@ -1,0 +1,8 @@
+{
+    "name": "fitzlucassen/fl-framework",
+    "type": "project",
+    "require": {
+        "spipu/html2pdf": "^5.2"
+    },
+    "license": "MIT"
+}

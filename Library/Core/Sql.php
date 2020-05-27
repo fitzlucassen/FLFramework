@@ -108,28 +108,28 @@
 		 * @return type
 		 */
 		public static function getDb() { 
-			return $this->_db; 
+			return self::$_db; 
 		}
 		/**
 		 * GetHost -> On récupère l'host
 		 * @return type
 		 */
 		public static function getHost() { 
-			return $this->_host; 
+			return self::$_host; 
 		}
 		/**
 		 * GetUser -> On récupère l'user
 		 * @return type
 		 */
 		public static function getUser() { 
-			return $this->_user; 
+			return self::$_user; 
 		}
 		/**
 		 * GetPwd -> On récupère le pwd
 		 * @return type
 		 */
 		public static function getPwd() { 
-			return $this->_pwd; 
+			return self::$_pwd; 
 		}
 		
 		/***********

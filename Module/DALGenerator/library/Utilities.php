@@ -1,5 +1,5 @@
 <?php
-	namespace fitzlucassen\DALGenerator\library;
+	namespace fitzlucassen\FLFramework\Module\DalGenerator\Library;
 	
 	class Utilities {
 		private $_connection;
@@ -43,17 +43,16 @@
 
 			// Et pour chacune d'entre elles
 			foreach($all_tables as $thisTable){
-				if(in_array($thisTable['Tables_in_' + $this->_host], $ignore_tables))
+				if(in_array($thisTable['Tables_in_' . $this->_connection->GetDB()], $ignore_tables))
 					continue;
-				
-				$master_array[$thisTable['Tables_in_' + $this->_host]] = array();
+				$master_array[$thisTable['Tables_in_' . $this->_connection->GetDB()]] = array();
 
 				// On r�cup�re tous les champs
-				$fields = $this->_connection->SelectTable("SHOW FIELDS FROM " . $this->_connection->GetDB() . "." . $thisTable['Tables_in_' + $this->_host]);
+				$fields = $this->_connection->SelectTable("SHOW FIELDS FROM " . $this->_connection->GetDB() . "." . $thisTable['Tables_in_' . $this->_connection->GetDB()]);
 
 				// Et pour chacun d'entre eux on les ajoute à la table cible
 				foreach($fields as $thisField){
-					$master_array[$thisTable['Tables_in_' + $this->_host]][] = array('label' => $thisField['Field'], 'type' => $thisField['Type']);
+					$master_array[$thisTable['Tables_in_' . $this->_connection->GetDB()]][] = array('label' => $thisField['Field'], 'type' => $thisField['Type']);
 				}
 			}
 			$this->SetMasterArray($master_array);
@@ -104,8 +103,8 @@
 			$entityFile = FileManager::createFile($path . 'Entity/' . ucwords(strtolower($tableName)) . ".php", "w+", false);
 			$repositoryFile = FileManager::createFile($path . 'Repository/' . ucwords(strtolower($tableName)) . "Repository.php", "w+", false);+
 
-			$sourceRepository2 = $this->getRepositoryHeader($tableName, false, ucwords(strtolower($tableName)) . 'RepositoryBase');
-			$sourceEntity2 = $this->getEntityHeader($tableName, false, ucwords(strtolower($tableName)) . 'Base');
+			$sourceRepository2 = $this->getRepositoryHeader($tableName, false, ucwords(strtolower($tableName)) . "RepositoryBase");
+			$sourceEntity2 = $this->getEntityHeader($tableName, false, ucwords(strtolower($tableName)) . "Base");
 
 			$sourceRepository2 .= $this->getRepositoryContent();
 			$sourceEntity2 .= $this->getEntityContent($tableName, $tableFields, $link);

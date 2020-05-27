@@ -46,6 +46,11 @@
 <meta name="theme-color" content="#ffffff">
 
 <link href="https://plus.google.com/118113345454496028722" rel="publisher" />
+
+<!--Import Google Icon Font-->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!--Import materialize.css-->
+<link type="text/css" rel="stylesheet" href="/<?php echo __css_directory__;?>/Module/materialize.min.css" media="screen,projection"/>
 <link type="text/css" rel="stylesheet" href="/<?php echo __css_directory__;?>/_built.css" />
 
 <!--[if lt IE 9]>

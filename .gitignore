@@ -3,3 +3,5 @@
 /Logs/*
 node_modules/
 .sass-cache/
+
+/vendor/
